@@ -4,14 +4,16 @@ function updateClock() {
 
     const now = new Date();
 
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const time =
+        String(now.getHours()).padStart(2,"0")
+        + ":" +
+        String(now.getMinutes()).padStart(2,"0");
 
     document.getElementById("time").textContent =
-        `🕒${hours}:${minutes}`;
+        `🕒${time}`;
 }
 
-setInterval(updateClock, 1000);
+setInterval(updateClock,1000);
 updateClock();
 
 
@@ -19,15 +21,15 @@ updateClock();
 
 if (navigator.getBattery) {
 
-    navigator.getBattery().then(function(battery) {
+    navigator.getBattery().then(battery => {
 
-        function updateBattery() {
+        function updateBattery(){
 
-            const level = Math.round(battery.level * 100);
+            const level =
+            Math.round(battery.level * 100);
 
             document.getElementById("battery").textContent =
-                `🔋${level}%`;
-
+            `🔋${level}%`;
         }
 
         updateBattery();
@@ -42,77 +44,93 @@ if (navigator.getBattery) {
 }
 
 
-// GPS + SÄÄ
+// SIJAINTI + SÄÄ
 
-function getLocation() {
+function loadWeather(lat, lon, city){
 
-    if (!navigator.geolocation) {
-
-        document.getElementById("city").textContent =
-            "📍Ei GPS";
-
-        return;
-    }
+    document.getElementById("city").textContent =
+    `📍${city}`;
 
 
-    navigator.geolocation.getCurrentPosition(
+    fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+    )
 
-        function(position) {
+    .then(response => response.json())
 
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
+    .then(data => {
 
-
-            // Paikkakunta
-
-            fetch(
-                `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=fi`
-            )
-
-            .then(response => response.json())
-
-            .then(data => {
-
-                let city =
-                data.name || "Tuntematon";
-
-                document.getElementById("city").textContent =
-                    `📍${city}`;
-
-            });
+        const temp =
+        Math.round(
+        data.current_weather.temperature
+        );
 
 
-            // Sää
+        document.getElementById("weather").textContent =
+        `☀️${temp}°C`;
 
-            fetch(
-                `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
-            )
+    });
 
-            .then(response => response.json())
-
-            .then(data => {
-
-                const temp =
-                Math.round(
-                    data.current_weather.temperature
-                );
-
-                document.getElementById("weather").textContent =
-                    `☀️${temp}°C`;
-
-            });
-
-        },
+}
 
 
-        function() {
+// YRITÄ GPS
 
-            document.getElementById("city").textContent =
-                "📍GPS pois";
+function getLocation(){
 
-        }
+navigator.geolocation.getCurrentPosition(
 
-    );
+(position)=>{
+
+const lat = position.coords.latitude;
+const lon = position.coords.longitude;
+
+
+fetch(
+`https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=fi`
+)
+
+.then(r=>r.json())
+
+.then(data=>{
+
+loadWeather(
+lat,
+lon,
+data.name || "Sijainti"
+);
+
+});
+
+
+},
+
+
+// GPS EI TOIMI -> VARASIJANTI
+
+()=>{
+
+
+fetch("https://ipapi.co/json/")
+
+.then(r=>r.json())
+
+.then(data=>{
+
+
+loadWeather(
+data.latitude,
+data.longitude,
+data.city || "Tuntematon"
+);
+
+
+});
+
+
+}
+
+);
 
 }
 
