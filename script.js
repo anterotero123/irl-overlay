@@ -1,32 +1,112 @@
-()=>{
+// KELLO
 
-document.getElementById("city").textContent =
-"📍Haetaan verkosta...";
+function updateClock() {
+
+    const now = new Date();
+
+    const time =
+        String(now.getHours()).padStart(2,"0")
+        + ":" +
+        String(now.getMinutes()).padStart(2,"0");
+
+    document.getElementById("time").textContent =
+    `🕒${time}`;
+}
+
+setInterval(updateClock,1000);
+updateClock();
 
 
-fetch("https://ipapi.co/json/")
+// AKKU
 
-.then(r=>r.json())
+if (navigator.getBattery) {
 
-.then(data=>{
+    navigator.getBattery().then(battery => {
 
-document.getElementById("city").textContent =
-`📍${data.city || "Ei kaupunkia"}`;
+        function updateBattery(){
 
+            const level =
+            Math.round(battery.level * 100);
 
-loadWeather(
-data.latitude,
-data.longitude,
-data.city || "Tuntematon"
-);
+            document.getElementById("battery").textContent =
+            `🔋${level}%`;
+        }
 
-})
+        updateBattery();
 
-.catch(error=>{
+        battery.addEventListener(
+            "levelchange",
+            updateBattery
+        );
 
-document.getElementById("city").textContent =
-"📍Sijaintivirhe";
-
-});
+    });
 
 }
+
+
+// SÄÄ
+
+function loadWeather(lat, lon, city){
+
+    document.getElementById("city").textContent =
+    `📍${city}`;
+
+
+    fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+    )
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        const temp =
+        Math.round(
+        data.current_weather.temperature
+        );
+
+        document.getElementById("weather").textContent =
+        `☀️${temp}°C`;
+
+    });
+
+}
+
+
+// SIJAINTI VERKON KAUTTA
+
+function getLocation(){
+
+    document.getElementById("city").textContent =
+    "📍Haetaan verkosta...";
+
+
+    fetch("https://ipapi.co/json/")
+
+    .then(r=>r.json())
+
+    .then(data=>{
+
+        document.getElementById("city").textContent =
+        `📍${data.city || "Ei kaupunkia"}`;
+
+
+        loadWeather(
+            data.latitude,
+            data.longitude,
+            data.city || "Tuntematon"
+        );
+
+    })
+
+    .catch(error=>{
+
+        document.getElementById("city").textContent =
+        "📍Sijaintivirhe";
+
+    });
+
+}
+
+
+getLocation();
