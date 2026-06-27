@@ -80,37 +80,65 @@ function getLocation(){
     document.getElementById("city").textContent =
     "📍Haetaan verkosta...";
 
-
     fetch("https://ipapi.co/json/")
 
-    .then(r=>r.json())
+    .then(r => {
+        if(!r.ok) throw new Error();
+        return r.json();
+    })
 
-    .then(data=>{
+    .then(data => {
+
+        if(!data.city) throw new Error();
 
         document.getElementById("city").textContent =
-        `📍${data.city || "Ei kaupunkia"}`;
-
+        `📍${data.city}`;
 
         loadWeather(
             data.latitude,
             data.longitude,
-            data.city || "Tuntematon"
+            data.city
         );
 
     })
 
-    .catch(error=>{
+    .catch(() => {
 
-        document.getElementById("city").textContent =
-        "📍Sijaintivirhe";
+        // Varapalvelu
+        fetch("https://ipwho.is/")
+
+        .then(r => {
+            if(!r.ok) throw new Error();
+            return r.json();
+        })
+
+        .then(data => {
+
+            if(!data.success) throw new Error();
+
+            document.getElementById("city").textContent =
+            `📍${data.city}`;
+
+            loadWeather(
+                data.latitude,
+                data.longitude,
+                data.city
+            );
+
+        })
+
+        .catch(() => {
+
+            document.getElementById("city").textContent =
+            "📍Sijaintivirhe";
+
+        });
 
     });
 
 }
 
-
 getLocation();
-
 // ===== VERKKOTESTI =====
 
 function updateNetwork() {
