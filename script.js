@@ -110,3 +110,24 @@ function getLocation(){
 
 
 getLocation();
+
+// ===== VERKKOTESTI =====
+
+function updateNetwork() {
+
+    const signal = document.getElementById("signal");
+
+    if (!signal) return;
+
+    if (navigator.connection) {
+        signal.textContent = "📶 " + (navigator.connection.effectiveType || "?");
+    } else {
+        signal.textContent = "📶 ?";
+    }
+}
+
+updateNetwork();
+
+if (navigator.connection) {
+    navigator.connection.addEventListener("change", updateNetwork);
+}
