@@ -73,70 +73,118 @@ function loadWeather(lat, lon, city){
 }
 
 
-// SIJAINTI VERKON KAUTTA
+// SIJAINTI GPS:LLÄ + VARALLA VERKKO
 
 function getLocation(){
+
+    const cityElement = document.getElementById("city");
+
+    cityElement.textContent =
+    "📍Haetaan GPS...";
+
+
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(
+
+            position => {
+
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+
+                fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=fi`
+                )
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    const address = data.address;
+
+                    const city =
+                    address.city ||
+                    address.town ||
+                    address.village ||
+                    "Tuntematon";
+
+
+                    cityElement.textContent =
+                    `📍${city}`;
+
+
+                    loadWeather(
+                        lat,
+                        lon,
+                        city
+                    );
+
+                });
+
+            },
+
+            error => {
+
+                // GPS epäonnistui → käytetään varalla IP-sijaintia
+
+                getLocationByIP();
+
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 8000,
+                maximumAge: 60000
+            }
+
+        );
+
+
+    } else {
+
+        getLocationByIP();
+
+    }
+
+}
+
+
+// VARASIJANTI IP:LLÄ
+
+function getLocationByIP(){
 
     document.getElementById("city").textContent =
     "📍Haetaan verkosta...";
 
+
     fetch("https://ipapi.co/json/")
 
-    .then(r => {
-        if(!r.ok) throw new Error();
-        return r.json();
-    })
+    .then(r=>r.json())
 
-    .then(data => {
-
-        if(!data.city) throw new Error();
+    .then(data=>{
 
         document.getElementById("city").textContent =
-        `📍${data.city}`;
+        `📍${data.city || "Ei kaupunkia"}`;
+
 
         loadWeather(
             data.latitude,
             data.longitude,
-            data.city
+            data.city || "Tuntematon"
         );
 
     })
 
-    .catch(() => {
+    .catch(()=>{
 
-        // Varapalvelu
-        fetch("https://ipwho.is/")
-
-        .then(r => {
-            if(!r.ok) throw new Error();
-            return r.json();
-        })
-
-        .then(data => {
-
-            if(!data.success) throw new Error();
-
-            document.getElementById("city").textContent =
-            `📍${data.city}`;
-
-            loadWeather(
-                data.latitude,
-                data.longitude,
-                data.city
-            );
-
-        })
-
-        .catch(() => {
-
-            document.getElementById("city").textContent =
-            "📍Sijaintivirhe";
-
-        });
+        document.getElementById("city").textContent =
+        "📍Sijaintivirhe";
 
     });
 
 }
+
 
 getLocation();
 // ===== VERKKOTESTI =====
