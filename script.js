@@ -214,23 +214,66 @@ if (navigator.geolocation) {
 
 }
 
-// ===== VERKKOTESTI =====
+// ===== YHTEYDEN LAATU =====
 
-function updateNetwork() {
+async function updateNetworkQuality() {
 
     const signal = document.getElementById("signal");
 
     if (!signal) return;
 
-    if (navigator.connection) {
-        signal.textContent = "📶 " + (navigator.connection.effectiveType || "?");
-    } else {
-        signal.textContent = "📶 ?";
+    const start = performance.now();
+
+    try {
+
+        await fetch(
+            "https://www.gstatic.com/generate_204?cache=" + Date.now(),
+            {
+                cache: "no-store"
+            }
+        );
+
+        const ping = performance.now() - start;
+
+        if (ping < 200) {
+
+            signal.innerHTML =
+            '<span style="color:#34C759;">▂▃▄▅█</span>';
+
+        }
+
+        else if (ping < 600) {
+
+            signal.innerHTML =
+            '<span style="color:#FFD60A;">▂▃▄▅</span>';
+
+        }
+
+        else if (ping < 1200) {
+
+            signal.innerHTML =
+            '<span style="color:#FF9F0A;">▂▃▄</span>';
+
+        }
+
+        else {
+
+            signal.innerHTML =
+            '<span style="color:#FF3B30;">▂▃</span>';
+
+        }
+
     }
+
+    catch {
+
+        signal.innerHTML =
+        '<span style="color:#FF3B30;">✖</span>';
+
+    }
+
 }
 
-updateNetwork();
+updateNetworkQuality();
 
-if (navigator.connection) {
-    navigator.connection.addEventListener("change", updateNetwork);
-}
+setInterval(updateNetworkQuality,30000);
