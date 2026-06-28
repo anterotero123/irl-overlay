@@ -113,15 +113,15 @@ if (navigator.getBattery) {
 
 }
 
-function getWeatherIcon(code){
+function getWeatherIcon(code, isDay){
 
-    if(code === 0){
-        return "☀️";
-    }
+if (code === 0) {
+    return isDay ? "☀️" : "🌙";
+}
 
-    if(code === 1 || code === 2){
-        return "🌤️";
-    }
+if (code === 1 || code === 2) {
+    return isDay ? "🌤️" : "☁️🌙";
+}
 
     if(code === 3){
         return "☁️";
@@ -159,7 +159,7 @@ function loadWeather(lat, lon, city){
 
 
     fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=sunrise,sunset&timezone=auto`
     )
 
     .then(response => response.json())
@@ -171,8 +171,16 @@ function loadWeather(lat, lon, city){
         data.current_weather.temperature
         );
 
-        document.getElementById("weather").textContent =
-`${getWeatherIcon(data.current_weather.weathercode)}${temp}°C`;
+const now = new Date();
+
+const sunrise = new Date(data.daily.sunrise[0]);
+
+const sunset = new Date(data.daily.sunset[0]);
+
+const isDay = now >= sunrise && now < sunset;
+
+document.getElementById("weather").textContent =
+`${getWeatherIcon(data.current_weather.weathercode, isDay)}${temp}°C`;
 
     });
 
