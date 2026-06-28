@@ -111,78 +111,52 @@ function loadWeather(lat, lon, city){
 
 // SIJAINTI GPS:LLÄ + VARALLA VERKKO
 
-function getLocation(){
+let lastWeatherUpdate = 0;
+let lastCity = "";
 
-    const cityElement = document.getElementById("city");
+async function onPosition(position) {
 
-    cityElement.textContent =
-    "📍Haetaan GPS...";
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
 
+    try {
 
-    if (navigator.geolocation) {
-
-        navigator.geolocation.getCurrentPosition(
-
-            position => {
-
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-
-
-                fetch(
-                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=fi`
-                )
-
-                .then(response => response.json())
-
-                .then(data => {
-
-                    const address = data.address;
-
-                    const city =
-                    address.city ||
-                    address.town ||
-                    address.village ||
-                    "Tuntematon";
-
-
-                    cityElement.textContent =
-                    `📍${city}`;
-
-
-                    loadWeather(
-                        lat,
-                        lon,
-                        city
-                    );
-
-                });
-
-            },
-
-            error => {
-
-    console.log("GPS epäonnistui, yritetään uudelleen 3 sekunnin päästä...");
-
-    setTimeout(() => {
-        getLocation();
-    }, 3000);
-
-},
-
-            {
-                enableHighAccuracy: true,
-                timeout: 20000,
-                maximumAge: 0
-            }
-
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=fi`
         );
 
+        const data = await response.json();
 
-    } else {
+        const city =
+            data.address.city ||
+            data.address.town ||
+            data.address.village ||
+            "Tuntematon";
 
+        if (city !== lastCity) {
+            document.getElementById("city").textContent = `📍${city}`;
+            lastCity = city;
+        }
+
+        const now = Date.now();
+
+        if (now - lastWeatherUpdate > 600000) {
+            loadWeather(lat, lon, city);
+            lastWeatherUpdate = now;
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+
+}
+
+function onError(error) {
+
+    console.log("GPS-virhe:", error);
+
+    if (lastCity === "") {
         getLocationByIP();
-
     }
 
 }
@@ -223,8 +197,24 @@ function getLocationByIP(){
 
 }
 
+if (navigator.geolocation) {
 
-getLocation();
+    navigator.geolocation.watchPosition(
+        onPosition,
+        onError,
+        {
+            enableHighAccuracy: true,
+            timeout: 20000,
+            maximumAge: 5000
+        }
+    );
+
+} else {
+
+    getLocationByIP();
+
+}
+
 // ===== VERKKOTESTI =====
 
 function updateNetwork() {
