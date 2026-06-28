@@ -44,3 +44,15 @@ body {
     opacity: 0.8;
 
 }
+.signal-bars {
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    transition:
+        color 0.35s ease,
+        opacity 0.35s ease,
+        transform 0.25s ease;
+
+}
