@@ -98,6 +98,14 @@ animation: overlayFade 0.6s ease forwards;
 
 }
 
+.low-battery {
+
+    display: inline-block;
+
+    animation: lowBatteryPulse 1.5s infinite;
+
+}
+
 @keyframes chargePulse {
 
     0% {
@@ -115,6 +123,28 @@ animation: overlayFade 0.6s ease forwards;
     100% {
 
         opacity: 0.35;
+
+    }
+
+}
+
+@keyframes lowBatteryPulse {
+
+    0% {
+
+        opacity: 1;
+
+    }
+
+    50% {
+
+        opacity: 0.35;
+
+    }
+
+    100% {
+
+        opacity: 1;
 
     }
 
