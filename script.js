@@ -23,14 +23,27 @@ if (navigator.getBattery) {
 
     navigator.getBattery().then(battery => {
 
-        function updateBattery(){
+function updateBattery(){
 
-            const level =
-            Math.round(battery.level * 100);
+    const level =
+    Math.round(battery.level * 100);
 
-            document.getElementById("battery").textContent =
-            `🔋${level}%`;
-        }
+    const batteryElement =
+    document.getElementById("battery");
+
+    if (battery.charging) {
+
+        batteryElement.innerHTML =
+        `<span class="charging">⚡</span>🔋${level}%`;
+
+    } else {
+
+        batteryElement.textContent =
+        `🔋${level}%`;
+
+    }
+
+}
 
         updateBattery();
 
@@ -39,6 +52,10 @@ if (navigator.getBattery) {
             updateBattery
         );
 
+battery.addEventListener(
+    "chargingchange",
+    updateBattery
+        
     });
 
 }
