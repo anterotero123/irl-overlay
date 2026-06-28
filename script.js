@@ -222,54 +222,80 @@ async function updateNetworkQuality() {
 
     if (!signal) return;
 
+    let type = "4g";
+
+    if (navigator.connection && navigator.connection.effectiveType) {
+        type = navigator.connection.effectiveType;
+    }
+
     const start = performance.now();
 
     try {
 
-        await fetch(
-    "./ping.txt?cache=" + Date.now(),
-    {
-        cache: "no-store",
-        mode: "same-origin"
-    }
-);
+        await fetch("./ping.txt?cache=" + Date.now(), {
+            cache: "no-store"
+        });
 
         const ping = performance.now() - start;
 
-        if (ping < 200) {
+        let bars = "▂▃▄▅█";
+        let color = "#34C759";
 
-            signal.innerHTML =
-            '<span style="color:#34C759;">▂▃▄▅█</span>';
+        if (type === "2g") {
 
-        }
-
-        else if (ping < 600) {
-
-            signal.innerHTML =
-            '<span style="color:#FFD60A;">▂▃▄▅</span>';
+            bars = "▂";
+            color = "#FF3B30";
 
         }
 
-        else if (ping < 1200) {
+        else if (type === "3g") {
 
-            signal.innerHTML =
-            '<span style="color:#FF9F0A;">▂▃▄</span>';
+            bars = "▂▃▄";
+            color = "#FF9F0A";
+
+        }
+
+        else if (type === "4g") {
+
+            if (ping < 200) {
+
+                bars = "▂▃▄▅█";
+                color = "#34C759";
+
+            }
+
+            else if (ping < 600) {
+
+                bars = "▂▃▄▅";
+                color = "#FFD60A";
+
+            }
+
+            else {
+
+                bars = "▂▃▄";
+                color = "#FF9F0A";
+
+            }
 
         }
 
         else {
 
-            signal.innerHTML =
-            '<span style="color:#FF3B30;">▂▃</span>';
+            bars = "▂▃▄▅█";
+            color = "#34C759";
 
         }
+
+        signal.innerHTML =
+            `<span style="color:${color};font-weight:bold;">${bars}</span>`;
 
     }
 
     catch {
 
         signal.innerHTML =
-        '<span style="color:#FF3B30;">✖</span>';
+            '<span style="color:#FF3B30;font-weight:bold;">✖</span>';
 
     }
 
@@ -277,4 +303,8 @@ async function updateNetworkQuality() {
 
 updateNetworkQuality();
 
-setInterval(updateNetworkQuality,30000);
+setInterval(updateNetworkQuality, 30000);
+
+if (navigator.connection) {
+    navigator.connection.addEventListener("change", updateNetworkQuality);
+}
