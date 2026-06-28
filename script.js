@@ -162,11 +162,13 @@ function getLocation(){
 
             error => {
 
-                // GPS epäonnistui → käytetään varalla IP-sijaintia
+    console.log("GPS epäonnistui, yritetään uudelleen 3 sekunnin päästä...");
 
-                getLocationByIP();
+    setTimeout(() => {
+        getLocation();
+    }, 3000);
 
-            },
+},
 
             {
                 enableHighAccuracy: true,
