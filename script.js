@@ -227,11 +227,12 @@ async function updateNetworkQuality() {
     try {
 
         await fetch(
-            "https://www.gstatic.com/generate_204?cache=" + Date.now(),
-            {
-                cache: "no-store"
-            }
-        );
+    "./ping.txt?cache=" + Date.now(),
+    {
+        cache: "no-store",
+        mode: "same-origin"
+    }
+);
 
         const ping = performance.now() - start;
 
