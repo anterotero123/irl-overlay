@@ -53,19 +53,22 @@ function updateBattery(){
 
     }
 
-    if (battery.charging && level < 100) {
+const batteryClass =
+    level <= 15 ? "low-battery" : "";
 
-        batteryElement.innerHTML =
-        `<span class="charging">⚡</span><span style="color:${color}">${icon}${level}%</span>`;
+if (battery.charging && level < 100) {
 
-    }
+    batteryElement.innerHTML =
+    `<span class="charging">⚡</span><span class="${batteryClass}" style="color:${color}">${icon}${level}%</span>`;
 
-    else {
+}
 
-        batteryElement.innerHTML =
-        `<span style="color:${color}">${icon}${level}%</span>`;
+else {
 
-    }
+    batteryElement.innerHTML =
+    `<span class="${batteryClass}" style="color:${color}">${icon}${level}%</span>`;
+
+}
 
 }
 
