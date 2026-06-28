@@ -56,3 +56,9 @@ body {
         transform 0.25s ease;
 
 }
+
+.signal-bars.flash {
+
+    transform: scale(1.08);
+
+}
