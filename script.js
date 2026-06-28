@@ -167,8 +167,7 @@ function onError(error) {
 function getLocationByIP(){
 
     document.getElementById("city").textContent =
-    "📍Haetaan verkosta...";
-
+"📍Overlay toimii";
 
     fetch("https://ipapi.co/json/")
 
