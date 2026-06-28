@@ -31,17 +31,19 @@ function updateBattery(){
     const batteryElement =
     document.getElementById("battery");
 
-    if (battery.charging) {
+if (battery.charging && level < 100) {
 
-        batteryElement.innerHTML =
-        `<span class="charging">⚡</span>🔋${level}%`;
+    batteryElement.innerHTML =
+    `<span class="charging">⚡</span>🔋${level}%`;
 
-    } else {
+}
 
-        batteryElement.textContent =
-        `🔋${level}%`;
+else {
 
-    }
+    batteryElement.textContent =
+    `🔋${level}%`;
+
+}
 
 }
 
