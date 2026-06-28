@@ -23,54 +23,79 @@ if (navigator.getBattery) {
 
     navigator.getBattery().then(battery => {
 
-function updateBattery(){
+        function updateBattery() {
 
-    const level =
-    Math.round(battery.level * 100);
+            const level =
+                Math.round(battery.level * 100);
 
-    const batteryElement =
-    document.getElementById("battery");
+            const batteryElement =
+                document.getElementById("battery");
 
-    let icon = "🔋";
-    let color = "#FFFFFF";
+            const dividers =
+                document.querySelectorAll(".divider");
 
-    if (level <= 20) {
+            let icon = "🔋";
+            let color = "#FFFFFF";
 
-        icon = "🪫";
-        color = "#FF3B30";
+            // Akun väri ja ikoni
 
-    }
+            if (level <= 20) {
 
-    else if (level <= 40) {
+                icon = "🪫";
+                color = "#FF3B30";
 
-        color = "#FFD60A";
+            }
 
-    }
+            else if (level <= 40) {
 
-    else {
+                color = "#FFD60A";
 
-        color = "#FFFFFF";
+            }
 
-    }
+            // Dividerit punaisiksi kun akku on vähissä
 
-const batteryClass =
-    level <= 15 ? "low-battery" : "";
+            if (level <= 15) {
 
-if (battery.charging && level < 100) {
+                dividers.forEach(divider => {
 
-    batteryElement.innerHTML =
-    `<span class="charging">⚡</span><span class="${batteryClass}" style="color:${color}">${icon}${level}%</span>`;
+                    divider.classList.add("low-power");
 
-}
+                });
 
-else {
+            }
 
-    batteryElement.innerHTML =
-    `<span class="${batteryClass}" style="color:${color}">${icon}${level}%</span>`;
+            else {
 
-}
+                dividers.forEach(divider => {
 
-}
+                    divider.classList.remove("low-power");
+
+                });
+
+            }
+
+            // Alhaisen akun animaatio
+
+            const batteryClass =
+                level <= 15 ? "low-battery" : "";
+
+            // Näytetään akun tila
+
+            if (battery.charging && level < 100) {
+
+                batteryElement.innerHTML =
+                    `<span class="charging">⚡</span><span class="${batteryClass}" style="color:${color}">${icon}${level}%</span>`;
+
+            }
+
+            else {
+
+                batteryElement.innerHTML =
+                    `<span class="${batteryClass}" style="color:${color}">${icon}${level}%</span>`;
+
+            }
+
+        }
 
         updateBattery();
 
@@ -79,10 +104,11 @@ else {
             updateBattery
         );
 
-battery.addEventListener(
-    "chargingchange",
-    updateBattery
-        
+        battery.addEventListener(
+            "chargingchange",
+            updateBattery
+        );
+
     });
 
 }
