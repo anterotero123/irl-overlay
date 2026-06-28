@@ -31,19 +31,41 @@ function updateBattery(){
     const batteryElement =
     document.getElementById("battery");
 
-if (battery.charging && level < 100) {
+    let icon = "🔋";
+    let color = "#FFFFFF";
 
-    batteryElement.innerHTML =
-    `<span class="charging">⚡</span>🔋${level}%`;
+    if (level <= 20) {
 
-}
+        icon = "🪫";
+        color = "#FF3B30";
 
-else {
+    }
 
-    batteryElement.textContent =
-    `🔋${level}%`;
+    else if (level <= 40) {
 
-}
+        color = "#FFD60A";
+
+    }
+
+    else {
+
+        color = "#FFFFFF";
+
+    }
+
+    if (battery.charging && level < 100) {
+
+        batteryElement.innerHTML =
+        `<span class="charging">⚡</span><span style="color:${color}">${icon}${level}%</span>`;
+
+    }
+
+    else {
+
+        batteryElement.innerHTML =
+        `<span style="color:${color}">${icon}${level}%</span>`;
+
+    }
 
 }
 
