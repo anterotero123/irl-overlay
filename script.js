@@ -287,8 +287,17 @@ async function updateNetworkQuality() {
 
         }
 
-        signal.innerHTML =
-            `<span style="color:${color};font-weight:bold;">${bars}</span>`;
+        signal.textContent = bars;
+
+signal.style.color = color;
+
+signal.classList.add("flash");
+
+setTimeout(() => {
+
+    signal.classList.remove("flash");
+
+}, 250);
 
     }
 
