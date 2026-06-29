@@ -300,6 +300,8 @@ async function updateNetworkQuality() {
 
     if (!signal) return;
 
+    const allBars = signal.querySelectorAll(".bar");
+
     let type = "4g";
 
     if (navigator.connection && navigator.connection.effectiveType) {
@@ -316,19 +318,19 @@ async function updateNetworkQuality() {
 
         const ping = performance.now() - start;
 
-        let bars = "▂▃▄▅█";
+        let activeBars = 5;
         let color = "#34C759";
 
         if (type === "2g") {
 
-            bars = "▂";
+            activeBars = 1;
             color = "#FF3B30";
 
         }
 
         else if (type === "3g") {
 
-            bars = "▂▃▄";
+            activeBars = 3;
             color = "#FF9F0A";
 
         }
@@ -337,21 +339,21 @@ async function updateNetworkQuality() {
 
             if (ping < 200) {
 
-                bars = "▂▃▄▅█";
+                activeBars = 5;
                 color = "#34C759";
 
             }
 
             else if (ping < 600) {
 
-                bars = "▂▃▄▅";
+                activeBars = 4;
                 color = "#FFD60A";
 
             }
 
             else {
 
-                bars = "▂▃▄";
+                activeBars = 3;
                 color = "#FF9F0A";
 
             }
@@ -360,83 +362,48 @@ async function updateNetworkQuality() {
 
         else {
 
-            bars = "▂▃▄▅█";
+            activeBars = 5;
             color = "#34C759";
 
         }
 
-const allBars = signal.querySelectorAll(".bar");
+        // Sammutetaan kaikki palkit
 
-// Himmennetään kaikki ensin
+        allBars.forEach(bar => {
 
-allBars.forEach(bar => {
+            bar.style.background = "#555";
 
-    bar.style.background = "#555";
+        });
 
-});
+        // Sytytetään aktiiviset palkit
 
-// Kuinka monta palkkia näytetään
+        for (let i = 0; i < activeBars; i++) {
 
-let activeBars = 5;
+            allBars[i].style.background = color;
 
-if (type === "2g") {
+        }
 
-    activeBars = 1;
+        // Pieni animaatio
 
-}
+        signal.classList.add("flash");
 
-else if (type === "3g") {
+        setTimeout(() => {
 
-    activeBars = 3;
+            signal.classList.remove("flash");
 
-}
-
-else if (type === "4g") {
-
-    if (ping < 200) {
-
-        activeBars = 5;
-
-    }
-
-    else if (ping < 600) {
-
-        activeBars = 4;
-
-    }
-
-    else {
-
-        activeBars = 3;
-
-    }
-
-}
-
-// Väritetään aktiiviset palkit
-
-for (let i = 0; i < activeBars; i++) {
-
-    allBars[i].style.background = color;
-
-}
-
-// Pieni animaatio
-
-signal.classList.add("flash");
-
-setTimeout(() => {
-
-    signal.classList.remove("flash");
-
-}, 250);
+        }, 250);
 
     }
 
     catch {
 
-        signal.innerHTML =
-            '<span style="color:#FF3B30;font-weight:bold;">✖</span>';
+        // Virhetilassa kaikki punaisiksi
+
+        allBars.forEach(bar => {
+
+            bar.style.background = "#FF3B30";
+
+        });
 
     }
 
