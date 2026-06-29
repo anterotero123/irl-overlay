@@ -365,9 +365,63 @@ async function updateNetworkQuality() {
 
         }
 
-        signal.textContent = bars;
+const allBars = signal.querySelectorAll(".bar");
 
-signal.style.color = color;
+// Himmennetään kaikki ensin
+
+allBars.forEach(bar => {
+
+    bar.style.background = "#555";
+
+});
+
+// Kuinka monta palkkia näytetään
+
+let activeBars = 5;
+
+if (type === "2g") {
+
+    activeBars = 1;
+
+}
+
+else if (type === "3g") {
+
+    activeBars = 3;
+
+}
+
+else if (type === "4g") {
+
+    if (ping < 200) {
+
+        activeBars = 5;
+
+    }
+
+    else if (ping < 600) {
+
+        activeBars = 4;
+
+    }
+
+    else {
+
+        activeBars = 3;
+
+    }
+
+}
+
+// Väritetään aktiiviset palkit
+
+for (let i = 0; i < activeBars; i++) {
+
+    allBars[i].style.background = color;
+
+}
+
+// Pieni animaatio
 
 signal.classList.add("flash");
 
