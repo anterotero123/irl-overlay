@@ -196,6 +196,8 @@ async function onPosition(position) {
 
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
+    document.getElementById("city").textContent =
+    `📍${lat.toFixed(5)}, ${lon.toFixed(5)}`;
 
     try {
 
@@ -244,8 +246,8 @@ function onError(error) {
 
 function getLocationByIP(){
 
-    document.getElementById("city").textContent =
-"📍Overlay toimii";
+   document.getElementById("city").textContent =
+"📍Haetaan verkosta...";
 
     fetch("https://ipapi.co/json/")
 
@@ -282,7 +284,7 @@ if (navigator.geolocation) {
         {
             enableHighAccuracy: true,
             timeout: 20000,
-            maximumAge: 5000
+            maximumAge: 0
         }
     );
 
