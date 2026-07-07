@@ -196,8 +196,8 @@ async function onPosition(position) {
 
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
-    document.getElementById("city").textContent =
-    `📍${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+
+    console.log("GPS:", lat, lon);
 
     try {
 
@@ -211,6 +211,10 @@ async function onPosition(position) {
             data.address.city ||
             data.address.town ||
             data.address.village ||
+            data.address.municipality ||
+            data.address.hamlet ||
+            data.address.suburb ||
+            data.address.county ||
             "Tuntematon";
 
         if (city !== lastCity) {
@@ -226,14 +230,18 @@ async function onPosition(position) {
         }
 
     } catch (err) {
-        console.log(err);
+        console.log("Reverse geocoding error:", err);
     }
 
 }
 
 function onError(error) {
 
-    console.log("GPS-virhe:", error);
+    console.log(
+        "GPS ERROR:",
+        error.code,
+        error.message
+    );
 
     if (lastCity === "") {
         getLocationByIP();
