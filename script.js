@@ -399,11 +399,22 @@ async function updateNetworkQuality() {
 
         // Sytytetään aktiiviset palkit
 
-        for (let i = 0; i < activeBars; i++) {
+        allBars.forEach(bar => {
 
-            allBars[i].style.background = color;
+    bar.style.transform = "scaleY(0.2)";
 
-        }
+});
+
+for (let i = 0; i < activeBars; i++) {
+
+    setTimeout(() => {
+
+        allBars[i].style.background = color;
+        allBars[i].style.transform = "scaleY(1)";
+
+    }, i * 45);
+
+}
 
         // Pieni animaatio
 
