@@ -80,16 +80,20 @@ animation: overlayFade 0.6s ease forwards;
 
 .signal-bars .bar {
 
-    width: 5px;
+    width: 4px;
 
-    background: #53fc18;
+    background: #555;
 
-    border-radius: 4px;
+    border-radius: 3px;
+
+    transform: scaleY(0.2);
+
+    transform-origin: bottom;
 
     transition:
-        background-color 0.3s ease,
-        opacity 0.3s ease,
-        height 0.3s ease;
+        background-color 0.25s ease,
+        transform 0.18s ease,
+        opacity 0.25s ease;
 
 }
 
