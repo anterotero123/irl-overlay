@@ -31,7 +31,9 @@ body {
 
     backdrop-filter: blur(8px);
 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.35),
+    0 0 12px rgba(107,47,217,0.18);
 
     white-space: nowrap;
 
@@ -46,9 +48,16 @@ animation: overlayFade 0.6s ease forwards;
 
 .divider {
 
-    color: #53fc18;
+    color: #6B2FD9;
 
-    opacity: 0.8;
+    opacity: 0.9;
+
+    text-shadow:
+        0 0 4px rgba(107,47,217,0.45);
+
+    transition:
+        color 0.35s ease,
+        text-shadow 0.35s ease;
 
 }
 .signal-bars {
