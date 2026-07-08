@@ -218,9 +218,21 @@ async function onPosition(position) {
             "Tuntematon";
 
         if (city !== lastCity) {
-            document.getElementById("city").textContent = `📍${city}`;
-            lastCity = city;
-        }
+
+    const cityElement =
+        document.getElementById("city");
+
+    cityElement.classList.remove("city-fade");
+
+    void cityElement.offsetWidth;
+
+    cityElement.textContent = `📍${city}`;
+
+    cityElement.classList.add("city-fade");
+
+    lastCity = city;
+
+}
 
         const now = Date.now();
 
