@@ -298,15 +298,29 @@ function getLocationByIP(){
 
 if (navigator.geolocation) {
 
+    const gpsOptions = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    };
+
+    // Jatkuva seuranta
     navigator.geolocation.watchPosition(
         onPosition,
         onError,
-        {
-            enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 0
-        }
+        gpsOptions
     );
+
+    // Lisäksi pyydetään uusi GPS 15 sekunnin välein
+    setInterval(() => {
+
+        navigator.geolocation.getCurrentPosition(
+            onPosition,
+            onError,
+            gpsOptions
+        );
+
+    }, 15000);
 
 } else {
 
