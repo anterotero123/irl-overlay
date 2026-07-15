@@ -154,10 +154,6 @@ if (code === 1 || code === 2) {
 
 function loadWeather(lat, lon, city){
 
-    document.getElementById("city").textContent =
-    `📍${city}`;
-
-
     fetch(
     `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=sunrise,sunset&timezone=auto`
     )
@@ -266,9 +262,6 @@ function onError(error) {
 
 function getLocationByIP(){
 
-   document.getElementById("city").textContent =
-"📍Haetaan verkosta...";
-
     fetch("https://ipapi.co/json/")
 
     .then(r=>r.json())
@@ -277,7 +270,6 @@ function getLocationByIP(){
 
         document.getElementById("city").textContent =
         `📍${data.city || "Ei kaupunkia"}`;
-
 
         loadWeather(
             data.latitude,
@@ -304,23 +296,11 @@ if (navigator.geolocation) {
         maximumAge: 0
     };
 
-    // Jatkuva seuranta
     navigator.geolocation.watchPosition(
         onPosition,
         onError,
         gpsOptions
     );
-
-    // Lisäksi pyydetään uusi GPS 15 sekunnin välein
-    setInterval(() => {
-
-        navigator.geolocation.getCurrentPosition(
-            onPosition,
-            onError,
-            gpsOptions
-        );
-
-    }, 15000);
 
 } else {
 
