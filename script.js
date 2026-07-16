@@ -186,7 +186,11 @@ document.getElementById("weather").textContent =
 // SIJAINTI GPS:LLÄ + VARALLA VERKKO
 
 let lastWeatherUpdate = 0;
+
 let lastCity = "";
+
+let pendingCity = "";
+let pendingCount = 0;
 
 async function onPosition(position) {
 
@@ -203,30 +207,52 @@ async function onPosition(position) {
 
         const data = await response.json();
 
-        const city =
-            data.address.city ||
-            data.address.town ||
-            data.address.village ||
-            data.address.municipality ||
-            data.address.hamlet ||
-            data.address.suburb ||
-            data.address.county ||
-            "Tuntematon";
+const city =
+    data.address.city ||
+    data.address.town ||
+    data.address.municipality ||
+    data.address.county ||
+    "Tuntematon";
+        
+console.log("GPS kaupunki:", city);
 
-        if (city !== lastCity) {
+if (city !== lastCity) {
 
-    const cityElement =
-        document.getElementById("city");
+    if (city === pendingCity) {
 
-    cityElement.classList.remove("city-fade");
+        pendingCount++;
 
-    void cityElement.offsetWidth;
+    } else {
 
-    cityElement.textContent = `📍${city}`;
+        pendingCity = city;
+        pendingCount = 1;
 
-    cityElement.classList.add("city-fade");
+    }
 
-    lastCity = city;
+    if (pendingCount >= 2) {
+
+        const cityElement =
+            document.getElementById("city");
+
+        cityElement.classList.remove("city-fade");
+
+        void cityElement.offsetWidth;
+
+        cityElement.textContent = `📍${city}`;
+
+        cityElement.classList.add("city-fade");
+
+        lastCity = city;
+
+        pendingCity = "";
+        pendingCount = 0;
+
+    }
+
+} else {
+
+    pendingCity = "";
+    pendingCount = 0;
 
 }
 
