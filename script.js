@@ -509,22 +509,31 @@ function updateSocialBanner() {
     const row =
         document.getElementById("social-row");
 
+    // Fade out + pieni liike ylöspäin
+
     row.style.opacity = "0";
+    row.style.transform = "translateY(-6px)";
 
     setTimeout(() => {
 
         socialIndex =
             (socialIndex + 1) % socials.length;
 
-icon.src =
-    socials[socialIndex].icon;
+        icon.src =
+            socials[socialIndex].icon;
 
-icon.alt =
-    socials[socialIndex].text;
+        icon.alt =
+            socials[socialIndex].text;
+
+        text.textContent =
+            socials[socialIndex].text;
+
+        // Fade takaisin sisään
 
         row.style.opacity = "0.95";
+        row.style.transform = "translateY(0)";
 
-    }, 350);
+    }, 450);
 
 }
 
