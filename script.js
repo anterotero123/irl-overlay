@@ -494,10 +494,10 @@ function updateSocialBanner() {
     const row =
         document.getElementById("social-row");
 
-    // Fade out + pieni liike ylöspäin
+// Aloitetaan kortin kääntö
 
-    row.style.opacity = "0";
-    row.style.transform = "translateY(-6px)";
+row.style.animation =
+    "socialCardFlip .7s ease";
 
     setTimeout(() => {
 
@@ -520,12 +520,13 @@ icon.alt =
 text.textContent =
     socials[socialIndex].text;
 
-        // Fade takaisin sisään
+row.style.opacity = "0.95";
 
-        row.style.opacity = "0.95";
-        row.style.transform = "translateY(0)";
+setTimeout(() => {
 
-    }, 450);
+    row.style.animation = "";
+
+}, 700);
 
 }
 
