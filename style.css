@@ -271,6 +271,11 @@ body {
 
     flex-shrink: 0;
 
+    animation: socialPulse 3.5s ease-in-out infinite;
+
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+
 }
 
 @keyframes socialPulse {
@@ -314,19 +319,25 @@ body {
 
     0% {
 
-        transform: rotate(0deg);
+        transform:
+            rotateY(0deg)
+            scale(1);
 
     }
 
     50% {
 
-        transform: rotate(10deg);
+        transform:
+            rotateY(90deg)
+            scale(.82);
 
     }
 
     100% {
 
-        transform: rotate(0deg);
+        transform:
+            rotateY(0deg)
+            scale(1);
 
     }
 
