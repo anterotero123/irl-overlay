@@ -491,10 +491,10 @@ function updateSocialBanner() {
     const text =
         document.getElementById("social-text");
 
-    const banner =
-        document.getElementById("social-banner");
+    const row =
+        document.getElementById("social-row");
 
-    banner.style.opacity = "0";
+    row.style.opacity = "0";
 
     setTimeout(() => {
 
@@ -507,7 +507,7 @@ function updateSocialBanner() {
         text.textContent =
             socials[socialIndex].text;
 
-        banner.style.opacity = "1";
+        row.style.opacity = "0.95";
 
     }, 350);
 
