@@ -504,14 +504,21 @@ function updateSocialBanner() {
         socialIndex =
             (socialIndex + 1) % socials.length;
 
-        icon.src =
-            socials[socialIndex].icon;
+icon.src =
+    socials[socialIndex].icon;
 
-        icon.alt =
-            socials[socialIndex].text;
+icon.style.animation = "none";
 
-        text.textContent =
-            socials[socialIndex].text;
+void icon.offsetWidth;
+
+icon.style.animation =
+    "socialFlip .45s ease";
+
+icon.alt =
+    socials[socialIndex].text;
+
+text.textContent =
+    socials[socialIndex].text;
 
         // Fade takaisin sisään
 
