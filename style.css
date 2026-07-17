@@ -220,3 +220,65 @@ animation: overlayFade 0.6s ease forwards;
     }
 
 }
+
+#social-banner {
+
+    position: fixed;
+
+    right: 25px;
+    bottom: 78px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 14px;
+
+    background: rgba(20,20,20,0.72);
+
+    border-radius: 12px;
+
+    color: white;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    backdrop-filter: blur(8px);
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.30),
+        0 0 10px rgba(107,47,217,0.16);
+
+    white-space: nowrap;
+
+    opacity: 0;
+
+    transform: translateY(8px);
+
+    animation: socialFadeIn 0.5s ease forwards;
+
+}
+
+#social-icon {
+
+    font-size: 22px;
+
+}
+
+@keyframes socialFadeIn {
+
+    from {
+
+        opacity: 0;
+        transform: translateY(8px);
+
+    }
+
+    to {
+
+        opacity: 1;
+        transform: translateY(0);
+
+    }
+
+}
