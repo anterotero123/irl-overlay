@@ -252,34 +252,10 @@ body {
 
     opacity: .95;
 
-}
-
-#social-row {
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-
-    gap: 8px;
-
-    margin-top: 2px;
-
-    font-size: 18px;
-    font-weight: 600;
-
-    color: white;
-
-    text-shadow:
-        0 2px 6px rgba(0,0,0,.9);
-
-    opacity: .95;
-
     transform: translateY(0);
 
     transition:
-        opacity .45s ease,
-        transform .45s ease;
+        opacity .55s ease,
+        transform .55s ease;
 
 }
