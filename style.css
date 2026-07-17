@@ -272,3 +272,40 @@ body {
     flex-shrink: 0;
 
 }
+
+@keyframes socialPulse {
+
+    0% {
+
+        transform: scale(1);
+
+    }
+
+    50% {
+
+        transform: scale(1.06);
+
+    }
+
+    100% {
+
+        transform: scale(1);
+
+    }
+
+}
+
+#social-icon {
+
+    width: 24px;
+    height: 24px;
+
+    object-fit: contain;
+
+    display: block;
+
+    flex-shrink: 0;
+
+    animation: socialPulse 3.5s ease-in-out infinite;
+
+}
