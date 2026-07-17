@@ -255,7 +255,12 @@ body {
 }
 #social-icon {
 
-    font-size: 22px;
+    width: 22px;
+    height: 22px;
+
+    object-fit: contain;
+
+    flex-shrink: 0;
 
 }
 
