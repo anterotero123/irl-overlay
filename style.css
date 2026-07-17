@@ -225,7 +225,8 @@ animation: overlayFade 0.6s ease forwards;
 
     position: fixed;
 
-    right: 25px;
+    left: 50%;
+transform: translateX(-50%);
     bottom: 78px;
 
     display: flex;
