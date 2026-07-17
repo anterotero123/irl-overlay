@@ -254,9 +254,12 @@ body {
 
     transform: translateY(0);
 
-    transition:
-        opacity .55s ease,
-        transform .55s ease;
+transition:
+    opacity .55s ease,
+    transform .55s ease;
+
+transform-style: preserve-3d;
+backface-visibility: hidden;
 
 }
 
@@ -315,29 +318,26 @@ body {
 
 }
 
-@keyframes socialFlip {
+@keyframes socialCardFlip {
 
     0% {
 
         transform:
-            rotateY(0deg)
-            scale(1);
+            rotateY(0deg);
 
     }
 
     50% {
 
         transform:
-            rotateY(90deg)
-            scale(.82);
+            rotateY(90deg);
 
     }
 
     100% {
 
         transform:
-            rotateY(0deg)
-            scale(1);
+            rotateY(0deg);
 
     }
 
