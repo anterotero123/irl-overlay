@@ -222,23 +222,37 @@ body {
 
 }
 
-#social-banner {
+#overlay-top {
 
-    position: fixed;
-
-   left: 50%;
-bottom: 78px;
-
-...
-
-opacity: 0;
-
-transform: translateX(-50%) translateY(8px);
-
-animation: socialFadeIn 0.5s ease forwards;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
 }
 
+#social-row {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    gap: 8px;
+
+    margin-top: 2px;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    color: white;
+
+    text-shadow:
+        0 2px 6px rgba(0,0,0,.9);
+
+    opacity: .95;
+
+}
 #social-icon {
 
     font-size: 22px;
