@@ -259,3 +259,16 @@ body {
         transform .55s ease;
 
 }
+
+#social-icon {
+
+    width: 24px;
+    height: 24px;
+
+    object-fit: contain;
+
+    display: block;
+
+    flex-shrink: 0;
+
+}
