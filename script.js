@@ -474,10 +474,25 @@ if (navigator.connection) {
 
 const socials = [
 
-    { icon: "📷", text: "@AnteroLive" }, // Instagram
-    { icon: "▶", text: "L00kkino" },     // YouTube
-    { icon: "🎮", text: "AnteroLive" },  // Kick
-    { icon: "🎵", text: "@AnteroLive" }  // TikTok
+    {
+        icon: "instagram.svg",
+        text: "@AnteroLive"
+    },
+
+    {
+        icon: "youtube.svg",
+        text: "L00kkino"
+    },
+
+    {
+        icon: "kick.svg",
+        text: "AnteroLive"
+    },
+
+    {
+        icon: "tiktok.svg",
+        text: "@AnteroLive"
+    }
 
 ];
 
@@ -501,11 +516,11 @@ function updateSocialBanner() {
         socialIndex =
             (socialIndex + 1) % socials.length;
 
-        icon.textContent =
-            socials[socialIndex].icon;
+icon.src =
+    socials[socialIndex].icon;
 
-        text.textContent =
-            socials[socialIndex].text;
+icon.alt =
+    socials[socialIndex].text;
 
         row.style.opacity = "0.95";
 
