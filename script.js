@@ -513,6 +513,6 @@ function updateSocialBanner() {
 
 }
 
-// Vaihda 5 sekunnin välein
+// Vaihda 12 sekunnin välein
 
-setInterval(updateSocialBanner, 5000);
+setInterval(updateSocialBanner, 12000);
