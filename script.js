@@ -469,3 +469,50 @@ setInterval(updateNetworkQuality, 30000);
 if (navigator.connection) {
     navigator.connection.addEventListener("change", updateNetworkQuality);
 }
+
+// ===== SOME-BANNERI =====
+
+const socials = [
+
+    { icon: "📷", text: "@AnteroLive" }, // Instagram
+    { icon: "▶", text: "L00kkino" },     // YouTube
+    { icon: "🎮", text: "AnteroLive" },  // Kick
+    { icon: "🎵", text: "@AnteroLive" }  // TikTok
+
+];
+
+let socialIndex = 0;
+
+function updateSocialBanner() {
+
+    const icon =
+        document.getElementById("social-icon");
+
+    const text =
+        document.getElementById("social-text");
+
+    const banner =
+        document.getElementById("social-banner");
+
+    banner.style.opacity = "0";
+
+    setTimeout(() => {
+
+        socialIndex =
+            (socialIndex + 1) % socials.length;
+
+        icon.textContent =
+            socials[socialIndex].icon;
+
+        text.textContent =
+            socials[socialIndex].text;
+
+        banner.style.opacity = "1";
+
+    }, 350);
+
+}
+
+// Vaihda 5 sekunnin välein
+
+setInterval(updateSocialBanner, 5000);
