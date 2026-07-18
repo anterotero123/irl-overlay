@@ -115,39 +115,40 @@ if (navigator.getBattery) {
 
 function getWeatherIcon(code, isDay){
 
-if (code === 0) {
-    return isDay ? "☀️" : "🌙";
-}
-
-if (code === 1 || code === 2) {
-    return isDay ? "🌤️" : "☁️🌙";
-}
-
-    if(code === 3){
-        return "☁️";
+    if (code === 0) {
+        return isDay ? "sun.svg" : "moon.svg";
     }
 
-    if(code >= 45 && code <= 48){
-        return "🌫️";
+    if (code === 1 || code === 2) {
+        return "partly-cloudy.svg";
     }
 
-    if(code >= 51 && code <= 67){
-        return "🌧️";
+    if (code === 3) {
+        return "cloud.svg";
     }
 
-    if(code >= 71 && code <= 77){
-        return "❄️";
+    if (code >= 45 && code <= 48) {
+        return "fog.svg";
     }
 
-    if(code >= 80 && code <= 82){
-        return "🌦️";
+    if (code >= 51 && code <= 67) {
+        return "rain.svg";
     }
 
-    if(code >= 95){
-        return "⛈️";
+    if (code >= 71 && code <= 77) {
+        return "snow.svg";
     }
 
-    return "🌡️";
+    if (code >= 80 && code <= 82) {
+        return "rain.svg";
+    }
+
+    if (code >= 95) {
+        return "storm.svg";
+    }
+
+    return "sun.svg";
+
 }
 
 // SÄÄ
@@ -175,8 +176,14 @@ const sunset = new Date(data.daily.sunset[0]);
 
 const isDay = now >= sunrise && now < sunset;
 
-document.getElementById("weather").textContent =
-`${getWeatherIcon(data.current_weather.weathercode, isDay)}${temp}°C`;
+document.getElementById("weather-icon").src =
+    getWeatherIcon(
+        data.current_weather.weathercode,
+        isDay
+    );
+
+document.getElementById("weather-temp").textContent =
+    `${temp}°C`;
 
     });
 
