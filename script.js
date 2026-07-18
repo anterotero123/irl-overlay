@@ -176,11 +176,42 @@ const sunset = new Date(data.daily.sunset[0]);
 
 const isDay = now >= sunrise && now < sunset;
 
-document.getElementById("weather-icon").src =
+const icon =
+    document.getElementById("weather-icon");
+
+const iconFile =
     getWeatherIcon(
         data.current_weather.weathercode,
         isDay
     );
+
+icon.src = iconFile;
+
+icon.className = "";
+
+if (iconFile.includes("sun"))
+    icon.classList.add("sun");
+
+else if (iconFile.includes("moon"))
+    icon.classList.add("moon");
+
+else if (iconFile.includes("partly"))
+    icon.classList.add("partly");
+
+else if (iconFile.includes("cloud"))
+    icon.classList.add("cloud");
+
+else if (iconFile.includes("rain"))
+    icon.classList.add("rain");
+
+else if (iconFile.includes("storm"))
+    icon.classList.add("storm");
+
+else if (iconFile.includes("fog"))
+    icon.classList.add("fog");
+
+else if (iconFile.includes("snow"))
+    icon.classList.add("snow");
 
 document.getElementById("weather-temp").textContent =
     `${temp}°C`;
