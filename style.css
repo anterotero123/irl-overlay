@@ -671,3 +671,110 @@ backface-visibility: hidden;
     animation: weatherFade .5s ease;
 
 }
+
+/* ===== LÄMPÖTILAN HOHTEET ===== */
+
+@keyframes sunTempGlow {
+
+    0%,100% {
+
+        color: white;
+
+        text-shadow: 0 0 4px rgba(255,255,255,.2);
+
+    }
+
+    50% {
+
+        color: #FFD45A;
+
+        text-shadow:
+            0 0 8px rgba(255,212,90,.7),
+            0 0 14px rgba(255,212,90,.35);
+
+    }
+
+}
+
+@keyframes moonTempGlow {
+
+    0%,100% {
+
+        color: white;
+
+    }
+
+    50% {
+
+        color: #A8D8FF;
+
+        text-shadow:
+            0 0 8px rgba(168,216,255,.7);
+
+    }
+
+}
+
+@keyframes rainTempGlow {
+
+    0%,100% {
+
+        color: white;
+
+    }
+
+    50% {
+
+        color: #8BD4FF;
+
+        text-shadow:
+            0 0 8px rgba(139,212,255,.6);
+
+    }
+
+}
+
+@keyframes stormTempGlow {
+
+    0%,96%,100% {
+
+        color: white;
+
+    }
+
+    97% {
+
+        color: #B8FF8A;
+
+        text-shadow:
+            0 0 12px rgba(83,252,24,.9);
+
+    }
+
+}
+
+#weather.sun #weather-temp{
+
+    animation: sunTempGlow 5s ease-in-out infinite;
+
+}
+
+#weather.moon #weather-temp{
+
+    animation: moonTempGlow 5s ease-in-out infinite;
+
+}
+
+#weather.rain #weather-temp,
+#weather.fog #weather-temp,
+#weather.snow #weather-temp{
+
+    animation: rainTempGlow 4s ease-in-out infinite;
+
+}
+
+#weather.storm #weather-temp{
+
+    animation: stormTempGlow 7s infinite;
+
+}
