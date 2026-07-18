@@ -336,6 +336,9 @@ if (navigator.geolocation) {
 
 // ===== YHTEYDEN LAATU =====
 
+let lastActiveBars = -1;
+let lastSignalColor = "";
+
 async function updateNetworkQuality() {
 
     const signal = document.getElementById("signal");
@@ -409,23 +412,31 @@ async function updateNetworkQuality() {
 
         }
 
-// Nollataan kaikkien palkkien väri
+if (activeBars === lastActiveBars &&
+    color === lastSignalColor) {
 
-allBars.forEach(bar => {
-
-    bar.style.background = "#555";
-    bar.style.transform = "scaleY(1)";
-
-});
-
-// Sytytetään tarvittava määrä palkkeja
-
-for (let i = 0; i < activeBars; i++) {
-
-    allBars[i].style.background = color;
+    return;
 
 }
 
+lastActiveBars = activeBars;
+lastSignalColor = color;
+
+// Päivitetään vain muuttuneet palkit
+
+for (let i = 0; i < allBars.length; i++) {
+
+    if (i < activeBars) {
+
+        allBars[i].style.background = color;
+
+    } else {
+
+        allBars[i].style.background = "#555";
+
+    }
+
+}
     }
 
     catch {
