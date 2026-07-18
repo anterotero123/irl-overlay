@@ -389,3 +389,147 @@ backface-visibility: hidden;
     white-space: nowrap;
 
 }
+
+/* ===== SÄÄIKONIEN ANIMAATIOT ===== */
+
+@keyframes sunSpin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+@keyframes moonGlow {
+
+    0%,100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 0px rgba(120,180,255,0));
+    }
+
+    50% {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 8px rgba(120,180,255,.7));
+    }
+
+}
+
+@keyframes cloudFloat {
+
+    0%,100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(3px);
+    }
+
+}
+
+@keyframes rainSwing {
+
+    0%,100% {
+        transform: rotate(-2deg);
+    }
+
+    50% {
+        transform: rotate(2deg);
+    }
+
+}
+
+@keyframes stormFlash {
+
+    0%,92%,100% {
+        filter: brightness(1);
+    }
+
+    94% {
+        filter: brightness(2.2);
+    }
+
+    96% {
+        filter: brightness(1);
+    }
+
+    98% {
+        filter: brightness(2);
+    }
+
+}
+
+@keyframes fogMove {
+
+    0%,100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+}
+
+@keyframes snowFall {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(2px);
+    }
+
+}
+
+#weather-icon.sun {
+
+    animation: sunSpin 30s linear infinite;
+
+}
+
+#weather-icon.moon {
+
+    animation: moonGlow 4s ease-in-out infinite;
+
+}
+
+#weather-icon.cloud {
+
+    animation: cloudFloat 5s ease-in-out infinite;
+
+}
+
+#weather-icon.partly {
+
+    animation: cloudFloat 5s ease-in-out infinite;
+
+}
+
+#weather-icon.rain {
+
+    animation: rainSwing 1.5s ease-in-out infinite;
+
+}
+
+#weather-icon.storm {
+
+    animation: stormFlash 6s infinite;
+
+}
+
+#weather-icon.fog {
+
+    animation: fogMove 4s ease-in-out infinite;
+
+}
+
+#weather-icon.snow {
+
+    animation: snowFall 2s ease-in-out infinite;
+
+}
