@@ -184,7 +184,9 @@ const iconFile =
         data.current_weather.weathercode,
         isDay
     );
-
+        
+icon.classList.add("weather-changing");
+        
 setTimeout(() => {
 
     icon.src = iconFile;
@@ -250,6 +252,8 @@ else if (iconFile.includes("snow")) {
 
 }
 
+icon.classList.remove("weather-changing");
+    
 }, 250);
 
     // Fade takaisin sisään
