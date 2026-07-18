@@ -197,31 +197,66 @@ setTimeout(() => {
 
     icon.src = iconFile;
 
+const weather =
+    document.getElementById("weather");
+
+weather.className = "";
+    
     icon.className = "";
 
-    if (iconFile.includes("sun"))
-        icon.classList.add("sun");
+if (iconFile.includes("sun")) {
 
-    else if (iconFile.includes("moon"))
-        icon.classList.add("moon");
+    icon.classList.add("sun");
+    weather.classList.add("sun");
 
-    else if (iconFile.includes("partly"))
-        icon.classList.add("partly");
+}
 
-    else if (iconFile.includes("cloud"))
-        icon.classList.add("cloud");
+else if (iconFile.includes("moon")) {
 
-    else if (iconFile.includes("rain"))
-        icon.classList.add("rain");
+    icon.classList.add("moon");
+    weather.classList.add("moon");
 
-    else if (iconFile.includes("storm"))
-        icon.classList.add("storm");
+}
 
-    else if (iconFile.includes("fog"))
-        icon.classList.add("fog");
+else if (iconFile.includes("partly")) {
 
-    else if (iconFile.includes("snow"))
-        icon.classList.add("snow");
+    icon.classList.add("partly");
+
+}
+
+else if (iconFile.includes("cloud")) {
+
+    icon.classList.add("cloud");
+
+}
+
+else if (iconFile.includes("rain")) {
+
+    icon.classList.add("rain");
+    weather.classList.add("rain");
+
+}
+
+else if (iconFile.includes("storm")) {
+
+    icon.classList.add("storm");
+    weather.classList.add("storm");
+
+}
+
+else if (iconFile.includes("fog")) {
+
+    icon.classList.add("fog");
+    weather.classList.add("fog");
+
+}
+
+else if (iconFile.includes("snow")) {
+
+    icon.classList.add("snow");
+    weather.classList.add("snow");
+
+}
 
 }, 250);
 
