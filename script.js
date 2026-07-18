@@ -193,6 +193,8 @@ setTimeout(() => {
 
 const weather =
     document.getElementById("weather");
+const overlay =
+    document.getElementById("overlay");
 
 weather.className = "";
     
@@ -611,3 +613,11 @@ icon.style.animation =
 // Vaihda 15 sekunnin välein
 
 setInterval(updateSocialBanner, 15000);
+
+});
+
+overlay.classList.remove("shimmer");
+
+void overlay.offsetWidth;
+
+overlay.classList.add("shimmer");
