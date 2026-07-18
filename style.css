@@ -809,7 +809,7 @@ backface-visibility: hidden;
 
         transparent,
 
-        rgba(255,255,255,.12),
+        rgba(255,255,255,.08),
 
         transparent
 
@@ -870,7 +870,7 @@ backface-visibility: hidden;
     transform: rotate(-12deg);
 
     animation:
-        glassShimmer 28s linear infinite;
+        glassShimmer 45s linear infinite;
 
 }
 
@@ -882,7 +882,7 @@ backface-visibility: hidden;
 
     }
 
-    3% {
+    5% {
 
         left: 140%;
 
