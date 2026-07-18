@@ -448,20 +448,35 @@ backface-visibility: hidden;
 
 @keyframes stormFlash {
 
-    0%,92%,100% {
-        filter: brightness(1);
+    0%,94%,100% {
+
+        transform: rotate(0deg);
+
+        filter:
+            drop-shadow(0 0 0 rgba(83,252,24,0));
+
     }
 
-    94% {
-        filter: brightness(2.2);
+    95% {
+
+        transform: rotate(-3deg);
+
     }
 
     96% {
-        filter: brightness(1);
+
+        transform: rotate(3deg);
+
+        filter:
+            drop-shadow(0 0 10px rgba(83,252,24,.9))
+            drop-shadow(0 0 18px rgba(83,252,24,.45));
+
     }
 
-    98% {
-        filter: brightness(2);
+    97% {
+
+        transform: rotate(-2deg);
+
     }
 
 }
@@ -480,12 +495,49 @@ backface-visibility: hidden;
 
 @keyframes snowFall {
 
-    0%,100% {
-        transform: translateY(0);
+    0% {
+
+        transform:
+            translateY(0)
+            translateX(0)
+            rotate(0deg);
+
+    }
+
+    25% {
+
+        transform:
+            translateY(2px)
+            translateX(-1px)
+            rotate(-3deg);
+
     }
 
     50% {
-        transform: translateY(2px);
+
+        transform:
+            translateY(4px)
+            translateX(1px)
+            rotate(2deg);
+
+    }
+
+    75% {
+
+        transform:
+            translateY(2px)
+            translateX(-1px)
+            rotate(-2deg);
+
+    }
+
+    100% {
+
+        transform:
+            translateY(0)
+            translateX(0)
+            rotate(0deg);
+
     }
 
 }
@@ -534,7 +586,7 @@ backface-visibility: hidden;
 
 #weather-icon.snow {
 
-    animation: snowFall 2s ease-in-out infinite;
+    animation: snowFall 3.8s ease-in-out infinite;
 
 }
 
