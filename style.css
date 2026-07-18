@@ -680,7 +680,7 @@ backface-visibility: hidden;
 
         color: white;
 
-        text-shadow: 0 0 4px rgba(255,255,255,.2);
+        text-shadow: 0 0 5px rgba(255,212,90,.40);
 
     }
 
@@ -728,7 +728,7 @@ backface-visibility: hidden;
         color: #8BD4FF;
 
         text-shadow:
-            0 0 8px rgba(139,212,255,.6);
+            0 0 4px rgba(139,212,255,.30);
 
     }
 
