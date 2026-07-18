@@ -215,12 +215,14 @@ else if (iconFile.includes("moon")) {
 else if (iconFile.includes("partly")) {
 
     icon.classList.add("partly");
+    weather.classList.add("partly");
 
 }
 
 else if (iconFile.includes("cloud")) {
 
     icon.classList.add("cloud");
+    weather.classList.add("cloud");
 
 }
 
