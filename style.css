@@ -665,3 +665,9 @@ backface-visibility: hidden;
     animation: stormGlow 6s infinite;
 
 }
+
+#weather-icon.weather-changing {
+
+    animation: weatherFade .5s ease;
+
+}
