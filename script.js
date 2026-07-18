@@ -494,39 +494,37 @@ function updateSocialBanner() {
     const row =
         document.getElementById("social-row");
 
-// Aloitetaan kortin kääntö
-
-row.style.animation =
-    "socialCardFlip .7s ease";
+    row.style.animation =
+        "socialCardFlip .7s ease";
 
     setTimeout(() => {
 
         socialIndex =
             (socialIndex + 1) % socials.length;
 
-icon.src =
-    socials[socialIndex].icon;
+        icon.src =
+            socials[socialIndex].icon;
 
-icon.style.animation = "none";
+        icon.style.animation = "none";
+        void icon.offsetWidth;
+        icon.style.animation =
+            "socialFlip .45s ease";
 
-void icon.offsetWidth;
+        icon.alt =
+            socials[socialIndex].text;
 
-icon.style.animation =
-    "socialFlip .45s ease";
+        text.textContent =
+            socials[socialIndex].text;
 
-icon.alt =
-    socials[socialIndex].text;
+        row.style.opacity = "0.95";
 
-text.textContent =
-    socials[socialIndex].text;
+    }, 350);
 
-row.style.opacity = "0.95";
+    setTimeout(() => {
 
-setTimeout(() => {
+        row.style.animation = "";
 
-    row.style.animation = "";
-
-}, 700);
+    }, 700);
 
 }
 
