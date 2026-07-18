@@ -185,9 +185,45 @@ const iconFile =
         isDay
     );
 
-icon.src = iconFile;
+// Fade ulos
 
-icon.className = "";
+icon.style.opacity = "0";
+
+setTimeout(() => {
+
+    icon.src = iconFile;
+
+    icon.className = "";
+
+    if (iconFile.includes("sun"))
+        icon.classList.add("sun");
+
+    else if (iconFile.includes("moon"))
+        icon.classList.add("moon");
+
+    else if (iconFile.includes("partly"))
+        icon.classList.add("partly");
+
+    else if (iconFile.includes("cloud"))
+        icon.classList.add("cloud");
+
+    else if (iconFile.includes("rain"))
+        icon.classList.add("rain");
+
+    else if (iconFile.includes("storm"))
+        icon.classList.add("storm");
+
+    else if (iconFile.includes("fog"))
+        icon.classList.add("fog");
+
+    else if (iconFile.includes("snow"))
+        icon.classList.add("snow");
+
+    // Fade takaisin sisään
+
+    icon.style.opacity = "1";
+
+}, 250);
 
 if (iconFile.includes("sun"))
     icon.classList.add("sun");
