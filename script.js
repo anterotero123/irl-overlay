@@ -185,9 +185,13 @@ const iconFile =
         isDay
     );
 
-// Fade ulos
+// Käynnistä vaihtoanimaatio
 
-icon.style.opacity = "0";
+icon.style.animation = "none";
+
+void icon.offsetWidth;
+
+icon.style.animation = "weatherFade .5s ease";
 
 setTimeout(() => {
 
@@ -218,6 +222,8 @@ setTimeout(() => {
 
     else if (iconFile.includes("snow"))
         icon.classList.add("snow");
+
+}, 250);
 
     // Fade takaisin sisään
 
