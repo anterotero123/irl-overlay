@@ -87,13 +87,12 @@ body {
 
     border-radius: 3px;
 
-    transform: scaleY(0.2);
+    transform: scaleY(1);
 
     transform-origin: bottom;
 
     transition:
         background-color 0.25s ease,
-        transform 0.18s ease,
         opacity 0.25s ease;
 
 }
