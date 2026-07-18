@@ -11,6 +11,8 @@ body {
 
     position: fixed;
 
+    overflow: hidden;
+
     right: 25px;
     bottom: 25px;
 
@@ -836,5 +838,60 @@ backface-visibility: hidden;
 #overlay.shimmer::after{
 
     animation:glassShimmer .9s ease;
+
+}
+
+#overlay::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: -50%;
+
+    left: -120%;
+
+    width: 40%;
+
+    height: 220%;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            115deg,
+            transparent 0%,
+            rgba(255,255,255,.03) 40%,
+            rgba(255,255,255,.12) 50%,
+            rgba(255,255,255,.03) 60%,
+            transparent 100%
+        );
+
+    transform: rotate(-12deg);
+
+    animation:
+        glassShimmer 28s linear infinite;
+
+}
+
+@keyframes glassShimmer {
+
+    0% {
+
+        left: -140%;
+
+    }
+
+    3% {
+
+        left: 140%;
+
+    }
+
+    100% {
+
+        left: 140%;
+
+    }
 
 }
