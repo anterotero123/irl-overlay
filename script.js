@@ -265,16 +265,6 @@ document.getElementById("weather-temp").textContent =
 
 }
 
-    // Fade takaisin sisään
-
-document.getElementById("weather-temp").textContent =
-    `${temp}°C`;
-
-    });
-
-}
-
-
 // SIJAINTI GPS:LLÄ + VARALLA VERKKO
 
 let lastWeatherUpdate = 0;
