@@ -409,42 +409,22 @@ async function updateNetworkQuality() {
 
         }
 
-        // Sammutetaan kaikki palkit
+// Nollataan kaikkien palkkien väri
 
-        allBars.forEach(bar => {
+allBars.forEach(bar => {
 
-            bar.style.background = "#555";
-
-        });
-
-        // Sytytetään aktiiviset palkit
-
-        allBars.forEach(bar => {
-
-    bar.style.transform = "scaleY(0.2)";
+    bar.style.background = "#555";
+    bar.style.transform = "scaleY(1)";
 
 });
 
+// Sytytetään tarvittava määrä palkkeja
+
 for (let i = 0; i < activeBars; i++) {
 
-    setTimeout(() => {
-
-        allBars[i].style.background = color;
-        allBars[i].style.transform = "scaleY(1)";
-
-    }, i * 45);
+    allBars[i].style.background = color;
 
 }
-
-        // Pieni animaatio
-
-        signal.classList.add("flash");
-
-        setTimeout(() => {
-
-            signal.classList.remove("flash");
-
-        }, 250);
 
     }
 
