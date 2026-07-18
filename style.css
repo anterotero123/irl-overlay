@@ -366,3 +366,26 @@ backface-visibility: hidden;
     }
 
 }
+
+#weather {
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+}
+
+#weather-icon {
+
+    width: 22px;
+    height: 22px;
+
+    object-fit: contain;
+
+}
+
+#weather-temp {
+
+    white-space: nowrap;
+
+}
