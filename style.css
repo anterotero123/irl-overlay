@@ -778,3 +778,63 @@ backface-visibility: hidden;
     animation: stormTempGlow 7s infinite;
 
 }
+
+/* ===== GLASS SHIMMER ===== */
+
+#overlay{
+
+    overflow:hidden;
+
+}
+
+#overlay::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:60%;
+
+    height:100%;
+
+    background:linear-gradient(
+
+        110deg,
+
+        transparent,
+
+        rgba(255,255,255,.12),
+
+        transparent
+
+    );
+
+    pointer-events:none;
+
+}
+
+@keyframes glassShimmer{
+
+    from{
+
+        left:-120%;
+
+    }
+
+    to{
+
+        left:140%;
+
+    }
+
+}
+
+#overlay.shimmer::after{
+
+    animation:glassShimmer .9s ease;
+
+}
