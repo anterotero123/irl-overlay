@@ -185,14 +185,6 @@ const iconFile =
         isDay
     );
 
-// Käynnistä vaihtoanimaatio
-
-icon.style.animation = "none";
-
-void icon.offsetWidth;
-
-icon.style.animation = "weatherFade .5s ease";
-
 setTimeout(() => {
 
     icon.src = iconFile;
