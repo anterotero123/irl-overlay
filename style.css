@@ -535,3 +535,28 @@ backface-visibility: hidden;
     animation: snowFall 2s ease-in-out infinite;
 
 }
+
+@keyframes weatherFade {
+
+    0% {
+
+        opacity: 1;
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        opacity: 0;
+        transform: translateY(4px);
+
+    }
+
+    100% {
+
+        opacity: 1;
+        transform: translateY(0);
+
+    }
+
+}
