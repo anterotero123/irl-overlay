@@ -193,8 +193,6 @@ setTimeout(() => {
 
 const weather =
     document.getElementById("weather");
-const overlay =
-    document.getElementById("overlay");
 
 weather.className = "";
     
@@ -257,12 +255,17 @@ else if (iconFile.includes("snow")) {
 }
 
 icon.classList.remove("weather-changing");
-    
+
 }, 250);
 
-    // Fade takaisin sisään
+document.getElementById("weather-temp").textContent =
+    `${temp}°C`;
 
-    icon.style.opacity = "1";
+});
+
+}
+
+    // Fade takaisin sisään
 
 document.getElementById("weather-temp").textContent =
     `${temp}°C`;
@@ -616,8 +619,4 @@ setInterval(updateSocialBanner, 15000);
 
 });
 
-overlay.classList.remove("shimmer");
 
-void overlay.offsetWidth;
-
-overlay.classList.add("shimmer");
