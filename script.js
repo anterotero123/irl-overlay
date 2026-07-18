@@ -606,7 +606,3 @@ icon.style.animation =
 // Vaihda 15 sekunnin välein
 
 setInterval(updateSocialBanner, 15000);
-
-});
-
-
