@@ -560,3 +560,108 @@ backface-visibility: hidden;
     }
 
 }
+
+/* ===== SÄÄWIDGETIN HOHTEET ===== */
+
+@keyframes sunGlow {
+
+    0%,100% {
+
+        color: #ffffff;
+        text-shadow: 0 0 4px rgba(255,255,255,.2);
+
+    }
+
+    50% {
+
+        color: #FFD54A;
+        text-shadow:
+            0 0 8px rgba(255,213,74,.65),
+            0 0 14px rgba(255,213,74,.35);
+
+    }
+
+}
+
+@keyframes moonGlowText {
+
+    0%,100% {
+
+        color: white;
+        text-shadow: 0 0 4px rgba(255,255,255,.2);
+
+    }
+
+    50% {
+
+        color: #B8D9FF;
+        text-shadow:
+            0 0 8px rgba(184,217,255,.7),
+            0 0 14px rgba(184,217,255,.4);
+
+    }
+
+}
+
+@keyframes rainGlow {
+
+    0%,100% {
+
+        color: white;
+
+    }
+
+    50% {
+
+        color: #8FD3FF;
+        text-shadow:
+            0 0 8px rgba(143,211,255,.6);
+
+    }
+
+}
+
+@keyframes stormGlow {
+
+    0%,94%,100% {
+
+        color: white;
+
+    }
+
+    95% {
+
+        color: #D9A8FF;
+
+        text-shadow:
+            0 0 12px rgba(170,90,255,.9);
+
+    }
+
+}
+
+#weather.sun #weather-temp {
+
+    animation: sunGlow 5s ease-in-out infinite;
+
+}
+
+#weather.moon #weather-temp {
+
+    animation: moonGlowText 4s ease-in-out infinite;
+
+}
+
+#weather.rain #weather-temp,
+#weather.fog #weather-temp,
+#weather.snow #weather-temp {
+
+    animation: rainGlow 3s ease-in-out infinite;
+
+}
+
+#weather.storm #weather-temp {
+
+    animation: stormGlow 6s infinite;
+
+}
