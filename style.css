@@ -382,6 +382,8 @@ backface-visibility: hidden;
 
     object-fit: contain;
 
+    transition: opacity .25s ease;
+
 }
 
 #weather-temp {
