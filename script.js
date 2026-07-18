@@ -493,13 +493,15 @@ function updateSocialBanner() {
         socialIndex =
             (socialIndex + 1) % socials.length;
 
-        icon.src =
-            socials[socialIndex].icon;
+icon.src =
+    socials[socialIndex].icon;
 
-        icon.style.animation = "none";
-        void icon.offsetWidth;
-        icon.style.animation =
-            "socialFlip .45s ease";
+icon.style.animation = "none";
+
+void icon.offsetWidth;
+
+icon.style.animation =
+    "socialFlip .45s ease, socialPulse .55s ease";
 
         icon.alt =
             socials[socialIndex].text;
