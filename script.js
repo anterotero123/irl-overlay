@@ -404,18 +404,39 @@ if (navigator.geolocation) {
         maximumAge: 0
     };
 
+    // Ensimmäinen GPS-sijainti heti
+
+    navigator.geolocation.getCurrentPosition(
+        onPosition,
+        onError,
+        gpsOptions
+    );
+
+    // Seurataan sijaintia jatkuvasti
+
     navigator.geolocation.watchPosition(
         onPosition,
         onError,
         gpsOptions
     );
 
+    // Pakotetaan uusi GPS-sijainnin tarkistus 15 sekunnin välein
+
+    setInterval(() => {
+
+        navigator.geolocation.getCurrentPosition(
+            onPosition,
+            onError,
+            gpsOptions
+        );
+
+    }, 15000);
+
 } else {
 
     getLocationByIP();
 
 }
-
 // ===== YHTEYDEN LAATU =====
 
 let lastActiveBars = -1;
