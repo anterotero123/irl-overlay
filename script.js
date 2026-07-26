@@ -664,9 +664,7 @@ async function onPosition(position) {
 // GPS-VIRHE
 // ============================================================
 
-function onError(
-    error
-) {
+function onError(error) {
 
     console.log(
         "GPS ERROR:",
@@ -674,24 +672,13 @@ function onError(
         error.message
     );
 
-
     const cityElement =
-        document.getElementById(
-            "city"
-        );
+        document.getElementById("city");
 
-
-    // Emme käytä IP-paikannusta.
-    // Emme siis näytä Kurikkaa, Kuopiota tai
-    // mitään muutakaan IP:n perusteella arvattua kaupunkia.
-
-    if (
-        lastCity === "" &&
-        cityElement
-    ) {
+    if (cityElement) {
 
         cityElement.textContent =
-            "📍GPS ei saatavilla";
+            `📍GPS VIRHE ${error.code}: ${error.message}`;
 
     }
 
