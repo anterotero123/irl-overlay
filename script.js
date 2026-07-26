@@ -265,7 +265,22 @@ document.getElementById("weather-temp").textContent =
 
 }
 
-// SIJAINTI GPS:LLÄ + VARALLA VERKKO
+// ============================================================
+// SIJAINTI: GPS-POHJAINEN
+// ============================================================
+//
+// TÄRKEÄ:
+// IP-paikannusta EI käytetä enää lainkaan.
+// Jos GPS ei toimi, emme arvaa sijaintia IP-osoitteen perusteella.
+//
+// Suojaukset:
+// 1. GPS:n tarkkuus tarkistetaan.
+// 2. Erittäin epätarkat GPS-pisteet hylätään.
+// 3. Epärealistiset suuret sijaintihypyt hylätään.
+// 4. Kaupunki hyväksytään vasta kahdella peräkkäisellä tuloksella.
+// 5. Sää haetaan hyväksytystä GPS-sijainnista.
+// ============================================================
+
 
 let lastWeatherUpdate = 0;
 
@@ -274,84 +289,384 @@ let lastCity = "";
 let pendingCity = "";
 let pendingCount = 0;
 
+
+// Viimeksi hyväksytty GPS-sijainti
+
+let lastAcceptedPosition = null;
+
+
+// Kuinka tarkka GPS:n pitää vähintään olla.
+// 1000 metriä = 1 kilometri.
+
+const MAX_GPS_ACCURACY = 1000;
+
+
+// Jos sijainti hyppää yli 100 km,
+// oletetaan että GPS-piste on virheellinen.
+
+const MAX_POSITION_JUMP_KM = 100;
+
+
+// Kaupunki pitää saada kaksi kertaa peräkkäin,
+// ennen kuin se vaihdetaan overlayhin.
+
+const REQUIRED_CITY_CONFIRMATIONS = 2;
+
+
+
 async function onPosition(position) {
 
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
+    const lat =
+        position.coords.latitude;
 
-    console.log("GPS:", lat, lon);
+    const lon =
+        position.coords.longitude;
+
+    const accuracy =
+        position.coords.accuracy;
+
+
+    // ========================================================
+    // GPS-DIAGNOSTIIKKA
+    // ========================================================
+
+    console.log(
+        "GPS SIJAINTI:",
+        lat,
+        lon,
+        "TARKKUUS:",
+        accuracy,
+        "metriä"
+    );
+
+
+    // ========================================================
+    // TARKISTETAAN GPS:N TARKKUUS
+    // ========================================================
+
+    if (
+        !Number.isFinite(accuracy) ||
+        accuracy > MAX_GPS_ACCURACY
+    ) {
+
+        console.log(
+            "GPS-SIJAINTI HYLÄTTY: tarkkuus liian huono:",
+            accuracy,
+            "metriä"
+        );
+
+        return;
+
+    }
+
+
+
+    // ========================================================
+    // TARKISTETAAN MAHDOLLINEN GPS-HYPPY
+    // ========================================================
+
+    if (
+        lastAcceptedPosition !== null
+    ) {
+
+        const R = 6371;
+
+
+        const dLat =
+            (
+                lat -
+                lastAcceptedPosition.lat
+            ) *
+            Math.PI /
+            180;
+
+
+        const dLon =
+            (
+                lon -
+                lastAcceptedPosition.lon
+            ) *
+            Math.PI /
+            180;
+
+
+        const a =
+            Math.sin(dLat / 2) *
+            Math.sin(dLat / 2) +
+
+            Math.cos(
+                lastAcceptedPosition.lat *
+                Math.PI /
+                180
+            ) *
+
+            Math.cos(
+                lat *
+                Math.PI /
+                180
+            ) *
+
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+
+
+        const distance =
+            2 *
+            R *
+            Math.atan2(
+                Math.sqrt(a),
+                Math.sqrt(1 - a)
+            );
+
+
+        console.log(
+            "GPS-etäisyys edellisestä hyväksytystä pisteestä:",
+            distance.toFixed(2),
+            "km"
+        );
+
+
+        if (
+            distance >
+            MAX_POSITION_JUMP_KM
+        ) {
+
+            console.log(
+                "GPS-HYPPY HYLÄTTY:",
+                distance.toFixed(2),
+                "km"
+            );
+
+            return;
+
+        }
+
+    }
+
+
+
+    // ========================================================
+    // GPS-PISTE HYVÄKSYTTY
+    // ========================================================
+
+    lastAcceptedPosition = {
+        lat: lat,
+        lon: lon
+    };
+
+
+    console.log(
+        "GPS-PISTE HYVÄKSYTTY:",
+        lat,
+        lon,
+        "tarkkuus:",
+        accuracy,
+        "m"
+    );
+
+
+
+    // ========================================================
+    // KÄÄNNETÄÄN GPS-KOORDINAATIT KAUPUNGIKSI
+    // ========================================================
 
     try {
 
-        const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=fi`
-        );
+        const response =
+            await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=fi`
+            );
 
-        const data = await response.json();
 
-const city =
-    data.address.city ||
-    data.address.town ||
-    data.address.municipality ||
-    data.address.county ||
-    "Tuntematon";
-        
-console.log("GPS kaupunki:", city);
+        if (
+            !response.ok
+        ) {
 
-if (city !== lastCity) {
+            throw new Error(
+                "Nominatim HTTP " +
+                response.status
+            );
 
-    if (city === pendingCity) {
-
-        pendingCount++;
-
-    } else {
-
-        pendingCity = city;
-        pendingCount = 1;
-
-    }
-
-    if (pendingCount >= 2) {
-
-        const cityElement =
-            document.getElementById("city");
-
-        cityElement.classList.remove("city-fade");
-
-        void cityElement.offsetWidth;
-
-        cityElement.textContent = `📍${city}`;
-
-        cityElement.classList.add("city-fade");
-
-        lastCity = city;
-
-        pendingCity = "";
-        pendingCount = 0;
-
-    }
-
-} else {
-
-    pendingCity = "";
-    pendingCount = 0;
-
-}
-
-        const now = Date.now();
-
-        if (now - lastWeatherUpdate > 600000) {
-            loadWeather(lat, lon, city);
-            lastWeatherUpdate = now;
         }
 
-    } catch (err) {
-        console.log("Reverse geocoding error:", err);
+
+        const data =
+            await response.json();
+
+
+        const address =
+            data.address || {};
+
+
+        const city =
+            address.city ||
+            address.town ||
+            address.municipality ||
+            address.village ||
+            address.county ||
+            "Tuntematon";
+
+
+        console.log(
+            "GPS KAUPUNKI:",
+            city
+        );
+
+
+
+        // ====================================================
+        // KAUPUNGIN VAHVISTUS
+        // ====================================================
+
+        if (
+            city !== lastCity
+        ) {
+
+            if (
+                city === pendingCity
+            ) {
+
+                pendingCount++;
+
+            } else {
+
+                pendingCity =
+                    city;
+
+                pendingCount =
+                    1;
+
+            }
+
+
+            console.log(
+                "KAUPUNGIN VAHVISTUS:",
+                pendingCity,
+                pendingCount,
+                "/",
+                REQUIRED_CITY_CONFIRMATIONS
+            );
+
+
+            if (
+                pendingCount >=
+                REQUIRED_CITY_CONFIRMATIONS
+            ) {
+
+                const cityElement =
+                    document.getElementById(
+                        "city"
+                    );
+
+
+                if (
+                    cityElement
+                ) {
+
+                    cityElement.classList.remove(
+                        "city-fade"
+                    );
+
+
+                    void cityElement.offsetWidth;
+
+
+                    cityElement.textContent =
+                        `📍${city}`;
+
+
+                    cityElement.classList.add(
+                        "city-fade"
+                    );
+
+                }
+
+
+                lastCity =
+                    city;
+
+
+                pendingCity =
+                    "";
+
+                pendingCount =
+                    0;
+
+
+                console.log(
+                    "KAUPUNKI VAHVISTETTU:",
+                    city
+                );
+
+            }
+
+        } else {
+
+            pendingCity =
+                "";
+
+            pendingCount =
+                0;
+
+        }
+
+
+
+        // ====================================================
+        // SÄÄ
+        // ====================================================
+
+        const now =
+            Date.now();
+
+
+        if (
+            now -
+            lastWeatherUpdate >
+            600000
+        ) {
+
+            console.log(
+                "HAETAAN SÄÄ GPS-KOORDINAATEILLA:",
+                lat,
+                lon
+            );
+
+
+            loadWeather(
+                lat,
+                lon,
+                city
+            );
+
+
+            lastWeatherUpdate =
+                now;
+
+        }
+
+    } catch (
+        err
+    ) {
+
+        console.log(
+            "Reverse geocoding error:",
+            err
+        );
+
     }
 
 }
 
-function onError(error) {
+
+
+// ============================================================
+// GPS-VIRHE
+// ============================================================
+
+function onError(
+    error
+) {
 
     console.log(
         "GPS ERROR:",
@@ -359,52 +674,58 @@ function onError(error) {
         error.message
     );
 
-    if (lastCity === "") {
-        getLocationByIP();
+
+    const cityElement =
+        document.getElementById(
+            "city"
+        );
+
+
+    // Emme käytä IP-paikannusta.
+    // Emme siis näytä Kurikkaa, Kuopiota tai
+    // mitään muutakaan IP:n perusteella arvattua kaupunkia.
+
+    if (
+        lastCity === "" &&
+        cityElement
+    ) {
+
+        cityElement.textContent =
+            "📍GPS ei saatavilla";
+
     }
 
 }
 
 
-// VARASIJANTI IP:LLÄ
 
-function getLocationByIP(){
+// ============================================================
+// GPS-KÄYNNISTYS
+// ============================================================
 
-    fetch("https://ipapi.co/json/")
+if (
+    navigator.geolocation
+) {
 
-    .then(r=>r.json())
-
-    .then(data=>{
-
-        document.getElementById("city").textContent =
-        `📍${data.city || "Ei kaupunkia"}`;
-
-        loadWeather(
-            data.latitude,
-            data.longitude,
-            data.city || "Tuntematon"
-        );
-
-    })
-
-    .catch(()=>{
-
-        document.getElementById("city").textContent =
-        "📍Sijaintivirhe";
-
-    });
-
-}
-
-if (navigator.geolocation) {
 
     const gpsOptions = {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
+
+        enableHighAccuracy:
+            true,
+
+        timeout:
+            15000,
+
+        maximumAge:
+            0
+
     };
 
-    // Ensimmäinen GPS-sijainti heti
+
+
+    // ========================================================
+    // ENSIMMÄINEN GPS-SIJAINTI
+    // ========================================================
 
     navigator.geolocation.getCurrentPosition(
         onPosition,
@@ -412,7 +733,11 @@ if (navigator.geolocation) {
         gpsOptions
     );
 
-    // Seurataan sijaintia jatkuvasti
+
+
+    // ========================================================
+    // JATKUVA GPS-SEURANTA
+    // ========================================================
 
     navigator.geolocation.watchPosition(
         onPosition,
@@ -420,21 +745,52 @@ if (navigator.geolocation) {
         gpsOptions
     );
 
-    // Pakotetaan uusi GPS-sijainnin tarkistus 15 sekunnin välein
 
-    setInterval(() => {
 
-        navigator.geolocation.getCurrentPosition(
-            onPosition,
-            onError,
-            gpsOptions
-        );
+    // ========================================================
+    // PAKOTETTU GPS-TARKISTUS 15 SEKUNNIN VÄLEIN
+    // ========================================================
 
-    }, 15000);
+    setInterval(
+        () => {
+
+            navigator.geolocation.getCurrentPosition(
+                onPosition,
+                onError,
+                gpsOptions
+            );
+
+        },
+        15000
+    );
+
 
 } else {
 
-    getLocationByIP();
+
+    // ========================================================
+    // GPS EI OLE SAATAVILLA
+    // ========================================================
+
+    console.log(
+        "GPS EI OLE SAATAVILLA TÄSSÄ LAITTEESSA."
+    );
+
+
+    const cityElement =
+        document.getElementById(
+            "city"
+        );
+
+
+    if (
+        cityElement
+    ) {
+
+        cityElement.textContent =
+            "📍GPS ei saatavilla";
+
+    }
 
 }
 // ===== YHTEYDEN LAATU =====
