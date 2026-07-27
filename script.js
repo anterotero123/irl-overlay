@@ -754,67 +754,6 @@ function onError(error) {
     );
 
 
-    const cityElement =
-        document.getElementById("city");
-
-
-    if (
-        cityElement
-    ) {
-
-        if (
-            error.code === 1
-        ) {
-
-            cityElement.textContent =
-                "📍GPS LUPA ESTETTY";
-
-        }
-
-        else if (
-            error.code === 2
-        ) {
-
-            cityElement.textContent =
-                "📍GPS SIJAINTIA EI SAATU";
-
-        }
-
-        else if (
-            error.code === 3
-        ) {
-
-            cityElement.textContent =
-                "📍GPS AIKAKATKAISU";
-
-        }
-
-        else {
-
-            cityElement.textContent =
-                "📍GPS VIRHE";
-
-        }
-
-    }
-
-
-    if (
-        lastAcceptedPosition !== null
-    ) {
-
-        console.log(
-            "GPS ei saanut uutta sijaintia.",
-            "Viimeisin hyväksytty sijainti:",
-            lastAcceptedPosition.lat,
-            lastAcceptedPosition.lon
-        );
-
-    }
-
-}
-
-
     // ========================================================
     // TÄRKEÄÄ:
     //
