@@ -560,11 +560,6 @@ async function updateCity(
             city
         );
 
-        console.log(
-            "KAUPUNKI PÄIVITETTY:",
-            city
-        );
-
     } catch (
         error
     ) {
@@ -577,7 +572,6 @@ async function updateCity(
     }
 
 }
-
 
 // ============================================================
 // GPS-SIJAINTI SAATU
