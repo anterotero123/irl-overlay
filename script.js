@@ -998,33 +998,6 @@ if (
 
 }
 
-
-    // ========================================================
-    // GPS EI OLE SAATAVILLA
-    // ========================================================
-
-    console.log(
-        "GPS EI OLE SAATAVILLA TÄSSÄ LAITTEESSA."
-    );
-
-
-    const cityElement =
-        document.getElementById(
-            "city"
-        );
-
-
-    if (
-        cityElement &&
-        lastCity === ""
-    ) {
-
-        cityElement.textContent =
-            "📍GPS ei saatavilla";
-
-    }
-
-}
 // ===== YHTEYDEN LAATU =====
 
 let lastActiveBars = -1;
