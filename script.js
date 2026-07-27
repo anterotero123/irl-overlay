@@ -264,53 +264,148 @@ document.getElementById("weather-temp").textContent =
 });
 
 }
-
 // ============================================================
-// SIJAINTI: GPS + IP-VARASIJainti
+// SIJAINTI: IRL PRO WEB OVERLAY GPS
 // ============================================================
 //
-// 1. GPS on aina ensisijainen.
-// 2. Jos GPS ei toimi IRL PRO:ssa, käytetään IP-sijaintia.
-// 3. IP-sijainti käynnistyy vasta GPS-yrityksen jälkeen.
-// 4. Jos GPS alkaa myöhemmin toimia, GPS korvaa IP-sijainnin.
-// 5. Sää haetaan aina käytettävissä olevista koordinaateista.
+// IRL PRO:
+// Advanced options
+// → WebViews
+// → Web Overlay geo enabled = ON
+//
+// GPS tulee suoraan Web Overlayn geolocation-rajapinnasta.
+//
+// - Ei IP-paikannusta.
+// - Ei getCurrentPosition + watchPosition yhtä aikaa.
+// - Vain yksi watchPosition.
+// - Kaupunki haetaan vain, kun sijainti oikeasti muuttuu.
+// - Sää päivitetään enintään 10 minuutin välein.
+// - Estetään turha vilkkuminen.
 // ============================================================
 
-let lastWeatherUpdate = 0;
 
 let lastCity = "";
 
-let gpsWorking = false;
+let lastLat = null;
+let lastLon = null;
 
-let ipFallbackStarted = false;
+let lastWeatherUpdate = 0;
+
+let lastCityUpdate = 0;
+
+
+// Kuinka lähellä edellistä sijaintia pitää olla,
+// jotta uutta kaupunkihakua ei tehdä.
+
+const CITY_UPDATE_DISTANCE_KM = 1;
+
+
+// Sää päivitetään enintään 10 minuutin välein.
 
 const WEATHER_UPDATE_INTERVAL = 600000;
 
 
+// Estetään liian tiheät Nominatim-haut.
+
+const CITY_UPDATE_INTERVAL = 30000;
+
+
 // ============================================================
-// SÄÄN PÄIVITYS
+// ETÄISYYDEN LASKENTA
 // ============================================================
 
-function updateWeather(lat, lon) {
+function distanceKm(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+) {
 
-    const now = Date.now();
+    const R = 6371;
+
+    const dLat =
+        (
+            lat2 -
+            lat1
+        ) *
+        Math.PI /
+        180;
+
+    const dLon =
+        (
+            lon2 -
+            lon1
+        ) *
+        Math.PI /
+        180;
+
+    const a =
+        Math.sin(dLat / 2) ** 2 +
+
+        Math.cos(
+            lat1 *
+            Math.PI /
+            180
+        ) *
+
+        Math.cos(
+            lat2 *
+            Math.PI /
+            180
+        ) *
+
+        Math.sin(dLon / 2) ** 2;
+
+    return (
+        2 *
+        R *
+        Math.atan2(
+            Math.sqrt(a),
+            Math.sqrt(1 - a)
+        )
+    );
+
+}
+
+
+// ============================================================
+// SÄÄ
+// ============================================================
+
+function updateWeather(
+    lat,
+    lon
+) {
+
+    const now =
+        Date.now();
+
 
     if (
-        now - lastWeatherUpdate <
+        now -
+        lastWeatherUpdate <
         WEATHER_UPDATE_INTERVAL
     ) {
+
+        console.log(
+            "SÄÄ: ei päivitetä vielä."
+        );
 
         return;
 
     }
 
+
     console.log(
-        "HAETAAN SÄÄ:",
+        "SÄÄ: haetaan GPS-sijainnista:",
         lat,
         lon
     );
 
-    lastWeatherUpdate = now;
+
+    lastWeatherUpdate =
+        now;
+
 
     loadWeather(
         lat,
@@ -322,10 +417,41 @@ function updateWeather(lat, lon) {
 
 
 // ============================================================
-// KAUPUNGIN HAKU GPS-KOORDINAATEISTA
+// KAUPUNKI
 // ============================================================
 
-async function updateCity(lat, lon) {
+async function updateCity(
+    lat,
+    lon
+) {
+
+    const now =
+        Date.now();
+
+
+    // Estetään liian tiheät haut.
+
+    if (
+        now -
+        lastCityUpdate <
+        CITY_UPDATE_INTERVAL
+    ) {
+
+        return;
+
+    }
+
+
+    lastCityUpdate =
+        now;
+
+
+    console.log(
+        "KAUPUNKI: haetaan GPS-sijainnista:",
+        lat,
+        lon
+    );
+
 
     try {
 
@@ -333,6 +459,7 @@ async function updateCity(lat, lon) {
             await fetch(
                 `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=fi`
             );
+
 
         if (
             !response.ok
@@ -345,11 +472,14 @@ async function updateCity(lat, lon) {
 
         }
 
+
         const data =
             await response.json();
 
+
         const address =
             data.address || {};
+
 
         const city =
             address.city ||
@@ -359,22 +489,42 @@ async function updateCity(lat, lon) {
             address.county ||
             "";
 
+
         if (
             city === ""
         ) {
 
             console.log(
-                "Kaupunkia ei löytynyt."
+                "KAUPUNKI: kaupunkia ei löytynyt."
             );
 
             return;
 
         }
 
+
+        // Jos kaupunki ei ole muuttunut,
+        // mitään ei tehdä.
+
+        if (
+            city === lastCity
+        ) {
+
+            console.log(
+                "KAUPUNKI: sama kuin nykyinen:",
+                city
+            );
+
+            return;
+
+        }
+
+
         const cityElement =
             document.getElementById(
                 "city"
             );
+
 
         if (
             cityElement
@@ -384,10 +534,13 @@ async function updateCity(lat, lon) {
                 "city-fade"
             );
 
+
             void cityElement.offsetWidth;
+
 
             cityElement.textContent =
                 `📍${city}`;
+
 
             cityElement.classList.add(
                 "city-fade"
@@ -395,11 +548,13 @@ async function updateCity(lat, lon) {
 
         }
 
+
         lastCity =
             city;
 
+
         console.log(
-            "KAUPUNKI:",
+            "KAUPUNKI PÄIVITETTY:",
             city
         );
 
@@ -421,7 +576,9 @@ async function updateCity(lat, lon) {
 // GPS-SIJAINTI SAATU
 // ============================================================
 
-function onPosition(position) {
+function onPosition(
+    position
+) {
 
     const lat =
         position.coords.latitude;
@@ -432,8 +589,9 @@ function onPosition(position) {
     const accuracy =
         position.coords.accuracy;
 
+
     console.log(
-        "GPS SAATU:",
+        "GPS:",
         lat,
         lon,
         "TARKKUUS:",
@@ -441,39 +599,134 @@ function onPosition(position) {
         "m"
     );
 
-// GPS toimii varmasti.
-// GPS ohittaa aina IP-varasijainnin.
 
-gpsWorking = true;
+    if (
+        !Number.isFinite(lat) ||
+        !Number.isFinite(lon)
+    ) {
 
-console.log(
-    "GPS ONNISTUI – GPS KORVAA IP-VARASIJAINNIN."
-);
+        console.log(
+            "GPS: virheelliset koordinaatit."
+        );
 
+        return;
 
-// ========================================================
-// GPS:N PERUSTEELLA KAUPUNKI HETI
-// ========================================================
-
-updateCity(
-    lat,
-    lon
-);
+    }
 
 
-// ========================================================
-// GPS:N PERUSTEELLA SÄÄ HETI
-//
-// Ohitetaan 10 minuutin sääajastin,
-// koska GPS vaihtoi sijaintilähteen.
-// ========================================================
+    // ========================================================
+    // ENSIMMÄINEN GPS-SIJAINTI
+    // ========================================================
 
-lastWeatherUpdate = 0;
+    if (
+        lastLat === null ||
+        lastLon === null
+    ) {
 
-updateWeather(
-    lat,
-    lon
-);
+        console.log(
+            "GPS: ensimmäinen sijainti vastaanotettu."
+        );
+
+
+        lastLat =
+            lat;
+
+        lastLon =
+            lon;
+
+
+        // Sää heti.
+
+        lastWeatherUpdate =
+            0;
+
+
+        updateWeather(
+            lat,
+            lon
+        );
+
+
+        // Kaupunki heti.
+
+        lastCityUpdate =
+            0;
+
+
+        updateCity(
+            lat,
+            lon
+        );
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // TARKISTETAAN ONKO SIJAINTI OIKEASTI MUUTTUNUT
+    // ========================================================
+
+    const distance =
+        distanceKm(
+            lastLat,
+            lastLon,
+            lat,
+            lon
+        );
+
+
+    console.log(
+        "GPS: etäisyys edelliseen sijaintiin:",
+        distance.toFixed(3),
+        "km"
+    );
+
+
+    // Jos sijainti on käytännössä sama,
+    // ei tehdä mitään.
+
+    if (
+        distance <
+        CITY_UPDATE_DISTANCE_KM
+    ) {
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // SIJAINTI MUUTTUI
+    // ========================================================
+
+    console.log(
+        "GPS: sijainti muuttui."
+    );
+
+
+    lastLat =
+        lat;
+
+    lastLon =
+        lon;
+
+
+    // Kaupunki päivitetään.
+
+    updateCity(
+        lat,
+        lon
+    );
+
+
+    // Sää päivitetään vain ajastimen mukaan.
+
+    updateWeather(
+        lat,
+        lon
+    );
 
 }
 
@@ -482,7 +735,9 @@ updateWeather(
 // GPS-VIRHE
 // ============================================================
 
-function onError(error) {
+function onError(
+    error
+) {
 
     console.log(
         "GPS VIRHE:",
@@ -490,159 +745,15 @@ function onError(error) {
         error.message
     );
 
-
-    // Jos GPS ei ole vielä toiminut,
-    // käynnistetään IP-varasijainti.
-
-    if (
-        !gpsWorking &&
-        !ipFallbackStarted
-    ) {
-
-        ipFallbackStarted =
-            true;
-
-        console.log(
-            "GPS EI TOIMI.",
-            "KÄYNNISTETÄÄN IP-VARASIJainti."
-        );
-
-        getLocationByIP();
-
-    }
-
 }
 
 
 // ============================================================
-// IP-VARASIJaintI
-// ============================================================
-
-function getLocationByIP() {
-
-    console.log(
-        "HAETAAN SIJAINTI IP-OSOITTEEN PERUSTEELLA..."
-    );
-
-
-    fetch(
-        "https://ipapi.co/json/"
-    )
-
-    .then(
-        response =>
-            response.json()
-    )
-
-    .then(
-        data => {
-
-            // Jos GPS ehti toimia,
-            // IP-tietoa ei enää käytetä.
-
-            if (
-                gpsWorking
-            ) {
-
-                return;
-
-            }
-
-
-            const lat =
-                parseFloat(
-                    data.latitude
-                );
-
-            const lon =
-                parseFloat(
-                    data.longitude
-                );
-
-            const city =
-                data.city ||
-                "";
-
-
-            console.log(
-                "IP-SIJAINTI:",
-                city,
-                lat,
-                lon
-            );
-
-
-            if (
-                !Number.isFinite(lat) ||
-                !Number.isFinite(lon)
-            ) {
-
-                console.log(
-                    "IP-SIJAINTI EI OLE KELVOLLINEN."
-                );
-
-                return;
-
-            }
-
-
-            // Näytetään IP:n löytämä kaupunki.
-
-            if (
-                city !== ""
-            ) {
-
-                const cityElement =
-                    document.getElementById(
-                        "city"
-                    );
-
-                if (
-                    cityElement
-                ) {
-
-                    cityElement.textContent =
-                        `📍${city}`;
-
-                }
-
-                lastCity =
-                    city;
-
-            }
-
-
-            // Haetaan sää IP-sijainnista.
-
-            updateWeather(
-                lat,
-                lon
-            );
-
-        }
-
-    )
-
-    .catch(
-        error => {
-
-            console.log(
-                "IP-SIJAINTI EPÄONNISTUI:",
-                error
-            );
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// GPS:N KÄYNNISTYS
+// GPS KÄYNNISTYS
 // ============================================================
 
 console.log(
-    "GPS-JÄRJESTELMÄ KÄYNNISTYY..."
+    "GPS: käynnistetään IRL PRO Web Overlay GPS..."
 );
 
 
@@ -651,13 +762,14 @@ if (
 ) {
 
     console.log(
-        "GPS-RAJAPINTA EI OLE SAATAVILLA."
+        "GPS: navigator.geolocation ei ole saatavilla."
     );
 
-
-    getLocationByIP();
-
 } else {
+
+    console.log(
+        "GPS: navigator.geolocation saatavilla."
+    );
 
 
     const gpsOptions = {
@@ -666,65 +778,24 @@ if (
             true,
 
         timeout:
-            60000,
+            120000,
 
         maximumAge:
-            60000
+            30000
 
     };
 
 
     console.log(
-        "GPS: YRITETÄÄN ENSIMMÄISTÄ SIJAINTIA..."
+        "GPS: käynnistetään yksi watchPosition..."
     );
 
-
-    // ========================================================
-    // ENSIMMÄINEN GPS-YRITYS
-    // ========================================================
-
-    navigator.geolocation.getCurrentPosition(
-
-        function(position) {
-
-            console.log(
-                "GPS: ENSIMMÄINEN SIJAINTI SAATU."
-            );
-
-            onPosition(
-                position
-            );
-
-        },
-
-        function(error) {
-
-            console.log(
-                "GPS: ENSIMMÄINEN YRITYS EPÄONNISTUI."
-            );
-
-            onError(
-                error
-            );
-
-        },
-
-        gpsOptions
-
-    );
-
-
-    // ========================================================
-    // JATKUVA GPS-SEURANTA
-    // ========================================================
 
     navigator.geolocation.watchPosition(
 
-        function(position) {
-
-            console.log(
-                "GPS WATCH: SIJAINTI SAATU."
-            );
+        function(
+            position
+        ) {
 
             onPosition(
                 position
@@ -732,13 +803,9 @@ if (
 
         },
 
-        function(error) {
-
-            console.log(
-                "GPS WATCH VIRHE:",
-                error.code,
-                error.message
-            );
+        function(
+            error
+        ) {
 
             onError(
                 error
@@ -750,9 +817,7 @@ if (
 
     );
 
-}
-
-// ===== YHTEYDEN LAATU =====
+}// ===== YHTEYDEN LAATU =====
 
 let lastActiveBars = -1;
 let lastSignalColor = "";
