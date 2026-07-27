@@ -520,52 +520,49 @@ async function updateCity(
         }
 
 
-        const cityElement =
-            document.getElementById(
-                "city"
-            );
+// Päivitetään kaupunki vain jos se on oikeasti muuttunut.
+
+if (
+    city === lastCity
+) {
+
+    console.log(
+        "KAUPUNKI: sama kuin nykyinen, ei päivitetä."
+    );
+
+    return;
+
+}
 
 
-        if (
-            cityElement
-        ) {
-
-            cityElement.classList.remove(
-                "city-fade"
-            );
+const cityElement =
+    document.getElementById(
+        "city"
+    );
 
 
-            void cityElement.offsetWidth;
+if (
+    cityElement
+) {
+
+    // Asetetaan teksti vain kerran.
+    // Ei käynnistetä animaatiota uudelleen,
+    // jos kaupunki on jo sama.
+
+    cityElement.textContent =
+        `📍${city}`;
+
+}
 
 
-            cityElement.textContent =
-                `📍${city}`;
+lastCity =
+    city;
 
 
-            cityElement.classList.add(
-                "city-fade"
-            );
-
-        }
-
-
-        lastCity =
-            city;
-
-
-        console.log(
-            "KAUPUNKI PÄIVITETTY:",
-            city
-        );
-
-    } catch (
-        error
-    ) {
-
-        console.log(
-            "KAUPUNGIN HAKU EPÄONNISTUI:",
-            error
-        );
+console.log(
+    "KAUPUNKI PÄIVITETTY:",
+    city
+);
 
     }
 
