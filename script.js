@@ -828,131 +828,368 @@ if (
 }
 
 
-// ===== YHTEYDEN LAATU =====
+// ============================================================
+// YHTEYDEN LAATU
+// ============================================================
+//
+// Tarkistaa verkkoyhteyden laadun ping.txt-tiedoston avulla.
+//
+// - Tarkistus 30 sekunnin välein.
+// - Yhteyden tyypin perusteella arvioidaan signaalin taso.
+// - Ping-aika tarkentaa 4G-yhteyden arviota.
+// - DOM päivitetään vain, jos tila oikeasti muuttuu.
+// - Jos yhteys epäonnistuu, kaikki palkit muuttuvat punaisiksi.
+// ============================================================
+
 
 let lastActiveBars = -1;
+
 let lastSignalColor = "";
+
+let networkCheckRunning = false;
+
+
+// ============================================================
+// VERKKOYHTEYDEN TARKISTUS
+// ============================================================
 
 async function updateNetworkQuality() {
 
-    const signal = document.getElementById("signal");
+    // Estetään päällekkäiset tarkistukset.
+    // Tämä on tärkeää, jos IRL PRO kutsuu
+    // funktiota uudelleen ennen edellisen valmistumista.
 
-    if (!signal) return;
+    if (
+        networkCheckRunning
+    ) {
 
-    const allBars = signal.querySelectorAll(".bar");
+        return;
 
-    let type = "4g";
-
-    if (navigator.connection && navigator.connection.effectiveType) {
-        type = navigator.connection.effectiveType;
     }
 
-    const start = performance.now();
+
+    const signal =
+        document.getElementById(
+            "signal"
+        );
+
+
+    if (
+        !signal
+    ) {
+
+        return;
+
+    }
+
+
+    const allBars =
+        signal.querySelectorAll(
+            ".bar"
+        );
+
+
+    if (
+        allBars.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    networkCheckRunning =
+        true;
+
 
     try {
 
-        await fetch("./ping.txt?cache=" + Date.now(), {
-            cache: "no-store"
-        });
+        // ====================================================
+        // YHTEYDEN TYYPPI
+        // ====================================================
 
-        const ping = performance.now() - start;
+        let type =
+            "4g";
 
-        let activeBars = 5;
-        let color = "#34C759";
 
-        if (type === "2g") {
+        if (
+            navigator.connection &&
+            navigator.connection.effectiveType
+        ) {
 
-            activeBars = 1;
-            color = "#FF3B30";
-
-        }
-
-        else if (type === "3g") {
-
-            activeBars = 3;
-            color = "#FF9F0A";
+            type =
+                navigator.connection.effectiveType;
 
         }
 
-        else if (type === "4g") {
 
-            if (ping < 200) {
+        // ====================================================
+        // PING
+        // ====================================================
 
-                activeBars = 5;
-                color = "#34C759";
+        const start =
+            performance.now();
+
+
+        await fetch(
+            "./ping.txt?cache=" +
+            Date.now(),
+            {
+                cache:
+                    "no-store"
+            }
+        );
+
+
+        const ping =
+            performance.now() -
+            start;
+
+
+        console.log(
+            "VERKKOYHTEYS:",
+            type,
+            "PING:",
+            Math.round(ping),
+            "ms"
+        );
+
+
+        // ====================================================
+        // MÄÄRITETÄÄN PALKKIEN MÄÄRÄ
+        // ====================================================
+
+        let activeBars =
+            5;
+
+
+        let color =
+            "#34C759";
+
+
+        // 2G
+
+        if (
+            type === "2g"
+        ) {
+
+            activeBars =
+                1;
+
+            color =
+                "#FF3B30";
+
+        }
+
+
+        // 3G
+
+        else if (
+            type === "3g"
+        ) {
+
+            activeBars =
+                3;
+
+            color =
+                "#FF9F0A";
+
+        }
+
+
+        // 4G
+
+        else if (
+            type === "4g"
+        ) {
+
+            if (
+                ping <
+                200
+            ) {
+
+                activeBars =
+                    5;
+
+                color =
+                    "#34C759";
 
             }
 
-            else if (ping < 600) {
+            else if (
+                ping <
+                600
+            ) {
 
-                activeBars = 4;
-                color = "#FFD60A";
+                activeBars =
+                    4;
+
+                color =
+                    "#FFD60A";
 
             }
 
             else {
 
-                activeBars = 3;
-                color = "#FF9F0A";
+                activeBars =
+                    3;
+
+                color =
+                    "#FF9F0A";
 
             }
 
         }
 
+
+        // Muut / tuntematon
+
         else {
 
-            activeBars = 5;
-            color = "#34C759";
+            activeBars =
+                5;
+
+            color =
+                "#34C759";
 
         }
 
-if (activeBars === lastActiveBars &&
-    color === lastSignalColor) {
 
-    return;
+        // ====================================================
+        // EI MUUTOSTA
+        // ====================================================
 
-}
+        if (
+            activeBars ===
+            lastActiveBars &&
+            color ===
+            lastSignalColor
+        ) {
 
-lastActiveBars = activeBars;
-lastSignalColor = color;
+            return;
 
-// Päivitetään vain muuttuneet palkit
+        }
 
-for (let i = 0; i < allBars.length; i++) {
 
-    if (i < activeBars) {
+        // Tallennetaan uusi tila.
 
-        allBars[i].style.background = color;
+        lastActiveBars =
+            activeBars;
 
-    } else {
+        lastSignalColor =
+            color;
 
-        allBars[i].style.background = "#555";
+
+        // ====================================================
+        // PÄIVITETÄÄN VAIN TARVITTAESSA
+        // ====================================================
+
+        for (
+            let i = 0;
+            i < allBars.length;
+            i++
+        ) {
+
+            const newColor =
+                i < activeBars
+                    ? color
+                    : "#555";
+
+
+            if (
+                allBars[i].style.background !==
+                newColor
+            ) {
+
+                allBars[i].style.background =
+                    newColor;
+
+            }
+
+        }
+
+
+    } catch (
+        error
+    ) {
+
+        console.log(
+            "VERKKOYHTEYDEN TARKISTUS EPÄONNISTUI:",
+            error
+        );
+
+
+        // ====================================================
+        // VIRHETILA
+        // ====================================================
+
+        // Jos yhteyttä ei saada,
+        // kaikki palkit punaisiksi.
+
+        if (
+            lastSignalColor !==
+            "#FF3B30"
+        ) {
+
+            allBars.forEach(
+                bar => {
+
+                    bar.style.background =
+                        "#FF3B30";
+
+                }
+            );
+
+        }
+
+
+        lastActiveBars =
+            -1;
+
+        lastSignalColor =
+            "#FF3B30";
+
+
+    } finally {
+
+        networkCheckRunning =
+            false;
 
     }
 
 }
-    }
 
-    catch {
 
-        // Virhetilassa kaikki punaisiksi
-
-        allBars.forEach(bar => {
-
-            bar.style.background = "#FF3B30";
-
-        });
-
-    }
-
-}
+// ============================================================
+// ENSIMMÄINEN TARKISTUS
+// ============================================================
 
 updateNetworkQuality();
 
-setInterval(updateNetworkQuality, 30000);
 
-if (navigator.connection) {
-    navigator.connection.addEventListener("change", updateNetworkQuality);
+// ============================================================
+// TARKISTUS 30 SEKUNNIN VÄLEIN
+// ============================================================
+
+setInterval(
+    updateNetworkQuality,
+    30000
+);
+
+
+// ============================================================
+// PÄIVITETÄÄN HETI, JOS YHTEYSTYYPPI MUUTTUU
+// ============================================================
+
+if (
+    navigator.connection
+) {
+
+    navigator.connection.addEventListener(
+        "change",
+        updateNetworkQuality
+    );
+
 }
 
 // ===== SOME-BANNERI =====
