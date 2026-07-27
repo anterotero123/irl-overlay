@@ -520,49 +520,59 @@ async function updateCity(
         }
 
 
-// Päivitetään kaupunki vain jos se on oikeasti muuttunut.
+        // Päivitetään kaupunki vain jos se on oikeasti muuttunut.
 
-if (
-    city === lastCity
-) {
+        if (
+            city === lastCity
+        ) {
 
-    console.log(
-        "KAUPUNKI: sama kuin nykyinen, ei päivitetä."
-    );
+            console.log(
+                "KAUPUNKI: sama kuin nykyinen, ei päivitetä."
+            );
 
-    return;
+            return;
 
-}
-
-
-const cityElement =
-    document.getElementById(
-        "city"
-    );
+        }
 
 
-if (
-    cityElement
-) {
-
-    // Asetetaan teksti vain kerran.
-    // Ei käynnistetä animaatiota uudelleen,
-    // jos kaupunki on jo sama.
-
-    cityElement.textContent =
-        `📍${city}`;
-
-}
+        const cityElement =
+            document.getElementById(
+                "city"
+            );
 
 
-lastCity =
-    city;
+        if (
+            cityElement
+        ) {
+
+            cityElement.textContent =
+                `📍${city}`;
+
+        }
 
 
-console.log(
-    "KAUPUNKI PÄIVITETTY:",
-    city
-);
+        lastCity =
+            city;
+
+
+        console.log(
+            "KAUPUNKI PÄIVITETTY:",
+            city
+        );
+
+        console.log(
+            "KAUPUNKI PÄIVITETTY:",
+            city
+        );
+
+    } catch (
+        error
+    ) {
+
+        console.log(
+            "KAUPUNGIN HAKU EPÄONNISTUI:",
+            error
+        );
 
     }
 
