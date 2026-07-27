@@ -273,45 +273,47 @@ document.getElementById("weather-temp").textContent =
 // → WebViews
 // → Web Overlay geo enabled = ON
 //
-// GPS tulee suoraan Web Overlayn geolocation-rajapinnasta.
+// GPS tulee IRL PRO:n Web Overlaysta.
 //
-// - Ei IP-paikannusta.
-// - Ei getCurrentPosition + watchPosition yhtä aikaa.
+// Tavoite:
 // - Vain yksi watchPosition.
-// - Kaupunki haetaan vain, kun sijainti oikeasti muuttuu.
-// - Sää päivitetään enintään 10 minuutin välein.
-// - Estetään turha vilkkuminen.
+// - Ensimmäinen GPS-sijainti päivittää kaupungin ja sään.
+// - Sama GPS-sijainti ei tee mitään.
+// - Kaupunki päivitetään vain tarvittaessa.
+// - Sää päivitetään korkeintaan 10 minuutin välein.
+// - Ei IP-paikannusta.
 // ============================================================
 
 
-let lastCity = "";
+// ============================================================
+// ASETUKSET
+// ============================================================
 
-let lastLat = null;
-let lastLon = null;
+const WEATHER_UPDATE_INTERVAL = 600000;
 
-let lastWeatherUpdate = 0;
-
-let lastCityUpdate = 0;
-
-
-// Kuinka lähellä edellistä sijaintia pitää olla,
-// jotta uutta kaupunkihakua ei tehdä.
+// Kaupunki tarkistetaan uudelleen vasta,
+// kun sijainti on muuttunut vähintään 1 km.
 
 const CITY_UPDATE_DISTANCE_KM = 1;
 
 
-// Sää päivitetään enintään 10 minuutin välein.
+// ============================================================
+// TILA
+// ============================================================
 
-const WEATHER_UPDATE_INTERVAL = 600000;
+let lastLat = null;
 
+let lastLon = null;
 
-// Estetään liian tiheät Nominatim-haut.
+let lastCity = "";
 
-const CITY_UPDATE_INTERVAL = 30000;
+let lastWeatherUpdate = 0;
+
+let cityRequestInProgress = false;
 
 
 // ============================================================
-// ETÄISYYDEN LASKENTA
+// ETÄISYYS
 // ============================================================
 
 function distanceKm(
@@ -340,7 +342,9 @@ function distanceKm(
         180;
 
     const a =
-        Math.sin(dLat / 2) ** 2 +
+        Math.sin(
+            dLat / 2
+        ) ** 2 +
 
         Math.cos(
             lat1 *
@@ -354,7 +358,9 @@ function distanceKm(
             180
         ) *
 
-        Math.sin(dLon / 2) ** 2;
+        Math.sin(
+            dLon / 2
+        ) ** 2;
 
     return (
         2 *
@@ -369,12 +375,13 @@ function distanceKm(
 
 
 // ============================================================
-// SÄÄ
+// SÄÄN PÄIVITYS
 // ============================================================
 
 function updateWeather(
     lat,
-    lon
+    lon,
+    force = false
 ) {
 
     const now =
@@ -382,14 +389,11 @@ function updateWeather(
 
 
     if (
+        !force &&
         now -
         lastWeatherUpdate <
         WEATHER_UPDATE_INTERVAL
     ) {
-
-        console.log(
-            "SÄÄ: ei päivitetä vielä."
-        );
 
         return;
 
@@ -397,7 +401,7 @@ function updateWeather(
 
 
     console.log(
-        "SÄÄ: haetaan GPS-sijainnista:",
+        "SÄÄ: päivitetään GPS-sijainnista:",
         lat,
         lon
     );
@@ -417,7 +421,7 @@ function updateWeather(
 
 
 // ============================================================
-// KAUPUNKI
+// KAUPUNGIN PÄIVITYS
 // ============================================================
 
 async function updateCity(
@@ -425,29 +429,28 @@ async function updateCity(
     lon
 ) {
 
-    const now =
-        Date.now();
-
-
-    // Estetään liian tiheät haut.
+    // Estetään useampi samanaikainen
+    // Nominatim-pyyntö.
 
     if (
-        now -
-        lastCityUpdate <
-        CITY_UPDATE_INTERVAL
+        cityRequestInProgress
     ) {
+
+        console.log(
+            "KAUPUNKI: haku on jo käynnissä."
+        );
 
         return;
 
     }
 
 
-    lastCityUpdate =
-        now;
+    cityRequestInProgress =
+        true;
 
 
     console.log(
-        "KAUPUNKI: haetaan GPS-sijainnista:",
+        "KAUPUNKI: haetaan sijaintia:",
         lat,
         lon
     );
@@ -503,8 +506,8 @@ async function updateCity(
         }
 
 
-        // Jos kaupunki ei ole muuttunut,
-        // mitään ei tehdä.
+        // Jos kaupunki on jo sama,
+        // ei muuteta HTML-elementtiä.
 
         if (
             city === lastCity
@@ -520,21 +523,6 @@ async function updateCity(
         }
 
 
-        // Päivitetään kaupunki vain jos se on oikeasti muuttunut.
-
-        if (
-            city === lastCity
-        ) {
-
-            console.log(
-                "KAUPUNKI: sama kuin nykyinen, ei päivitetä."
-            );
-
-            return;
-
-        }
-
-
         const cityElement =
             document.getElementById(
                 "city"
@@ -542,13 +530,23 @@ async function updateCity(
 
 
         if (
-            cityElement
+            !cityElement
         ) {
 
-            cityElement.textContent =
-                `📍${city}`;
+            console.log(
+                "KAUPUNKI: #city-elementtiä ei löytynyt."
+            );
+
+            return;
 
         }
+
+
+        // Päivitetään teksti vain oikean
+        // kaupungin vaihtuessa.
+
+        cityElement.textContent =
+            `📍${city}`;
 
 
         lastCity =
@@ -560,6 +558,7 @@ async function updateCity(
             city
         );
 
+
     } catch (
         error
     ) {
@@ -569,9 +568,15 @@ async function updateCity(
             error
         );
 
+    } finally {
+
+        cityRequestInProgress =
+            false;
+
     }
 
 }
+
 
 // ============================================================
 // GPS-SIJAINTI SAATU
@@ -601,6 +606,10 @@ function onPosition(
     );
 
 
+    // ========================================================
+    // TARKISTETAAN KOORDINAATIT
+    // ========================================================
+
     if (
         !Number.isFinite(lat) ||
         !Number.isFinite(lon)
@@ -616,7 +625,7 @@ function onPosition(
 
 
     // ========================================================
-    // ENSIMMÄINEN GPS-SIJAINTI
+    // ENSIMMÄINEN SIJAINTI
     // ========================================================
 
     if (
@@ -638,21 +647,14 @@ function onPosition(
 
         // Sää heti.
 
-        lastWeatherUpdate =
-            0;
-
-
         updateWeather(
             lat,
-            lon
+            lon,
+            true
         );
 
 
         // Kaupunki heti.
-
-        lastCityUpdate =
-            0;
-
 
         updateCity(
             lat,
@@ -666,7 +668,7 @@ function onPosition(
 
 
     // ========================================================
-    // TARKISTETAAN ONKO SIJAINTI OIKEASTI MUUTTUNUT
+    // LASKETAAN SIJAINTIERO
     // ========================================================
 
     const distance =
@@ -685,13 +687,18 @@ function onPosition(
     );
 
 
-    // Jos sijainti on käytännössä sama,
-    // ei tehdä mitään.
+    // ========================================================
+    // SIJAINTI EI OLE MUUTTUNUT MERKITTÄVÄSTI
+    // ========================================================
 
     if (
         distance <
         CITY_UPDATE_DISTANCE_KM
     ) {
+
+        console.log(
+            "GPS: sijainti käytännössä sama."
+        );
 
         return;
 
@@ -699,7 +706,7 @@ function onPosition(
 
 
     // ========================================================
-    // SIJAINTI MUUTTUI
+    // SIJAINTI ON MUUTTUNUT
     // ========================================================
 
     console.log(
@@ -714,7 +721,7 @@ function onPosition(
         lon;
 
 
-    // Kaupunki päivitetään.
+    // Tarkistetaan kaupunki.
 
     updateCity(
         lat,
@@ -722,7 +729,7 @@ function onPosition(
     );
 
 
-    // Sää päivitetään vain ajastimen mukaan.
+    // Sää päivitetään vain 10 min välein.
 
     updateWeather(
         lat,
@@ -750,7 +757,7 @@ function onError(
 
 
 // ============================================================
-// GPS KÄYNNISTYS
+// GPS:N KÄYNNISTYS
 // ============================================================
 
 console.log(
@@ -818,7 +825,10 @@ if (
 
     );
 
-}// ===== YHTEYDEN LAATU =====
+}
+
+
+// ===== YHTEYDEN LAATU =====
 
 let lastActiveBars = -1;
 let lastSignalColor = "";
