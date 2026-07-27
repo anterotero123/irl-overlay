@@ -851,23 +851,50 @@ if (
 
     };
 
-
     console.log(
-        "GPS: käynnistetään jatkuva sijaintiseuranta..."
+        "GPS: haetaan ensimmäistä sijaintia..."
     );
 
 
     // ========================================================
-    // YKSI AINOA GPS-SEURANTA
-    //
-    // IRL PRO:N WEBVIEW- YMPÄRISTÖSSÄ
-    // EI KÄYTETÄ SAMANAIKAISESTI:
-    //
-    // - getCurrentPosition()
-    // - watchPosition()
-    // - 30 sekunnin timeria
-    //
-    // Vain yksi watchPosition on käytössä.
+    // ENSIMMÄINEN SIJAINTI
+    // ========================================================
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            console.log(
+                "GPS: ENSIMMÄINEN SIJAINTI SAATU."
+            );
+
+            onPosition(
+                position
+            );
+
+        },
+
+        function(error) {
+
+            console.log(
+                "GPS: ENSIMMÄINEN SIJAINTI EPÄONNISTUI.",
+                error.code,
+                error.message
+            );
+
+            onError(
+                error
+            );
+
+        },
+
+        gpsOptions
+
+    );
+
+
+    // ========================================================
+    // JATKUVA SIJAINTISEURANTA
     // ========================================================
 
     navigator.geolocation.watchPosition(
@@ -878,41 +905,25 @@ if (
                 "GPS WATCH: SIJAINTI SAATU."
             );
 
-
-            console.log(
-                "GPS WATCH:",
-                position.coords.latitude,
-                position.coords.longitude,
-                "TARKKUUS:",
-                position.coords.accuracy,
-                "m"
-            );
-
-
             onPosition(
                 position
             );
 
         },
 
-
         function(error) {
 
             console.log(
-                "GPS WATCH: VIRHE.",
-                "CODE:",
+                "GPS WATCH VIRHE:",
                 error.code,
-                "MESSAGE:",
                 error.message
             );
-
 
             onError(
                 error
             );
 
         },
-
 
         gpsOptions
 
