@@ -795,49 +795,105 @@ function onError(error) {
 // GPS:N KÄYNNISTYS
 // ============================================================
 
+console.log(
+    "GPS-JÄRJESTELMÄN KÄYNNISTYS"
+);
+
+
+// ============================================================
+// TARKISTETAAN ONKO GEOLOCATION-RAJAPINTA SAATAVILLA
+// ============================================================
+
 if (
-    navigator.geolocation
+    !navigator.geolocation
 ) {
 
+    console.log(
+        "GPS: navigator.geolocation EI OLE SAATAVILLA."
+    );
+
+
+    const cityElement =
+        document.getElementById("city");
+
+
+    if (
+        cityElement
+    ) {
+
+        cityElement.textContent =
+            "📍GPS-rajapinta ei ole saatavilla";
+
+    }
+
+
+} else {
+
+
+    console.log(
+        "GPS: navigator.geolocation ON SAATAVILLA."
+    );
+
+
+    // ========================================================
+    // GPS-ASETUKSET
+    // ========================================================
 
     const gpsOptions = {
-
-        // Pyydetään mahdollisimman tarkkaa sijaintia.
 
         enableHighAccuracy:
             true,
 
-
-        // Annetaan GPS:lle enemmän aikaa
-        // löytää sijainti.
-
         timeout:
-            GPS_TIMEOUT,
-
-
-        // Hyväksytään enintään minuutin vanha
-        // sijainti väliaikaisesti.
+            60000,
 
         maximumAge:
-            GPS_MAXIMUM_AGE
+            60000
 
     };
 
 
-
-    // ========================================================
-    // ENSIMMÄINEN GPS-SIJAINTI
-    // ========================================================
-
     console.log(
-        "GPS: ensimmäinen sijaintipyyntö käynnistetään."
+        "GPS: pyydetään ensimmäistä sijaintia..."
     );
 
 
+    // ========================================================
+    // ENSIMMÄINEN SIJAINTIPYYNTÖ
+    // ========================================================
+
     navigator.geolocation.getCurrentPosition(
-        onPosition,
-        onError,
+
+        function(position) {
+
+            console.log(
+                "GPS: ENSIMMÄINEN SIJAINTI SAATU."
+            );
+
+            onPosition(
+                position
+            );
+
+        },
+
+        function(error) {
+
+            console.log(
+                "GPS: ENSIMMÄINEN SIJAINTIPYYNTÖ EPÄONNISTUI.",
+                "CODE:",
+                error.code,
+                "MESSAGE:",
+                error.message
+            );
+
+            onError(
+                error
+            );
+
+        },
+
         gpsOptions
+
     );
 
 
@@ -846,39 +902,101 @@ if (
     // JATKUVA GPS-SEURANTA
     // ========================================================
 
+    console.log(
+        "GPS: watchPosition käynnistetään..."
+    );
+
+
     navigator.geolocation.watchPosition(
-        onPosition,
-        onError,
+
+        function(position) {
+
+            console.log(
+                "GPS WATCH: SIJAINTI SAATU."
+            );
+
+            onPosition(
+                position
+            );
+
+        },
+
+        function(error) {
+
+            console.log(
+                "GPS WATCH: VIRHE.",
+                "CODE:",
+                error.code,
+                "MESSAGE:",
+                error.message
+            );
+
+            onError(
+                error
+            );
+
+        },
+
         gpsOptions
+
     );
 
 
 
     // ========================================================
-    // VARMISTUS:
-    // UUSI GPS-PYYNTÖ 30 SEKUNNIN VÄLEIN
+    // VARMISTUS 30 SEKUNNIN VÄLEIN
     // ========================================================
 
     setInterval(
-        () => {
+
+        function() {
 
             console.log(
-                "GPS: suoritetaan uusi varmistussijainnin haku."
+                "GPS: suoritetaan uusi sijaintipyyntö..."
             );
 
 
             navigator.geolocation.getCurrentPosition(
-                onPosition,
-                onError,
+
+                function(position) {
+
+                    console.log(
+                        "GPS TIMER: SIJAINTI SAATU."
+                    );
+
+                    onPosition(
+                        position
+                    );
+
+                },
+
+                function(error) {
+
+                    console.log(
+                        "GPS TIMER: VIRHE.",
+                        "CODE:",
+                        error.code,
+                        "MESSAGE:",
+                        error.message
+                    );
+
+                    onError(
+                        error
+                    );
+
+                },
+
                 gpsOptions
+
             );
 
         },
+
         30000
+
     );
 
-
-} else {
+}
 
 
     // ========================================================
