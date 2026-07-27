@@ -1130,7 +1130,7 @@ if (navigator.connection) {
 const socials = [
 
     { icon: "instagram.svg", text: "AnteroLive" },
-    { icon: "youtube.svg", text: "L00kkino" },
+    { icon: "youtube.svg", text: "Lookkino" },
     { icon: "kick.svg", text: "AnteroLive" },
     { icon: "tiktok.svg", text: "AnteroLive" }
 
