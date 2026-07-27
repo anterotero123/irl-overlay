@@ -441,24 +441,39 @@ function onPosition(position) {
         "m"
     );
 
+// GPS toimii varmasti.
+// GPS ohittaa aina IP-varasijainnin.
 
-    gpsWorking =
-        true;
+gpsWorking = true;
 
-
-    // GPS toimii.
-    // Poistetaan mahdollinen GPS-virheilmoitus.
-
-    updateWeather(
-        lat,
-        lon
-    );
+console.log(
+    "GPS ONNISTUI – GPS KORVAA IP-VARASIJAINNIN."
+);
 
 
-    updateCity(
-        lat,
-        lon
-    );
+// ========================================================
+// GPS:N PERUSTEELLA KAUPUNKI HETI
+// ========================================================
+
+updateCity(
+    lat,
+    lon
+);
+
+
+// ========================================================
+// GPS:N PERUSTEELLA SÄÄ HETI
+//
+// Ohitetaan 10 minuutin sääajastin,
+// koska GPS vaihtoi sijaintilähteen.
+// ========================================================
+
+lastWeatherUpdate = 0;
+
+updateWeather(
+    lat,
+    lon
+);
 
 }
 
