@@ -484,14 +484,12 @@ async function updateCity(
             data.address || {};
 
 
-        const city =
-            address.city ||
-            address.town ||
-            address.municipality ||
-            address.village ||
-            address.county ||
-            "";
-
+const city =
+    address.city ||
+    address.town ||
+    address.municipality ||
+    address.village ||
+    "";
 
         if (
             city === ""
