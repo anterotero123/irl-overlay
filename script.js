@@ -1246,42 +1246,23 @@ function showPromo() {
 
     promoActive = true;
 
-    const icon = document.getElementById("social-icon");
-    const text = document.getElementById("social-text");
-    const row = document.getElementById("social-row");
+    const top = document.getElementById("overlay-top");
+    const social = document.getElementById("social-row");
+    const promo = document.getElementById("promo-card");
 
-    const oldIcon = icon.src;
-    const oldAlt = icon.alt;
-    const oldText = text.innerHTML;
+    top.style.opacity = "0";
+    social.style.opacity = "0";
 
-    row.style.animation = "socialCardFlip .7s ease";
-
-    setTimeout(() => {
-
-        // Ei kuvaketta
-        icon.src =
-            "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
-
-        icon.alt = "";
-
-        text.innerHTML =
-            "❤️<br>Tue seuraavaa seikkailua<br><b>!tip</b>";
-
-    }, 350);
+    promo.classList.add("show");
 
     setTimeout(() => {
 
-        row.style.animation = "socialCardFlip .7s ease";
+        promo.classList.remove("show");
 
-        setTimeout(() => {
+        top.style.opacity = "1";
+        social.style.opacity = "1";
 
-            icon.src = oldIcon;
-            icon.alt = oldAlt;
-            text.innerHTML = oldText;
-
-            promoActive = false;
-
-        }, 350);
+        promoActive = false;
 
     }, 8000);
 
