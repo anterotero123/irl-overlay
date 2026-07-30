@@ -948,38 +948,33 @@ backface-visibility: hidden;
 
 }
 
-/* =========================
+/* =======================================================
    PROMO CARD
-========================= */
+======================================================= */
 
 #promo-card{
 
     position:absolute;
 
-    left:50%;
-    top:50%;
-
-    width:100%;
+    left:0;
+    right:0;
+    bottom:12px;
 
     display:flex;
-
     flex-direction:column;
 
-    align-items:center;
-
     justify-content:center;
-
-    transform:translate(-50%,-50%) scale(.85);
+    align-items:center;
 
     opacity:0;
 
     pointer-events:none;
 
-    transition:
-        opacity .7s ease,
-        transform .7s ease;
+    transform:scale(.90);
 
-    z-index:9999;
+    transition:
+        opacity .6s ease,
+        transform .6s ease;
 
 }
 
@@ -987,19 +982,17 @@ backface-visibility: hidden;
 
     opacity:1;
 
-    transform:
-        translate(-50%,-50%)
-        scale(1);
+    transform:scale(1);
 
 }
 
 .promo-heart{
 
-    font-size:42px;
+    font-size:44px;
 
     margin-bottom:10px;
 
-    animation:promoPulse 1.2s infinite;
+    animation:promoPulse 1.3s infinite;
 
 }
 
@@ -1009,110 +1002,16 @@ backface-visibility: hidden;
 
     font-weight:700;
 
-    color:white;
+    color:#fff;
 
     text-align:center;
 
     text-shadow:
-        0 0 8px black,
-        0 0 20px black;
+        0 0 12px rgba(0,0,0,.85);
 
 }
 
 .promo-tip{
-
-    margin-top:14px;
-
-    font-size:34px;
-
-    font-weight:900;
-
-    color:#00ff88;
-
-    letter-spacing:3px;
-
-    text-shadow:
-        0 0 8px #00ff88,
-        0 0 18px #00ff88;
-
-}
-
-@keyframes promoPulse{
-
-    0%{
-        transform:scale(1);
-    }
-
-    50%{
-        transform:scale(1.18);
-    }
-
-    100%{
-        transform:scale(1);
-    }
-
-}
-
-/* =======================================================
-   PROMO
-======================================================= */
-
-#social-row{
-
-    position:relative;
-
-    overflow:hidden;
-
-    transition:opacity .45s ease;
-
-}
-
-#social-text{
-
-    display:flex;
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    width:100%;
-
-    text-align:center;
-
-    line-height:1.15;
-
-}
-
-.promo-heart{
-
-    display:block;
-
-    font-size:42px;
-
-    margin-bottom:10px;
-
-    animation:promoPulse 1.4s infinite;
-
-}
-
-.promo-title{
-
-    display:block;
-
-    font-size:23px;
-
-    font-weight:700;
-
-    color:#ffffff;
-
-    text-shadow:
-        0 0 10px rgba(0,0,0,.75);
-
-}
-
-.promo-tip{
-
-    display:block;
 
     margin-top:12px;
 
@@ -1125,7 +1024,7 @@ backface-visibility: hidden;
     letter-spacing:2px;
 
     text-shadow:
-        0 0 12px rgba(0,255,136,.8);
+        0 0 14px rgba(0,255,136,.9);
 
 }
 
