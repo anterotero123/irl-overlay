@@ -1288,4 +1288,4 @@ promoActive = false;
 
 setInterval(updateSocialBanner, 15000);
 
-setInterval(showPromo, 90000);
+setInterval(showPromo, 300000);
