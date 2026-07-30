@@ -1253,6 +1253,10 @@ icon.style.animation =
 // Vaihda 15 sekunnin välein
 
 setInterval(updateSocialBanner, 15000);
+// Näytä lahjoituskortti minuutin välein
+setInterval(showPromo, 60000);
+// Ensimmäinen näyttö 20 sekunnin kuluttua
+setTimeout(showPromo, 20000);
 
 // ===== PROMO CARD =====
 
