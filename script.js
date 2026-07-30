@@ -1259,14 +1259,16 @@ function showPromo() {
     // Näytetään promo pienen viiveen jälkeen
     setTimeout(() => {
 
-        promo.classList.add("show");
+promo.classList.add("show");
 
-    }, 300);
+overlay.style.minHeight = "165px";
 
     // Piilotetaan promo
     setTimeout(() => {
 
-        promo.classList.remove("show");
+promo.classList.remove("show");
+
+overlay.style.minHeight = "65px";
 
         // Tuodaan somebanneri takaisin
         setTimeout(() => {
