@@ -23,6 +23,11 @@ body {
 
     padding: 10px 16px;
 
+    min-height: 95px;
+
+transition:
+    min-height .55s ease;
+
     background: rgba(20, 20, 20, 0.75);
 
     border-radius: 14px;
@@ -1062,5 +1067,15 @@ backface-visibility: hidden;
         transform:scale(1);
 
     }
+
+}
+
+/* =======================================================
+   OVERLAY EXPAND
+======================================================= */
+
+#overlay.expanded{
+
+    min-height:185px;
 
 }
