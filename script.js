@@ -1246,25 +1246,36 @@ function showPromo() {
 
     promoActive = true;
 
-    const top = document.getElementById("overlay-top");
     const social = document.getElementById("social-row");
     const promo = document.getElementById("promo-card");
 
-    top.style.opacity = "0";
+    // Piilotetaan somebanneri
     social.style.opacity = "0";
+    social.style.transform = "translateY(10px)";
 
-    promo.classList.add("show");
+    // Näytetään promo pienen viiveen jälkeen
+    setTimeout(() => {
 
+        promo.classList.add("show");
+
+    }, 300);
+
+    // Piilotetaan promo
     setTimeout(() => {
 
         promo.classList.remove("show");
 
-        top.style.opacity = "1";
-        social.style.opacity = "1";
+        // Tuodaan somebanneri takaisin
+        setTimeout(() => {
 
-        promoActive = false;
+            social.style.opacity = "0.95";
+            social.style.transform = "translateY(0px)";
 
-    }, 8000);
+            promoActive = false;
+
+        }, 500);
+
+    }, 8300);
 
 }
 
