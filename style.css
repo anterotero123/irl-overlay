@@ -23,7 +23,7 @@ body {
 
     padding: 10px 16px;
 
-    min-height: 95px;
+    min-height: 65px;
 
 transition:
     min-height .55s ease;
