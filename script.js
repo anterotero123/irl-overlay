@@ -1248,10 +1248,13 @@ function showPromo() {
 
     const social = document.getElementById("social-row");
     const promo = document.getElementById("promo-card");
+    const overlay = document.getElementById("overlay");
 
     // Piilotetaan somebanneri
     social.style.opacity = "0";
     social.style.transform = "translateY(10px)";
+
+    overlay.classList.add("expanded");
 
     // Näytetään promo pienen viiveen jälkeen
     setTimeout(() => {
@@ -1268,10 +1271,12 @@ function showPromo() {
         // Tuodaan somebanneri takaisin
         setTimeout(() => {
 
-            social.style.opacity = "0.95";
-            social.style.transform = "translateY(0px)";
+social.style.opacity = "0.95";
+social.style.transform = "translateY(0px)";
 
-            promoActive = false;
+overlay.classList.remove("expanded");
+
+promoActive = false;
 
         }, 500);
 
