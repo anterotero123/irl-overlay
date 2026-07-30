@@ -1253,32 +1253,3 @@ icon.style.animation =
 // Vaihda 15 sekunnin välein
 
 setInterval(updateSocialBanner, 15000);
-// Näytä lahjoituskortti minuutin välein
-setInterval(showPromo, 60000);
-// Ensimmäinen näyttö 20 sekunnin kuluttua
-setTimeout(showPromo, 20000);
-
-// ===== PROMO CARD =====
-
-function showPromoCard() {
-
-    const promo = document.getElementById("promo-card");
-    const social = document.getElementById("social-row");
-
-    social.style.opacity = "0";
-
-    promo.classList.add("show");
-
-    setTimeout(() => {
-
-        promo.classList.remove("show");
-
-        social.style.opacity = "1";
-
-    }, 10000);
-
-}
-
-// Näytetään noin 2 minuutin välein
-
-setInterval(showPromoCard, 120000);
