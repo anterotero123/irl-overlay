@@ -1254,31 +1254,27 @@ function showPromo() {
     social.style.opacity = "0";
     social.style.transform = "translateY(10px)";
 
-    overlay.classList.add("expanded");
-
     // Näytetään promo pienen viiveen jälkeen
     setTimeout(() => {
 
-promo.classList.add("show");
+        promo.classList.add("show");
 
 overlay.style.minHeight = "165px";
 
     // Piilotetaan promo
     setTimeout(() => {
 
-promo.classList.remove("show");
+        promo.classList.remove("show");
 
 overlay.style.minHeight = "65px";
 
         // Tuodaan somebanneri takaisin
         setTimeout(() => {
 
-social.style.opacity = "0.95";
-social.style.transform = "translateY(0px)";
+            social.style.opacity = "0.95";
+            social.style.transform = "translateY(0px)";
 
-overlay.classList.remove("expanded");
-
-promoActive = false;
+            promoActive = false;
 
         }, 500);
 
