@@ -947,3 +947,65 @@ backface-visibility: hidden;
     }
 
 }
+
+/* ============================
+   Overlay Card
+============================ */
+
+#overlay-card {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 4px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity .5s ease;
+
+    text-align: center;
+
+}
+
+#overlay-card.show {
+
+    opacity: 1;
+
+}
+
+#overlay-card .emoji {
+
+    font-size: 34px;
+
+}
+
+#overlay-card .title {
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+}
+
+#overlay-card .subtitle {
+
+    font-size: 28px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    color: #00d4ff;
+
+}
