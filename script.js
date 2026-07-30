@@ -1260,6 +1260,7 @@ function showPromo() {
         promo.classList.add("show");
 
 overlay.style.minHeight = "165px";
+        }, 300);
 
     // Piilotetaan promo
     setTimeout(() => {
