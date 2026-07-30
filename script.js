@@ -1201,55 +1201,94 @@ const socials = [
 
 ];
 
+let promoActive = false;
 let socialIndex = 0;
 
 function updateSocialBanner() {
 
-    const icon =
-        document.getElementById("social-icon");
+    // Jos promo on näkyvissä, ei vaihdeta somea
+    if (promoActive) return;
 
-    const text =
-        document.getElementById("social-text");
+    const icon = document.getElementById("social-icon");
+    const text = document.getElementById("social-text");
+    const row = document.getElementById("social-row");
 
-    const row =
-        document.getElementById("social-row");
-
-    row.style.animation =
-        "socialCardFlip .7s ease";
+    row.style.animation = "socialCardFlip .7s ease";
 
     setTimeout(() => {
 
         socialIndex =
             (socialIndex + 1) % socials.length;
 
-icon.src =
-    socials[socialIndex].icon;
+        icon.src = socials[socialIndex].icon;
 
-icon.style.animation = "none";
+        icon.style.animation = "none";
+        void icon.offsetWidth;
+        icon.style.animation =
+            "socialFlip .45s ease, socialPulse .55s ease";
 
-void icon.offsetWidth;
-
-icon.style.animation =
-    "socialFlip .45s ease, socialPulse .55s ease";
-
-        icon.alt =
-            socials[socialIndex].text;
-
-        text.textContent =
-            socials[socialIndex].text;
+        icon.alt = socials[socialIndex].text;
+        text.textContent = socials[socialIndex].text;
 
         row.style.opacity = "0.95";
 
     }, 350);
 
     setTimeout(() => {
-
         row.style.animation = "";
-
     }, 700);
+
+}
+
+function showPromo() {
+
+    if (promoActive) return;
+
+    promoActive = true;
+
+    const icon = document.getElementById("social-icon");
+    const text = document.getElementById("social-text");
+    const row = document.getElementById("social-row");
+
+    const oldIcon = icon.src;
+    const oldAlt = icon.alt;
+    const oldText = text.innerHTML;
+
+    row.style.animation = "socialCardFlip .7s ease";
+
+    setTimeout(() => {
+
+        // Ei kuvaketta
+        icon.src =
+            "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+
+        icon.alt = "";
+
+        text.innerHTML =
+            "❤️<br>Tue seuraavaa seikkailua<br><b>!tip</b>";
+
+    }, 350);
+
+    setTimeout(() => {
+
+        row.style.animation = "socialCardFlip .7s ease";
+
+        setTimeout(() => {
+
+            icon.src = oldIcon;
+            icon.alt = oldAlt;
+            text.innerHTML = oldText;
+
+            promoActive = false;
+
+        }, 350);
+
+    }, 8000);
 
 }
 
 // Vaihda 15 sekunnin välein
 
 setInterval(updateSocialBanner, 15000);
+
+setInterval(showPromo, 90000);
