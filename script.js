@@ -491,6 +491,59 @@ const city =
     address.village ||
     "";
 
+        const countryCode =
+    (address.country_code || "").toLowerCase();
+
+let countryFlag = "🌍";
+
+if (countryCode === "fi") {
+    countryFlag = "🇫🇮";
+}
+
+else if (countryCode === "ee") {
+    countryFlag = "🇪🇪";
+}
+
+else if (countryCode === "se") {
+    countryFlag = "🇸🇪";
+}
+
+else if (countryCode === "no") {
+    countryFlag = "🇳🇴";
+}
+
+else if (countryCode === "dk") {
+    countryFlag = "🇩🇰";
+}
+
+else if (countryCode === "pl") {
+    countryFlag = "🇵🇱";
+}
+
+else if (countryCode === "de") {
+    countryFlag = "🇩🇪";
+}
+
+else if (countryCode === "fr") {
+    countryFlag = "🇫🇷";
+}
+
+else if (countryCode === "es") {
+    countryFlag = "🇪🇸";
+}
+
+else if (countryCode === "it") {
+    countryFlag = "🇮🇹";
+}
+
+else if (countryCode === "gb") {
+    countryFlag = "🇬🇧";
+}
+
+else if (countryCode === "th") {
+    countryFlag = "🇹🇭";
+}
+
         if (
             city === ""
         ) {
@@ -543,8 +596,8 @@ const city =
         // Päivitetään teksti vain oikean
         // kaupungin vaihtuessa.
 
-        cityElement.textContent =
-            `📍${city}`;
+cityElement.textContent =
+    `${countryFlag} ${city}`;
 
 
         lastCity =
