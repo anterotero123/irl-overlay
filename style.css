@@ -382,14 +382,14 @@ backface-visibility: hidden;
 
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
 
 }
 
 #weather-icon {
 
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
 
     object-fit: contain;
 
