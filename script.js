@@ -1364,6 +1364,28 @@ function getBrandDelay() {
 
 
 // ============================================================
+// ANTEROLIVE-EVENTIN AJASTUS
+// ============================================================
+
+function scheduleBrandEvent() {
+
+    const delay = getBrandDelay();
+
+    console.log(
+        "AnteroLive: seuraava tapahtuma " +
+        Math.round(delay / 1000) +
+        " sekunnin kuluttua."
+    );
+
+    setTimeout(() => {
+
+        showBrandEvent();
+
+    }, delay);
+}
+
+
+// ============================================================
 // LUODAAN ANTEROLIVE-LOGO
 // ============================================================
 
