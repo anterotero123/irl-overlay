@@ -1197,37 +1197,18 @@ backface-visibility: hidden;
 }
 
 
-/* ===== LOGO ===== */
+/* ===== ANTEROLIVE-LOGO ===== */
 
-.brand-text {
+.brand-svg {
     position: absolute;
 
     left: 50%;
     top: 50%;
 
-    font-family:
-        "Arial Black",
-        Impact,
-        Haettenschweiler,
-        Arial,
-        sans-serif;
+    width: min(88%, 520px);
+    height: auto;
 
-    font-size: 40px;
-    font-weight: 900;
-    letter-spacing: 1px;
-
-    color: #ffffff;
-
-    -webkit-text-stroke:
-        1.5px rgba(185,130,255,.95);
-
-    text-shadow:
-        0 0 4px #ffffff,
-        0 0 10px #a855f7,
-        0 0 24px #7c3aed,
-        0 0 42px rgba(124,58,237,.75);
-
-    white-space: nowrap;
+    overflow: visible;
 
     transform:
         translate(-50%, -50%)
@@ -1240,125 +1221,135 @@ backface-visibility: hidden;
 }
 
 
-/* ===== SÄHKÖINEN OUTLINE ===== */
+/* ===== PERUSLOGO ===== */
 
-/*
-   Tämä tekee tekstin ympärille ylimääräisen
-   neon-hehkun, joka välähtää eri kohdissa.
-*/
+.brand-base {
+    fill: #ffffff;
 
-.brand-text::before {
-    content: "AnteroLive";
+    font-family:
+        "Arial Black",
+        Impact,
+        Haettenschweiler,
+        Arial,
+        sans-serif;
 
-    position: absolute;
+    font-size: 52px;
+    font-weight: 900;
 
-    left: 0;
-    top: 0;
+    letter-spacing: 1px;
 
-    color: transparent;
+    stroke: rgba(255,255,255,.85);
+    stroke-width: 1.2px;
 
-    -webkit-text-stroke:
-        2px rgba(0,210,255,.95);
+    paint-order: stroke fill;
 
     filter:
-        blur(.6px)
-        drop-shadow(0 0 4px rgba(0,220,255,.95))
-        drop-shadow(0 0 10px rgba(0,150,255,.75))
-        drop-shadow(0 0 18px rgba(0,100,255,.45));
-
-    opacity: 0;
-
-    animation:
-        brandElectricOutline 3.8s ease-in-out 1.8s infinite;
-
-    pointer-events: none;
+        drop-shadow(0 0 4px rgba(255,255,255,.85))
+        drop-shadow(0 0 10px rgba(168,85,247,.65))
+        drop-shadow(0 0 22px rgba(124,58,237,.40));
 }
 
 
-/* ===== SÄHKÖINEN VALOVÄLÄHDYS ===== */
+/* ===== HILLITTY VIOLETTI AURA ===== */
 
-.brand-text::after {
-    content: "";
+.brand-purple {
+    fill: none;
 
-    position: absolute;
+    stroke: rgba(168,85,247,.75);
 
-    top: -30%;
-    bottom: -30%;
-    left: -60%;
+    stroke-width: 3px;
 
-    width: 22%;
+    opacity: .65;
 
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.15),
-            rgba(255,255,255,1),
-            rgba(190,130,255,.9),
-            rgba(255,255,255,.15),
-            transparent
-        );
-
-    filter: blur(3px);
-
-    transform:
-        skewX(-20deg);
-
-    opacity: 0;
-
-    animation:
-        brandEnergySweep 1.8s ease-in-out 2.4s forwards;
-
-    pointer-events: none;
+    filter:
+        blur(1px)
+        drop-shadow(0 0 8px rgba(168,85,247,.55))
+        drop-shadow(0 0 18px rgba(124,58,237,.35));
 }
 
 
-/* ===== LOGON ENSIMMÄINEN HERÄÄMINEN ===== */
+/* ===== SÄHKÖINEN OUTLINE ===== */
+
+.brand-electric {
+    fill: none;
+
+    stroke: rgba(0,220,255,1);
+
+    stroke-width: 2.5px;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    stroke-dasharray:
+        3 18;
+
+    stroke-dashoffset: 0;
+
+    opacity: 0;
+
+    filter:
+        drop-shadow(0 0 4px rgba(0,230,255,1))
+        drop-shadow(0 0 9px rgba(0,180,255,.85))
+        drop-shadow(0 0 17px rgba(0,120,255,.55));
+
+    animation:
+        brandElectricRun 1.6s linear 2.2s infinite;
+}
+
+
+/* ===== TOINEN SÄHKÖKERROS ===== */
+
+.brand-electric-fast {
+    fill: none;
+
+    stroke: rgba(150,245,255,.95);
+
+    stroke-width: 1.4px;
+
+    stroke-linecap: round;
+
+    stroke-dasharray:
+        2 28;
+
+    stroke-dashoffset: 0;
+
+    opacity: 0;
+
+    filter:
+        drop-shadow(0 0 4px rgba(0,230,255,.95))
+        drop-shadow(0 0 10px rgba(0,180,255,.65));
+
+    animation:
+        brandElectricRunFast 1s linear 2.35s infinite;
+}
+
+
+/* ===== LOGON SAAPUMINEN ===== */
 
 @keyframes brandPowerUp {
 
     0% {
         opacity: 0;
+
         transform:
             translate(-50%, -50%)
             scale(.72);
-
-        -webkit-text-stroke:
-            1px rgba(185,130,255,.2);
-
-        text-shadow:
-            0 0 2px #ffffff;
     }
 
     30% {
         opacity: .45;
+
         transform:
             translate(-50%, -50%)
             scale(.90);
-
-        -webkit-text-stroke:
-            1.5px rgba(185,130,255,.55);
-
-        text-shadow:
-            0 0 5px #ffffff,
-            0 0 12px #a855f7,
-            0 0 24px #7c3aed;
     }
 
     52% {
         opacity: 1;
+
         transform:
             translate(-50%, -50%)
             scale(1.08);
-
-        -webkit-text-stroke:
-            1.8px rgba(235,210,255,1);
-
-        text-shadow:
-            0 0 8px #ffffff,
-            0 0 18px #c084fc,
-            0 0 38px #7c3aed,
-            0 0 70px rgba(124,58,237,.95);
     }
 
     70% {
@@ -1373,109 +1364,61 @@ backface-visibility: hidden;
         transform:
             translate(-50%, -50%)
             scale(1);
-
-        -webkit-text-stroke:
-            1.5px rgba(185,130,255,.95);
-
-text-shadow:
-    0 0 4px rgba(255,255,255,.9),
-    0 0 9px rgba(168,85,247,.55),
-    0 0 18px rgba(124,58,237,.35);
     }
 }
 
 
 /* ===== SÄHKÖ KIERTÄÄ OUTLINEA ===== */
 
-@keyframes brandElectricOutline {
+@keyframes brandElectricRun {
 
     0% {
+        stroke-dashoffset: 0;
         opacity: 0;
     }
 
     8% {
-        opacity: .55;
+        opacity: .9;
     }
 
-    14% {
-        opacity: .25;
+    45% {
+        opacity: 1;
     }
 
-    22% {
-        opacity: .75;
-
-        filter:
-            blur(.5px)
-            drop-shadow(0 0 5px rgba(0,220,255,.9))
-            drop-shadow(0 0 12px rgba(0,160,255,.65));
-    }
-
-    30% {
-        opacity: .35;
-    }
-
-    40% {
-        opacity: .7;
-
-        filter:
-            blur(.4px)
-            drop-shadow(0 0 6px rgba(0,230,255,.95))
-            drop-shadow(0 0 14px rgba(0,150,255,.7));
-    }
-
-    50% {
-        opacity: .3;
-    }
-
-    62% {
-        opacity: .8;
-
-        filter:
-            blur(.5px)
-            drop-shadow(0 0 6px rgba(0,220,255,.95))
-            drop-shadow(0 0 15px rgba(0,140,255,.65));
-    }
-
-    72% {
-        opacity: .35;
-    }
-
-    84% {
-        opacity: .7;
-    }
-
-    94% {
-        opacity: .4;
+    92% {
+        opacity: .9;
     }
 
     100% {
-        opacity: .6;
+        stroke-dashoffset: -90;
+        opacity: .35;
     }
 }
 
-/* ===== VALOJUOVA ===== */
 
-@keyframes brandEnergySweep {
+/* ===== NOPEAMPI SÄHKÖKERROS ===== */
+
+@keyframes brandElectricRunFast {
 
     0% {
-        left: -60%;
+        stroke-dashoffset: 0;
         opacity: 0;
     }
 
-    15% {
-        opacity: 0;
+    10% {
+        opacity: .75;
     }
 
-    25% {
+    50% {
         opacity: 1;
     }
 
-    55% {
-        opacity: 1;
+    90% {
+        opacity: .7;
     }
 
     100% {
-        left: 140%;
+        stroke-dashoffset: 70;
         opacity: 0;
     }
 }
