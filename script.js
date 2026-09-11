@@ -1372,11 +1372,50 @@ function createBrandCard() {
     const card = document.createElement("div");
     card.id = "brand-card";
 
-    const text = document.createElement("div");
-    text.className = "brand-text";
-    text.textContent = "AnteroLive";
+    card.innerHTML = `
+        <svg
+            class="brand-svg"
+            viewBox="0 0 520 90"
+            aria-hidden="true"
+        >
 
-    card.appendChild(text);
+            <!-- HILLITTY VIOLETTI AURA -->
+            <text
+                x="260"
+                y="58"
+                text-anchor="middle"
+                class="brand-purple"
+            >AnteroLive</text>
+
+
+            <!-- SÄHKÖINEN OUTLINE -->
+            <text
+                x="260"
+                y="58"
+                text-anchor="middle"
+                class="brand-electric"
+            >AnteroLive</text>
+
+
+            <!-- NOPEAMPI SÄHKÖ -->
+            <text
+                x="260"
+                y="58"
+                text-anchor="middle"
+                class="brand-electric-fast"
+            >AnteroLive</text>
+
+
+            <!-- VALKOINEN PÄÄTEKSTI -->
+            <text
+                x="260"
+                y="58"
+                text-anchor="middle"
+                class="brand-base"
+            >AnteroLive</text>
+
+        </svg>
+    `;
 
     document.getElementById("overlay").appendChild(card);
 }
