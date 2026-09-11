@@ -1330,226 +1330,200 @@ backface-visibility: hidden;
 
 
 /* =========================================================
-   ANTEROLIVE SÄHKÖINEN ÄÄRIVIIVA
+   ANTEROLIVE PATH -POHJAINEN SÄHKÖEFEKTI
    ========================================================= */
+
+#brand-card {
+    position: relative;
+    width: 520px;
+    height: 90px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transform: scale(.92);
+
+    pointer-events: none;
+}
+
+#brand-card.show {
+    animation: brandAppear .65s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+#brand-card.hide {
+    animation: brandDisappear .6s ease forwards;
+}
+
+.brand-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* violetti pohjahohto */
+
+.brand-purple {
+    fill: none;
+
+    stroke: rgba(168,85,247,.55);
+    stroke-width: 5px;
+
+    opacity: .55;
+
+    filter:
+        drop-shadow(0 0 7px rgba(168,85,247,.9))
+        drop-shadow(0 0 18px rgba(124,58,237,.65));
+
+    pointer-events: none;
+}
+
+/* kirkkaan sininen sähköinen "häntä" */
+
+.brand-electric-glow {
+    fill: none;
+
+    stroke: rgba(0,190,255,.9);
+    stroke-width: 5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    stroke-dasharray: 70 930;
+    stroke-dashoffset: 1000;
+
+    opacity: .9;
+
+    filter:
+        drop-shadow(0 0 5px rgba(0,234,255,1))
+        drop-shadow(0 0 12px rgba(0,180,255,.95))
+        drop-shadow(0 0 24px rgba(0,100,255,.7));
+
+    animation:
+        electricTravel 2.4s linear infinite,
+        electricGlow 1.1s ease-in-out infinite alternate;
+
+    pointer-events: none;
+}
+
+/* erittäin ohut kirkas keskiviiva */
 
 .brand-electric {
     fill: none;
 
     stroke: #00eaff;
-    stroke-width: 2.8px;
+    stroke-width: 1.7px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 
-    opacity: .65;
+    stroke-dasharray: 42 958;
+    stroke-dashoffset: 1000;
+
+    opacity: .95;
 
     filter:
-        drop-shadow(0 0 4px rgba(0,234,255,1))
-        drop-shadow(0 0 10px rgba(0,200,255,.95))
-        drop-shadow(0 0 20px rgba(0,130,255,.65));
+        drop-shadow(0 0 3px rgba(255,255,255,1))
+        drop-shadow(0 0 7px rgba(0,234,255,1));
 
     animation:
-        electricFlicker .8s ease-in-out infinite alternate;
+        electricTravelCore 2.4s linear infinite;
+
+    pointer-events: none;
 }
 
+/* varsinainen sähköliikkeen animaatio */
 
-@keyframes electricFlicker {
+@keyframes electricTravel {
+    from {
+        stroke-dashoffset: 1000;
+    }
 
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes electricTravelCore {
+    from {
+        stroke-dashoffset: 1000;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* kevyt sähköinen kirkkauden vaihtelu */
+
+@keyframes electricGlow {
     0% {
-        opacity: .35;
-
-        filter:
-            drop-shadow(0 0 3px rgba(0,234,255,.7))
-            drop-shadow(0 0 8px rgba(0,200,255,.65))
-            drop-shadow(0 0 14px rgba(0,130,255,.4));
-    }
-
-    25% {
-        opacity: .75;
-    }
-
-    42% {
         opacity: .45;
     }
 
-    63% {
+    35% {
         opacity: .95;
+    }
 
-        filter:
-            drop-shadow(0 0 5px rgba(0,234,255,1))
-            drop-shadow(0 0 13px rgba(0,220,255,1))
-            drop-shadow(0 0 24px rgba(0,130,255,.75));
+    55% {
+        opacity: .65;
+    }
+
+    75% {
+        opacity: 1;
     }
 
     100% {
         opacity: .55;
     }
-
 }
 
-
-/* =========================================================
-   VIOLETTI HOHTO
-   ========================================================= */
-
-.brand-purple {
-    fill: none;
-
-    stroke: rgba(168,85,247,.75);
-    stroke-width: 4px;
-
-    opacity: .55;
-
-    filter:
-        blur(1.5px)
-        drop-shadow(0 0 9px rgba(168,85,247,.75))
-        drop-shadow(0 0 20px rgba(124,58,237,.5));
-}
-
-
-/* =========================================================
-   ANTEROLIVE PÄÄTEKSTI
-   ========================================================= */
+/* valkoinen varsinainen teksti */
 
 .brand-base {
-    fill: #fff;
+    fill: #ffffff;
 
-    font-family:
-        "Arial Black",
-        Impact,
-        Haettenschweiler,
-        Arial,
-        sans-serif;
-
-    font-size: 52px;
-    font-weight: 900;
-
-    letter-spacing: 1px;
-
-    stroke: rgba(255,255,255,.9);
-    stroke-width: 1.2px;
+    stroke: rgba(255,255,255,.85);
+    stroke-width: .8px;
 
     paint-order: stroke fill;
 
     filter:
-        drop-shadow(0 0 5px rgba(255,255,255,.9))
-        drop-shadow(0 0 12px rgba(168,85,247,.7))
-        drop-shadow(0 0 24px rgba(124,58,237,.45));
+        drop-shadow(0 0 4px rgba(255,255,255,.9))
+        drop-shadow(0 0 10px rgba(168,85,247,.7))
+        drop-shadow(0 0 20px rgba(124,58,237,.45));
+
+    pointer-events: none;
 }
 
+/* sisääntulo */
 
-/* =========================================================
-   LOGON SAAPUMINEN
-   ========================================================= */
-
-@keyframes brandPowerUp {
-
+@keyframes brandAppear {
     0% {
-
         opacity: 0;
-
-        transform:
-            scale(.72);
+        transform: scale(.86);
     }
 
-    45% {
-
-        opacity: .75;
-
-        transform:
-            scale(1.05);
-    }
-
-    70% {
-
+    55% {
         opacity: 1;
-
-        transform:
-            scale(.99);
+        transform: scale(1.04);
     }
 
     100% {
-
         opacity: 1;
-
-        transform:
-            scale(1);
+        transform: scale(1);
     }
 }
 
+/* poistuminen */
 
-/* =========================================================
-   SÄHKÖ KIERTÄÄ KIRJAINTEN ÄÄRIVIIVAA
-   ========================================================= */
-
-@keyframes electricTrace {
-
+@keyframes brandDisappear {
     0% {
-
-        stroke-dashoffset: 0;
-
-        opacity: 0;
-    }
-
-    8% {
-
-        opacity: .95;
-    }
-
-    25% {
-
         opacity: 1;
-    }
-
-    75% {
-
-        opacity: 1;
-    }
-
-    94% {
-
-        opacity: .85;
+        transform: scale(1);
     }
 
     100% {
-
-        stroke-dashoffset: -1000;
-
-        opacity: .15;
-    }
-}
-
-
-/* =========================================================
-   TOINEN NOPEAMPI SÄHKÖJÄLKI
-   ========================================================= */
-
-@keyframes electricTraceFast {
-
-    0% {
-
-        stroke-dashoffset: 430;
-
         opacity: 0;
-    }
-
-    10% {
-
-        opacity: .8;
-    }
-
-    45% {
-
-        opacity: 1;
-    }
-
-    85% {
-
-        opacity: .8;
-    }
-
-    100% {
-
-        stroke-dashoffset: -570;
-
-        opacity: 0;
+        transform: scale(.94);
     }
 }
