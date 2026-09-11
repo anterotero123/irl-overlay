@@ -1260,7 +1260,7 @@ let socialIndex = 0;
 function updateSocialBanner() {
 
     // Jos promo on näkyvissä, ei vaihdeta somea
-    if (promoActive) return;
+    if (promoActive || brandActive) return;
 
     const icon = document.getElementById("social-icon");
     const text = document.getElementById("social-text");
@@ -1295,7 +1295,7 @@ function updateSocialBanner() {
 
 function showPromo() {
 
-    if (promoActive) return;
+    if (promoActive || brandActive) return;
 
     promoActive = true;
 
@@ -1341,3 +1341,125 @@ overlay.style.minHeight = "65px";
 setInterval(updateSocialBanner, 15000);
 
 setInterval(showPromo, 300000);
+
+// ===== ANTEROLIVE-BRÄNDIEVENTTI =====
+
+let brandActive = false;
+
+const BRAND_TEST_MODE = true;
+
+const BRAND_MIN_DELAY = 8 * 60 * 1000;
+const BRAND_MAX_DELAY = 15 * 60 * 1000;
+
+function getBrandDelay() {
+
+    if (BRAND_TEST_MODE) {
+        return 10000;
+    }
+
+    return BRAND_MIN_DELAY +
+        Math.random() *
+        (BRAND_MAX_DELAY - BRAND_MIN_DELAY);
+}
+
+
+function createBrandCard() {
+
+    if (document.getElementById("brand-card")) {
+        return;
+    }
+
+    const card = document.createElement("div");
+    card.id = "brand-card";
+
+    const text = document.createElement("div");
+    text.className = "brand-text";
+    text.textContent = "AnteroLive";
+
+    card.appendChild(text);
+
+    document.getElementById("overlay").appendChild(card);
+}
+
+
+function showBrandEvent() {
+
+    if (brandActive || promoActive) {
+        scheduleBrandEvent();
+        return;
+    }
+
+    brandActive = true;
+
+    createBrandCard();
+
+    const overlay = document.getElementById("overlay");
+    const top = document.getElementById("overlay-top");
+    const social = document.getElementById("social-row");
+    const brand = document.getElementById("brand-card");
+    const text = brand.querySelector(".brand-text");
+
+    // Piilotetaan normaalit tiedot
+    top.style.opacity = "0";
+    top.style.transform = "translateY(-8px)";
+
+    // Piilotetaan somebanneri
+    social.style.opacity = "0";
+    social.style.transform = "translateY(10px)";
+
+    // Kasvatetaan overlayta
+    overlay.style.minHeight = "135px";
+
+    // Käynnistetään animaatio uudelleen
+    text.style.animation = "none";
+    void text.offsetWidth;
+    text.style.animation =
+        "brandLightning 3.8s ease forwards";
+
+    // Näytetään brändi
+    setTimeout(() => {
+        brand.classList.remove("hide");
+        brand.classList.add("show");
+    }, 250);
+
+
+    // Tapahtuma kestää noin 8 sekuntia
+    setTimeout(() => {
+
+        brand.classList.remove("show");
+        brand.classList.add("hide");
+
+        overlay.style.minHeight = "65px";
+
+        // Palautetaan normaalit tiedot
+        setTimeout(() => {
+
+            top.style.opacity = "1";
+            top.style.transform = "translateY(0)";
+
+            social.style.opacity = "0.95";
+            social.style.transform = "translateY(0)";
+
+            brandActive = false;
+
+            scheduleBrandEvent();
+
+        }, 550);
+
+    }, 7500);
+}
+
+
+function scheduleBrandEvent() {
+
+    setTimeout(() => {
+        showBrandEvent();
+    }, getBrandDelay());
+}
+
+
+// Luo elementin heti valmiiksi
+createBrandCard();
+
+// Käynnistetään ajastus
+scheduleBrandEvent();
