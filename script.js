@@ -1363,6 +1363,10 @@ function getBrandDelay() {
 }
 
 
+// ============================================================
+// LUODAAN ANTEROLIVE-LOGO
+// ============================================================
+
 function createBrandCard() {
 
     if (document.getElementById("brand-card")) {
@@ -1370,6 +1374,7 @@ function createBrandCard() {
     }
 
     const card = document.createElement("div");
+
     card.id = "brand-card";
 
     card.innerHTML = `
@@ -1379,7 +1384,7 @@ function createBrandCard() {
             aria-hidden="true"
         >
 
-            <!-- HILLITTY VIOLETTI AURA -->
+            <!-- PURPPURA AURA -->
             <text
                 x="260"
                 y="58"
@@ -1388,21 +1393,23 @@ function createBrandCard() {
             >AnteroLive</text>
 
 
-            <!-- SÄHKÖINEN OUTLINE -->
+            <!-- PÄÄLLIMMÄINEN SÄHKÖ -->
             <text
                 x="260"
                 y="58"
                 text-anchor="middle"
                 class="brand-electric"
+                pathLength="1000"
             >AnteroLive</text>
 
 
-            <!-- NOPEAMPI SÄHKÖ -->
+            <!-- TOINEN SÄHKÖJÄLKI -->
             <text
                 x="260"
                 y="58"
                 text-anchor="middle"
                 class="brand-electric-fast"
+                pathLength="1000"
             >AnteroLive</text>
 
 
@@ -1417,9 +1424,15 @@ function createBrandCard() {
         </svg>
     `;
 
-    document.getElementById("overlay").appendChild(card);
+    document
+        .getElementById("overlay")
+        .appendChild(card);
 }
 
+
+// ============================================================
+// NÄYTETÄÄN ANTEROLIVE
+// ============================================================
 
 function showBrandEvent() {
 
@@ -1432,69 +1445,114 @@ function showBrandEvent() {
 
     createBrandCard();
 
-    const overlay = document.getElementById("overlay");
-    const top = document.getElementById("overlay-top");
-    const social = document.getElementById("social-row");
-    const brand = document.getElementById("brand-card");
+    const overlay =
+        document.getElementById("overlay");
 
-    // Piilotetaan normaalit tiedot
+    const top =
+        document.getElementById("overlay-top");
+
+    const social =
+        document.getElementById("social-row");
+
+    const brand =
+        document.getElementById("brand-card");
+
+
+    // --------------------------------------------------------
+    // PIILOTETAAN NORMAALIT TIEDOT
+    // --------------------------------------------------------
+
     top.style.opacity = "0";
-    top.style.transform = "translateY(-8px)";
+    top.style.transform =
+        "translateY(-8px)";
 
-    // Piilotetaan somebanneri
+
+    // --------------------------------------------------------
+    // PIILOTETAAN SOME
+    // --------------------------------------------------------
+
     social.style.opacity = "0";
-    social.style.transform = "translateY(10px)";
+    social.style.transform =
+        "translateY(10px)";
 
-    // Kasvatetaan overlayta
+
+    // --------------------------------------------------------
+    // KASVATETAAN OVERLAYTA
+    // --------------------------------------------------------
+
     overlay.style.minHeight = "135px";
 
-    // Käynnistetään animaatio uudelleen
 
+    // --------------------------------------------------------
+    // LOGO SISÄÄN
+    // --------------------------------------------------------
 
-    // Näytetään brändi
     setTimeout(() => {
+
         brand.classList.remove("hide");
+
+        void brand.offsetWidth;
+
         brand.classList.add("show");
+
     }, 250);
 
 
-    // Tapahtuma kestää noin 8 sekuntia
+    // --------------------------------------------------------
+    // LOGO NÄKYVISSÄ
+    // --------------------------------------------------------
+
     setTimeout(() => {
 
         brand.classList.remove("show");
+
         brand.classList.add("hide");
 
         overlay.style.minHeight = "65px";
 
-        // Palautetaan normaalit tiedot
+
+        // ----------------------------------------------------
+        // PALAUTETAAN NORMAALI NÄKYMÄ
+        // ----------------------------------------------------
+
         setTimeout(() => {
 
             top.style.opacity = "1";
-            top.style.transform = "translateY(0)";
+            top.style.transform =
+                "translateY(0)";
 
             social.style.opacity = "0.95";
-            social.style.transform = "translateY(0)";
+            social.style.transform =
+                "translateY(0)";
 
             brandActive = false;
 
             scheduleBrandEvent();
 
-        }, 550);
+        }, 650);
 
     }, 7500);
 }
 
 
+// ============================================================
+// AJASTUS
+// ============================================================
+
 function scheduleBrandEvent() {
 
     setTimeout(() => {
+
         showBrandEvent();
+
     }, getBrandDelay());
 }
 
 
-// Luo elementin heti valmiiksi
+// ============================================================
+// KÄYNNISTYS
+// ============================================================
+
 createBrandCard();
 
-// Käynnistetään ajastus
 scheduleBrandEvent();
