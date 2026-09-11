@@ -1151,3 +1151,191 @@ backface-visibility: hidden;
     }
 
 }
+
+/* ===== ANTEROLIVE-BRÄNDIEVENTTI ===== */
+
+#brand-card {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 44px;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(124,58,237,.18),
+            rgba(20,20,20,0) 65%
+        );
+
+    transform: scale(.92);
+
+    transition:
+        opacity .55s ease,
+        transform .55s ease;
+
+    z-index: 100;
+}
+
+#brand-card.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.brand-text {
+    position: relative;
+
+    font-family:
+        "Arial Black",
+        Impact,
+        Haettenschweiler,
+        Arial,
+        sans-serif;
+
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    color: #ffffff;
+
+    -webkit-text-stroke:
+        1.5px rgba(185,130,255,.95);
+
+    text-shadow:
+        0 0 4px #ffffff,
+        0 0 10px #a855f7,
+        0 0 24px #7c3aed,
+        0 0 40px rgba(124,58,237,.65);
+
+    animation:
+        brandLightning 3.8s ease forwards;
+
+    white-space: nowrap;
+}
+
+/* Sähköinen valovälähdys tekstin yli */
+.brand-text::after {
+    content: "";
+
+    position: absolute;
+    top: -15%;
+    bottom: -15%;
+    left: -30%;
+    width: 25%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.95),
+            transparent
+        );
+
+    filter: blur(3px);
+
+    transform: skewX(-20deg);
+    opacity: 0;
+
+    animation:
+        brandEnergySweep 1.1s ease .35s forwards;
+}
+
+/* Neon-reunan välähtely / sähköisyys */
+@keyframes brandLightning {
+
+    0% {
+        opacity: 0;
+        transform: scale(.75);
+
+        text-shadow:
+            0 0 2px #fff,
+            0 0 5px #7c3aed;
+    }
+
+    12% {
+        opacity: 1;
+        transform: scale(1.08);
+
+        text-shadow:
+            0 0 5px #fff,
+            0 0 14px #a855f7,
+            0 0 30px #7c3aed,
+            0 0 55px rgba(124,58,237,.9);
+    }
+
+    17% {
+        text-shadow:
+            0 0 2px #fff,
+            0 0 7px #7c3aed;
+    }
+
+    23% {
+        text-shadow:
+            0 0 7px #fff,
+            0 0 18px #c084fc,
+            0 0 38px #7c3aed,
+            0 0 65px rgba(124,58,237,.9);
+    }
+
+    29% {
+        text-shadow:
+            0 0 3px #fff,
+            0 0 8px #7c3aed;
+    }
+
+    38% {
+        transform: scale(1.02);
+
+        text-shadow:
+            0 0 5px #fff,
+            0 0 13px #a855f7,
+            0 0 28px #7c3aed,
+            0 0 50px rgba(124,58,237,.75);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+
+        text-shadow:
+            0 0 4px #fff,
+            0 0 10px #a855f7,
+            0 0 24px #7c3aed,
+            0 0 40px rgba(124,58,237,.65);
+    }
+}
+
+/* Valojuova pyyhkäisee tekstin yli */
+@keyframes brandEnergySweep {
+
+    0% {
+        left: -30%;
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 120%;
+        opacity: 0;
+    }
+}
+
+/* Pehmeä poistuminen */
+#brand-card.hide {
+    opacity: 0;
+    transform: scale(1.05);
+}
