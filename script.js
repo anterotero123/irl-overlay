@@ -1369,64 +1369,86 @@ function getBrandDelay() {
 
 function createBrandCard() {
 
-    if (document.getElementById("brand-card")) {
-        return;
-    }
+    if (document.getElementById("brand-card")) return;
 
     const card = document.createElement("div");
 
     card.id = "brand-card";
 
     card.innerHTML = `
-        <svg
-            class="brand-svg"
-            viewBox="0 0 520 90"
-            aria-hidden="true"
-        >
+        <svg class="brand-svg"
+             viewBox="0 0 520 90"
+             aria-hidden="true">
 
-            <!-- PURPPURA AURA -->
+            <defs>
+
+                <filter id="electricNoise"
+                        x="-30%"
+                        y="-50%"
+                        width="160%"
+                        height="200%">
+
+                    <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.025 0.12"
+                        numOctaves="2"
+                        seed="7"
+                        result="noise">
+
+                        <animate
+                            attributeName="seed"
+                            values="7;18;4;23;7"
+                            dur="1.4s"
+                            repeatCount="indefinite" />
+
+                    </feTurbulence>
+
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="noise"
+                        scale="2.5"
+                        xChannelSelector="R"
+                        yChannelSelector="G" />
+
+                </filter>
+
+            </defs>
+
+
+            <!-- Pehme violetti taustahohto -->
             <text
                 x="260"
                 y="58"
                 text-anchor="middle"
-                class="brand-purple"
-            >AnteroLive</text>
+                class="brand-purple">
+                AnteroLive
+            </text>
 
 
-            <!-- PÄÄLLIMMÄINEN SÄHKÖ -->
+            <!-- Sähköinen värisevä ääriviiva -->
             <text
                 x="260"
                 y="58"
                 text-anchor="middle"
                 class="brand-electric"
-                pathLength="1000"
-            >AnteroLive</text>
+                filter="url(#electricNoise)">
+                AnteroLive
+            </text>
 
 
-            <!-- TOINEN SÄHKÖJÄLKI -->
+            <!-- Kirkas valkoinen pääteksti -->
             <text
                 x="260"
                 y="58"
                 text-anchor="middle"
-                class="brand-electric-fast"
-                pathLength="1000"
-            >AnteroLive</text>
-
-
-            <!-- VALKOINEN PÄÄTEKSTI -->
-            <text
-                x="260"
-                y="58"
-                text-anchor="middle"
-                class="brand-base"
-            >AnteroLive</text>
+                class="brand-base">
+                AnteroLive
+            </text>
 
         </svg>
     `;
 
-    document
-        .getElementById("overlay")
-        .appendChild(card);
+    document.getElementById("overlay").appendChild(card);
 }
 
 
