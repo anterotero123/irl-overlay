@@ -1205,7 +1205,7 @@ backface-visibility: hidden;
     position: absolute;
 
     left: 50%;
-    top: 120%;
+    top: 50%;
 
     width: 100%;
 
@@ -1217,9 +1217,9 @@ backface-visibility: hidden;
 
     opacity: 0;
 
-    transform:
-        translate(-50%, -50%)
-        scale(.82);
+transform:
+    translate(-50%, calc(-50% + 15px))
+    scale(.82);
 
     transition:
         opacity .55s ease,
@@ -1234,11 +1234,9 @@ backface-visibility: hidden;
    --------------------------------------------------------- */
 
 #brand-card.show {
-
     opacity: 1;
-
     transform:
-        translate(-50%, -50%)
+        translate(-50%, calc(-50% + 15px))
         scale(1);
 }
 
@@ -1248,11 +1246,9 @@ backface-visibility: hidden;
    --------------------------------------------------------- */
 
 #brand-card.hide {
-
     opacity: 0;
-
     transform:
-        translate(-50%, -50%)
+        translate(-50%, calc(-50% + 15px))
         scale(1.08);
 }
 
@@ -1331,7 +1327,7 @@ backface-visibility: hidden;
 
     animation:
         brandElectricGlow
-        2.4s linear infinite;
+        3.2s linear infinite;
 }
 
 
@@ -1359,7 +1355,7 @@ backface-visibility: hidden;
 
     animation:
         brandElectric
-        1.65s linear infinite;
+        2.3s linear infinite;
 
     animation-delay: .15s;
 }
