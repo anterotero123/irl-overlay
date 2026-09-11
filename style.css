@@ -1392,12 +1392,10 @@ backface-visibility: hidden;
 
     0% {
         opacity: 0;
-        transform: translateX(-18px);
     }
 
     5% {
         opacity: 1;
-        transform: translateX(-12px);
     }
 
     10% {
@@ -1461,7 +1459,6 @@ backface-visibility: hidden;
 
     100% {
         opacity: .85;
-        transform: translateX(18px);
     }
 }
 
