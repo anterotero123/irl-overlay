@@ -1436,7 +1436,6 @@ function showBrandEvent() {
     const top = document.getElementById("overlay-top");
     const social = document.getElementById("social-row");
     const brand = document.getElementById("brand-card");
-    const text = brand.querySelector(".brand-text");
 
     // Piilotetaan normaalit tiedot
     top.style.opacity = "0";
@@ -1450,10 +1449,7 @@ function showBrandEvent() {
     overlay.style.minHeight = "135px";
 
     // Käynnistetään animaatio uudelleen
-    text.style.animation = "none";
-    void text.offsetWidth;
-    text.style.animation =
-        "brandPowerUp 2.2s ease forwards";
+
 
     // Näytetään brändi
     setTimeout(() => {
