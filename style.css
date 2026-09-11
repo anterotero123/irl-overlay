@@ -1258,13 +1258,13 @@ backface-visibility: hidden;
     color: transparent;
 
     -webkit-text-stroke:
-        2px rgba(180,100,255,.85);
+        2px rgba(0,210,255,.95);
 
     filter:
-        blur(1px)
-        drop-shadow(0 0 5px #ffffff)
-        drop-shadow(0 0 12px #a855f7)
-        drop-shadow(0 0 25px #7c3aed);
+        blur(.6px)
+        drop-shadow(0 0 4px rgba(0,220,255,.95))
+        drop-shadow(0 0 10px rgba(0,150,255,.75))
+        drop-shadow(0 0 18px rgba(0,100,255,.45));
 
     opacity: 0;
 
@@ -1377,11 +1377,10 @@ backface-visibility: hidden;
         -webkit-text-stroke:
             1.5px rgba(185,130,255,.95);
 
-        text-shadow:
-            0 0 5px #ffffff,
-            0 0 12px #a855f7,
-            0 0 26px #7c3aed,
-            0 0 48px rgba(124,58,237,.85);
+text-shadow:
+    0 0 4px rgba(255,255,255,.9),
+    0 0 9px rgba(168,85,247,.55),
+    0 0 18px rgba(124,58,237,.35);
     }
 }
 
@@ -1394,71 +1393,63 @@ backface-visibility: hidden;
         opacity: 0;
     }
 
-    5% {
-        opacity: 1;
+    8% {
+        opacity: .55;
     }
 
-    10% {
+    14% {
         opacity: .25;
     }
 
-    15% {
-        opacity: 1;
+    22% {
+        opacity: .75;
+
         filter:
             blur(.5px)
-            drop-shadow(0 0 8px #ffffff)
-            drop-shadow(0 0 18px #c084fc)
-            drop-shadow(0 0 35px #7c3aed);
-    }
-
-    22% {
-        opacity: .15;
+            drop-shadow(0 0 5px rgba(0,220,255,.9))
+            drop-shadow(0 0 12px rgba(0,160,255,.65));
     }
 
     30% {
-        opacity: 1;
+        opacity: .35;
+    }
+
+    40% {
+        opacity: .7;
+
         filter:
             blur(.4px)
-            drop-shadow(0 0 10px #ffffff)
-            drop-shadow(0 0 22px #a855f7)
-            drop-shadow(0 0 42px #7c3aed);
+            drop-shadow(0 0 6px rgba(0,230,255,.95))
+            drop-shadow(0 0 14px rgba(0,150,255,.7));
     }
 
-    38% {
-        opacity: .2;
-    }
-
-    46% {
-        opacity: 1;
-    }
-
-    55% {
-        opacity: .2;
-    }
-
-    64% {
-        opacity: 1;
-        filter:
-            blur(.6px)
-            drop-shadow(0 0 7px #ffffff)
-            drop-shadow(0 0 18px #c084fc)
-            drop-shadow(0 0 36px #7c3aed);
-    }
-
-    74% {
-        opacity: .15;
-    }
-
-    84% {
-        opacity: 1;
-    }
-
-    94% {
+    50% {
         opacity: .3;
     }
 
+    62% {
+        opacity: .8;
+
+        filter:
+            blur(.5px)
+            drop-shadow(0 0 6px rgba(0,220,255,.95))
+            drop-shadow(0 0 15px rgba(0,140,255,.65));
+    }
+
+    72% {
+        opacity: .35;
+    }
+
+    84% {
+        opacity: .7;
+    }
+
+    94% {
+        opacity: .4;
+    }
+
     100% {
-        opacity: .85;
+        opacity: .6;
     }
 }
 
