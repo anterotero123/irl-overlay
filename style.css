@@ -1330,72 +1330,109 @@ backface-visibility: hidden;
 
 
 /* =========================================================
-   OIKEA SÄHKÖVIIVA
+   ANTEROLIVE SÄHKÖINEN ÄÄRIVIIVA
    ========================================================= */
 
-.brand-electric,
-.brand-electric-fast {
+.brand-electric {
     fill: none;
+
     stroke: #00eaff;
-    stroke-width: 2.5px;
-    opacity: 0;
+    stroke-width: 2.8px;
+
+    opacity: .65;
+
     filter:
         drop-shadow(0 0 4px rgba(0,234,255,1))
-        drop-shadow(0 0 10px rgba(0,200,255,.9))
-        drop-shadow(0 0 18px rgba(0,130,255,.55));
+        drop-shadow(0 0 10px rgba(0,200,255,.95))
+        drop-shadow(0 0 20px rgba(0,130,255,.65));
+
+    animation:
+        electricFlicker .8s ease-in-out infinite alternate;
 }
 
-.brand-electric {
-    animation: electricGlow 1.8s ease-in-out infinite;
-}
 
-.brand-electric-fast {
-    stroke: rgba(150,250,255,.9);
-    stroke-width: 1.2px;
-    animation: electricGlowFast 1.05s ease-in-out infinite;
-}
+@keyframes electricFlicker {
 
-@keyframes electricGlow {
-    0%, 100% {
-        opacity: .05;
+    0% {
+        opacity: .35;
+
         filter:
-            drop-shadow(0 0 3px rgba(0,234,255,.4))
-            drop-shadow(0 0 8px rgba(0,200,255,.3));
+            drop-shadow(0 0 3px rgba(0,234,255,.7))
+            drop-shadow(0 0 8px rgba(0,200,255,.65))
+            drop-shadow(0 0 14px rgba(0,130,255,.4));
     }
 
-    35% {
-        opacity: .9;
+    25% {
+        opacity: .75;
+    }
+
+    42% {
+        opacity: .45;
+    }
+
+    63% {
+        opacity: .95;
+
         filter:
             drop-shadow(0 0 5px rgba(0,234,255,1))
-            drop-shadow(0 0 14px rgba(0,200,255,1))
-            drop-shadow(0 0 25px rgba(0,130,255,.7));
+            drop-shadow(0 0 13px rgba(0,220,255,1))
+            drop-shadow(0 0 24px rgba(0,130,255,.75));
     }
 
-    55% {
-        opacity: .35;
+    100% {
+        opacity: .55;
     }
 
-    75% {
-        opacity: .85;
-    }
 }
 
-@keyframes electricGlowFast {
-    0%, 100% {
-        opacity: .05;
-    }
 
-    40% {
-        opacity: .8;
-    }
+/* =========================================================
+   VIOLETTI HOHTO
+   ========================================================= */
 
-    60% {
-        opacity: .2;
-    }
+.brand-purple {
+    fill: none;
 
-    80% {
-        opacity: .65;
-    }
+    stroke: rgba(168,85,247,.75);
+    stroke-width: 4px;
+
+    opacity: .55;
+
+    filter:
+        blur(1.5px)
+        drop-shadow(0 0 9px rgba(168,85,247,.75))
+        drop-shadow(0 0 20px rgba(124,58,237,.5));
+}
+
+
+/* =========================================================
+   ANTEROLIVE PÄÄTEKSTI
+   ========================================================= */
+
+.brand-base {
+    fill: #fff;
+
+    font-family:
+        "Arial Black",
+        Impact,
+        Haettenschweiler,
+        Arial,
+        sans-serif;
+
+    font-size: 52px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    stroke: rgba(255,255,255,.9);
+    stroke-width: 1.2px;
+
+    paint-order: stroke fill;
+
+    filter:
+        drop-shadow(0 0 5px rgba(255,255,255,.9))
+        drop-shadow(0 0 12px rgba(168,85,247,.7))
+        drop-shadow(0 0 24px rgba(124,58,237,.45));
 }
 
 
