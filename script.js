@@ -1588,3 +1588,7 @@ async function showBrandEvent() {
 
     }, 7500);
 }
+
+
+// Käynnistetään AnteroLive-tapahtuman ajastus
+scheduleBrandEvent();
