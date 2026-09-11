@@ -1200,7 +1200,10 @@ backface-visibility: hidden;
 /* ===== LOGO ===== */
 
 .brand-text {
-    position: relative;
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
 
     font-family:
         "Arial Black",
@@ -1225,6 +1228,12 @@ backface-visibility: hidden;
         0 0 42px rgba(124,58,237,.75);
 
     white-space: nowrap;
+
+    transform:
+        translate(-50%, -50%)
+        scale(.72);
+
+    opacity: 0;
 
     animation:
         brandPowerUp 2.2s ease forwards;
@@ -1310,8 +1319,8 @@ backface-visibility: hidden;
 
     0% {
         opacity: 0;
-
         transform:
+            translate(-50%, -50%)
             scale(.72);
 
         -webkit-text-stroke:
@@ -1321,14 +1330,14 @@ backface-visibility: hidden;
             0 0 2px #ffffff;
     }
 
-    35% {
-        opacity: .65;
-
+    30% {
+        opacity: .45;
         transform:
-            scale(.94);
+            translate(-50%, -50%)
+            scale(.90);
 
         -webkit-text-stroke:
-            1.5px rgba(185,130,255,.65);
+            1.5px rgba(185,130,255,.55);
 
         text-shadow:
             0 0 5px #ffffff,
@@ -1336,41 +1345,43 @@ backface-visibility: hidden;
             0 0 24px #7c3aed;
     }
 
-    55% {
+    52% {
         opacity: 1;
-
         transform:
-            scale(1.06);
+            translate(-50%, -50%)
+            scale(1.08);
 
         -webkit-text-stroke:
-            1.5px rgba(220,180,255,1);
+            1.8px rgba(235,210,255,1);
 
         text-shadow:
-            0 0 7px #ffffff,
+            0 0 8px #ffffff,
             0 0 18px #c084fc,
-            0 0 34px #7c3aed,
-            0 0 60px rgba(124,58,237,.9);
+            0 0 38px #7c3aed,
+            0 0 70px rgba(124,58,237,.95);
     }
 
-    75% {
+    70% {
         transform:
-            scale(1.02);
+            translate(-50%, -50%)
+            scale(1.03);
     }
 
     100% {
         opacity: 1;
 
         transform:
+            translate(-50%, -50%)
             scale(1);
 
         -webkit-text-stroke:
             1.5px rgba(185,130,255,.95);
 
         text-shadow:
-            0 0 4px #ffffff,
-            0 0 10px #a855f7,
-            0 0 24px #7c3aed,
-            0 0 42px rgba(124,58,237,.75);
+            0 0 5px #ffffff,
+            0 0 12px #a855f7,
+            0 0 26px #7c3aed,
+            0 0 48px rgba(124,58,237,.85);
     }
 }
 
@@ -1381,87 +1392,78 @@ backface-visibility: hidden;
 
     0% {
         opacity: 0;
+        transform: translateX(-18px);
     }
 
-    8% {
-        opacity: .9;
+    5% {
+        opacity: 1;
+        transform: translateX(-12px);
     }
 
-    11% {
-        opacity: .15;
+    10% {
+        opacity: .25;
     }
 
     15% {
         opacity: 1;
-
-        filter:
-            blur(1px)
-            drop-shadow(0 0 6px #ffffff)
-            drop-shadow(0 0 14px #c084fc)
-            drop-shadow(0 0 30px #7c3aed);
-    }
-
-    19% {
-        opacity: .2;
-    }
-
-    24% {
-        opacity: .95;
-    }
-
-    28% {
-        opacity: .3;
-    }
-
-    34% {
-        opacity: 1;
-
         filter:
             blur(.5px)
             drop-shadow(0 0 8px #ffffff)
-            drop-shadow(0 0 18px #a855f7)
+            drop-shadow(0 0 18px #c084fc)
             drop-shadow(0 0 35px #7c3aed);
     }
 
-    40% {
-        opacity: .25;
+    22% {
+        opacity: .15;
     }
 
-    47% {
-        opacity: .9;
-    }
-
-    53% {
-        opacity: .35;
-    }
-
-    62% {
+    30% {
         opacity: 1;
-
         filter:
-            blur(1px)
-            drop-shadow(0 0 5px #ffffff)
-            drop-shadow(0 0 15px #c084fc)
-            drop-shadow(0 0 32px #7c3aed);
+            blur(.4px)
+            drop-shadow(0 0 10px #ffffff)
+            drop-shadow(0 0 22px #a855f7)
+            drop-shadow(0 0 42px #7c3aed);
     }
 
-    70% {
+    38% {
         opacity: .2;
     }
 
-    78% {
-        opacity: .85;
+    46% {
+        opacity: 1;
     }
 
-    86% {
+    55% {
+        opacity: .2;
+    }
+
+    64% {
+        opacity: 1;
+        filter:
+            blur(.6px)
+            drop-shadow(0 0 7px #ffffff)
+            drop-shadow(0 0 18px #c084fc)
+            drop-shadow(0 0 36px #7c3aed);
+    }
+
+    74% {
+        opacity: .15;
+    }
+
+    84% {
+        opacity: 1;
+    }
+
+    94% {
         opacity: .3;
     }
 
     100% {
-        opacity: .7;
+        opacity: .85;
+        transform: translateX(18px);
     }
 }
-
 
 /* ===== VALOJUOVA ===== */
 
