@@ -1197,33 +1197,83 @@ backface-visibility: hidden;
 }
 
 
-/* ===== ANTEROLIVE-LOGO ===== */
+/* =========================================================
+   ANTEROLIVE-BRÄNDIEVENTTI
+   ========================================================= */
+
+#brand-card {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(124,58,237,.22),
+            rgba(20,20,20,0) 70%
+        );
+
+    transform: scale(.96);
+
+    transition:
+        opacity .55s ease,
+        transform .55s ease;
+
+    z-index: 100;
+}
+
+
+#brand-card.show {
+    opacity: 1;
+
+    transform: scale(1);
+}
+
+
+#brand-card.hide {
+    opacity: 0;
+
+    transform: scale(1.03);
+}
+
+
+/* =========================================================
+   SVG
+   ========================================================= */
 
 .brand-svg {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
 
     width: min(88%, 520px);
+
     height: auto;
 
     overflow: visible;
 
+    display: block;
+
     transform:
-        translate(-50%, -50%)
-        scale(.72);
+        scale(.78);
 
     opacity: 0;
 
     animation:
-        brandPowerUp 2.2s ease forwards;
+        brandPowerUp 1.4s ease forwards;
 }
 
 
-/* ===== PERUSLOGO ===== */
+/* =========================================================
+   VALKOINEN PÄÄTEKSTI
+   ========================================================= */
 
 .brand-base {
+
     fill: #ffffff;
 
     font-family:
@@ -1234,191 +1284,248 @@ backface-visibility: hidden;
         sans-serif;
 
     font-size: 52px;
+
     font-weight: 900;
 
     letter-spacing: 1px;
 
-    stroke: rgba(255,255,255,.85);
-    stroke-width: 1.2px;
+    stroke:
+        rgba(255,255,255,.9);
 
-    paint-order: stroke fill;
+    stroke-width:
+        1.2px;
+
+    paint-order:
+        stroke fill;
 
     filter:
-        drop-shadow(0 0 4px rgba(255,255,255,.85))
-        drop-shadow(0 0 10px rgba(168,85,247,.65))
-        drop-shadow(0 0 22px rgba(124,58,237,.40));
+        drop-shadow(0 0 5px rgba(255,255,255,.9))
+        drop-shadow(0 0 12px rgba(168,85,247,.7))
+        drop-shadow(0 0 24px rgba(124,58,237,.45));
 }
 
 
-/* ===== HILLITTY VIOLETTI AURA ===== */
+/* =========================================================
+   PURPPURA AURA
+   ========================================================= */
 
 .brand-purple {
+
     fill: none;
 
-    stroke: rgba(168,85,247,.75);
+    stroke:
+        rgba(168,85,247,.72);
 
-    stroke-width: 3px;
+    stroke-width:
+        4px;
 
-    opacity: .65;
+    opacity:
+        .55;
 
     filter:
-        blur(1px)
-        drop-shadow(0 0 8px rgba(168,85,247,.55))
-        drop-shadow(0 0 18px rgba(124,58,237,.35));
+        blur(1.5px)
+        drop-shadow(0 0 9px rgba(168,85,247,.7))
+        drop-shadow(0 0 20px rgba(124,58,237,.45));
 }
 
 
-/* ===== SÄHKÖINEN OUTLINE ===== */
+/* =========================================================
+   OIKEA SÄHKÖVIIVA
+   ========================================================= */
 
 .brand-electric {
+
     fill: none;
 
-    stroke: rgba(0,220,255,1);
+    stroke:
+        #00eaff;
 
-    stroke-width: 2.5px;
+    stroke-width:
+        3px;
 
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    stroke-linecap:
+        round;
+
+    stroke-linejoin:
+        round;
+
+    /*
+       TÄRKEÄ:
+       pathLength tekee koko tekstin ääriviivasta
+       yhteensä 1000 yksikköä.
+    */
 
     stroke-dasharray:
-        3 18;
+        170 830;
 
-    stroke-dashoffset: 0;
+    stroke-dashoffset:
+        0;
 
-    opacity: 0;
+    opacity:
+        0;
 
     filter:
-        drop-shadow(0 0 4px rgba(0,230,255,1))
-        drop-shadow(0 0 9px rgba(0,180,255,.85))
-        drop-shadow(0 0 17px rgba(0,120,255,.55));
+        drop-shadow(0 0 4px rgba(0,234,255,1))
+        drop-shadow(0 0 10px rgba(0,200,255,.95))
+        drop-shadow(0 0 18px rgba(0,130,255,.65));
 
     animation:
-        brandElectricRun 1.6s linear 2.2s infinite;
+        electricTrace 2.4s linear 1.4s infinite;
 }
 
 
-/* ===== TOINEN SÄHKÖKERROS ===== */
+/* =========================================================
+   TOINEN SÄHKÖJÄLKI
+   ========================================================= */
 
 .brand-electric-fast {
+
     fill: none;
 
-    stroke: rgba(150,245,255,.95);
+    stroke:
+        rgba(150,250,255,.95);
 
-    stroke-width: 1.4px;
+    stroke-width:
+        1.5px;
 
-    stroke-linecap: round;
+    stroke-linecap:
+        round;
+
+    stroke-linejoin:
+        round;
 
     stroke-dasharray:
-        2 28;
+        70 930;
 
-    stroke-dashoffset: 0;
+    stroke-dashoffset:
+        430;
 
-    opacity: 0;
+    opacity:
+        0;
 
     filter:
-        drop-shadow(0 0 4px rgba(0,230,255,.95))
-        drop-shadow(0 0 10px rgba(0,180,255,.65));
+        drop-shadow(0 0 4px rgba(0,234,255,1))
+        drop-shadow(0 0 9px rgba(0,200,255,.8));
 
     animation:
-        brandElectricRunFast 1s linear 2.35s infinite;
+        electricTraceFast 1.65s linear 1.55s infinite;
 }
 
 
-/* ===== LOGON SAAPUMINEN ===== */
+/* =========================================================
+   LOGON SAAPUMINEN
+   ========================================================= */
 
 @keyframes brandPowerUp {
 
     0% {
+
         opacity: 0;
 
         transform:
-            translate(-50%, -50%)
             scale(.72);
     }
 
-    30% {
-        opacity: .45;
+    45% {
+
+        opacity: .75;
 
         transform:
-            translate(-50%, -50%)
-            scale(.90);
-    }
-
-    52% {
-        opacity: 1;
-
-        transform:
-            translate(-50%, -50%)
-            scale(1.08);
+            scale(1.05);
     }
 
     70% {
-        transform:
-            translate(-50%, -50%)
-            scale(1.03);
-    }
 
-    100% {
         opacity: 1;
 
         transform:
-            translate(-50%, -50%)
+            scale(.99);
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
             scale(1);
     }
 }
 
 
-/* ===== SÄHKÖ KIERTÄÄ OUTLINEA ===== */
+/* =========================================================
+   SÄHKÖ KIERTÄÄ KIRJAINTEN ÄÄRIVIIVAA
+   ========================================================= */
 
-@keyframes brandElectricRun {
+@keyframes electricTrace {
 
     0% {
+
         stroke-dashoffset: 0;
+
         opacity: 0;
     }
 
     8% {
-        opacity: .9;
+
+        opacity: .95;
     }
 
-    45% {
+    25% {
+
         opacity: 1;
     }
 
-    92% {
-        opacity: .9;
+    75% {
+
+        opacity: 1;
+    }
+
+    94% {
+
+        opacity: .85;
     }
 
     100% {
-        stroke-dashoffset: -90;
-        opacity: .35;
+
+        stroke-dashoffset: -1000;
+
+        opacity: .15;
     }
 }
 
 
-/* ===== NOPEAMPI SÄHKÖKERROS ===== */
+/* =========================================================
+   TOINEN NOPEAMPI SÄHKÖJÄLKI
+   ========================================================= */
 
-@keyframes brandElectricRunFast {
+@keyframes electricTraceFast {
 
     0% {
-        stroke-dashoffset: 0;
+
+        stroke-dashoffset: 430;
+
         opacity: 0;
     }
 
     10% {
-        opacity: .75;
+
+        opacity: .8;
     }
 
-    50% {
+    45% {
+
         opacity: 1;
     }
 
-    90% {
-        opacity: .7;
+    85% {
+
+        opacity: .8;
     }
 
     100% {
-        stroke-dashoffset: 70;
+
+        stroke-dashoffset: -570;
+
         opacity: 0;
     }
 }
