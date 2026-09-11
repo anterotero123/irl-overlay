@@ -1414,7 +1414,7 @@ function showBrandEvent() {
     text.style.animation = "none";
     void text.offsetWidth;
     text.style.animation =
-        "brandLightning 3.8s ease forwards";
+        "brandPowerUp 2.2s ease forwards";
 
     // Näytetään brändi
     setTimeout(() => {
