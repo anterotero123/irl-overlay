@@ -1231,6 +1231,8 @@ backface-visibility: hidden;
     overflow: visible;
 
     display: block;
+
+    transform: translateY(40px);
 }
 
 
