@@ -1346,7 +1346,7 @@ setInterval(showPromo, 300000);
 
 let brandActive = false;
 
-const BRAND_TEST_MODE = true;
+const BRAND_TEST_MODE = false;
 
 const BRAND_MIN_DELAY = 8 * 60 * 1000;
 const BRAND_MAX_DELAY = 15 * 60 * 1000;
