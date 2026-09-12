@@ -1152,23 +1152,28 @@ backface-visibility: hidden;
 
 }
 
-/* ===== ANTEROLIVE-BRÄNDIEVENTTI ===== */
+/* =========================================================
+   ANTEROLIVE BRAND EVENT
+   ========================================================= */
 
 #brand-card {
     position: absolute;
 
-    /* Koko overlayn sisäinen tila */
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
 
+    width: 100%;
+    height: 100%;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
-    opacity: 0;
     pointer-events: none;
+
+    opacity: 0;
 
     background:
         radial-gradient(
@@ -1177,13 +1182,13 @@ backface-visibility: hidden;
             rgba(20,20,20,0) 68%
         );
 
-    transform: scale(.94);
+    transform: scale(.92);
 
     transition:
-        opacity .75s ease,
-        transform .75s ease;
+        opacity 1.2s ease,
+        transform 1.2s cubic-bezier(.22, 1, .36, 1);
 
-    z-index: 100;
+    z-index: 10000;
 }
 
 #brand-card.show {
@@ -1194,38 +1199,10 @@ backface-visibility: hidden;
 #brand-card.hide {
     opacity: 0;
     transform: scale(1.04);
-}
-
-
-/* =========================================================
-   ANTEROLIVE BRAND EVENT
-   ========================================================= */
-
-#brand-card {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    pointer-events: none;
-
-    opacity: 0;
-
-transform:
-    translate(-50%, calc(-50% + 15px))
-    scale(.82);
 
     transition:
-        opacity .55s ease,
-        transform .7s cubic-bezier(.22, 1, .36, 1);
-
-    z-index: 10000;
+        opacity 1.4s ease,
+        transform 1.4s ease;
 }
 
 
